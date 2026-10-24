@@ -1,0 +1,11 @@
+✔ client rejects an HTML success response instead of reporting a completed write (14.4798ms)
+✔ client reports a readable error for a null error body (0.4167ms)
+✔ client preserves JSON success payloads and server rejection messages (0.8357ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 200.1777

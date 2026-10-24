@@ -1,0 +1,13 @@
+
+> campus-lost-found@0.1.0 build
+> tsc --noEmit && vite build --outDir reports/build-baseline --emptyOutDir false
+
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 1587 modules transformed.
+rendering chunks...
+computing gzip size...
+reports/build-baseline/index.html                   0.68 kB │ gzip:  0.45 kB
+reports/build-baseline/assets/index-DDFs8tt8.css   35.09 kB │ gzip:  8.19 kB
+reports/build-baseline/assets/index-D5fKbMDw.js   278.87 kB │ gzip: 87.11 kB
+✓ built in 7.15s
