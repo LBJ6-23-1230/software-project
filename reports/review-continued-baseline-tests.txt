@@ -1,0 +1,25 @@
+
+> campus-lost-found@0.1.0 test
+> node --import tsx --test server/**/*.test.ts
+
+✔ authentication rejects invalid credentials, protects profile, and revokes logout token (267.3103ms)
+✔ registration validates fields and cannot select admin or duplicate an identity (160.2282ms)
+✔ malformed bodies, enums, dates, image URLs, pagination and phone are rejected (165.7362ms)
+✔ new items are private until review; owners and admin see them and strangers cannot edit (237.0626ms)
+✔ claim lifecycle protects participants, rejects duplicates, locks active claims and completes only once (266.3903ms)
+✔ private messages and disputes are participant-only and admin resolution preserves claim terminal state (232.7758ms)
+✔ cancel and reject are constrained and withdrawn or lost items cannot be claimed (188.7ms)
+✔ matching filters private and same-type items and returns explainable descending scores (131.3861ms)
+✔ backup is admin-only, restores relational data atomically, and rejects traversal and corrupt snapshot (256.3298ms)
+✔ data survives application reopen (179.9233ms)
+✔ concurrent approvals and completion produce exactly one returned item and completion (288.6909ms)
+✔ valid SQLite snapshots with inconsistent participant relationships cannot replace live data (387.4027ms)
+✔ a cancelled claim remains historical when its unlocked item is edited into a lost notice and backed up (477.8103ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3926.4434

@@ -1,0 +1,17 @@
+node_modules/
+dist/
+data/
+output/
+.env
+.superpowers/
+*.log
+.DS_Store
+
+# Local review builds and isolated preview databases are not source deliverables.
+/reports/build-*/
+/reports/preview-*
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+.env.*
+!.env.example

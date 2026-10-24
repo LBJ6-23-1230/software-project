@@ -1,0 +1,50 @@
+✖ client rejects an HTML success response instead of reporting a completed write (14.6683ms)
+✖ client reports a readable error for a null error body (0.6395ms)
+✔ client preserves JSON success payloads and server rejection messages (0.885ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 1
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 196.559
+
+✖ failing tests:
+
+test at server\tests\client.test.ts:1:511
+✖ client rejects an HTML success response instead of reporting a completed write (14.6683ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (G:\武汉理工大学\日常学习\软件工程\software-project\server\tests\client.test.ts:13:3)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /服务.*响应/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at server\tests\client.test.ts:1:780
+✖ client reports a readable error for a null error body (0.6395ms)
+  AssertionError [ERR_ASSERTION]: The validation function is expected to return "true". Received false
+  
+  Caught error:
+  
+  TypeError: Cannot read properties of null (reading 'error')
+      at async TestContext.<anonymous> (G:\武汉理工大学\日常学习\软件工程\software-project\server\tests\client.test.ts:18:3)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: TypeError: Cannot read properties of null (reading 'error')
+        at api (G:\武汉理工大学\日常学习\软件工程\software-project\src\api\client.ts:23:28)
+        at async waitForActual (node:assert:646:5)
+        at async strict.rejects (node:assert:769:25)
+        at async TestContext.<anonymous> (G:\武汉理工大学\日常学习\软件工程\software-project\server\tests\client.test.ts:18:3)
+        at async Test.run (node:internal/test_runner/test:1313:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:897:7),
+    operator: 'rejects',
+    diff: 'simple'
+  }
