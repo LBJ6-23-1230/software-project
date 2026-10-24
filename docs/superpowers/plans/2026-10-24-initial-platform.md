@@ -26,23 +26,28 @@
 Files: server/app.ts, server/index.ts, server/db.ts, server/modules/{users,items,claims,admin}.ts, server/tests/api.test.ts.
 Consumes shared/types.ts. Produces createApp({dbPath,backupDir?}) returning {app,close}; bind 127.0.0.1:4318.
 
-- [ ] 先写 HTTP 集成测试：登录错误、越权、创建及审核、分页搜索、认领终态、消息私密、争议、备份恢复。
-- [ ] 执行观察失败，再实现模块接口，运行 node --import tsx --test server/**/*.test.ts。
-- [ ] 持久化演示数据和输出测试证据；不修改 UI。
+- [x] 先写 HTTP 集成测试：登录错误、越权、创建及审核、分页搜索、认领终态、消息私密、争议、备份恢复。
+- [x] 执行观察失败，再实现模块接口，运行 node --import tsx --test server/**/*.test.ts。
+- [x] 持久化演示数据和输出测试证据；不修改 UI。
 
 ## Task 2: 可交互前端及视觉规范
 
 Files: src/App.tsx, src/components/_, src/api/client.ts, src/modules/{users,items,claims,admin}/_, src/styles.css.
 Consumes shared types and API documented in docs/api-contract.md.
 
-- [ ] 构建路由、导航、请求处理和共享对话框。
-- [ ] 实现五个页面及认证、详情、发布、编辑、认领、沟通、审核、备份恢复表单。
-- [ ] 类型检查与生产构建成功；浏览器验证实际 API 联动，截图桌面及移动端。
+- [x] 构建路由、导航、请求处理和共享对话框。
+- [x] 实现五个页面及认证、详情、发布、编辑、认领、沟通、审核、备份恢复表单。
+- [x] 类型检查与生产构建成功；浏览器验证实际 API 联动，截图桌面及移动端。
 
 ## Task 3: 要求对照与交接
 
 Files: docs/task-list.md, docs/handoff.md, docs/api-contract.md, README.md, AGENTS.md.
 
-- [ ] 12 行任务每行至少 2 个可验收质量要求、8 个教师要求字段。
-- [ ] 写四人路径边界、启动步骤、演示账号、替换接口、已知限制、真实验证记录。
-- [ ] 独立审查，修复重要发现；测试及构建通过后提交功能分支并推送 GitHub，保持 main 不变。
+- [x] 12 行任务每行至少 2 个可验收质量要求、8 个教师要求字段。
+- [x] 写四人路径边界、启动步骤、演示账号、替换接口、已知限制、真实验证记录。
+- [x] 已读取既存 DSH 部分审查并核对发现；16 项测试与构建通过，按三批提交功能分支并推送 GitHub。新增独立全量审查因额度未完成，后续仍需补做。
+
+## 初版交付保留项
+
+- 完整双账号认领的浏览器端到端流程与所有质量目标尚需验收；当前认领权限、状态及并发由 HTTP 集成测试覆盖。
+- 课程报告、各成员真实个人贡献与教师验收由团队继续补充。
