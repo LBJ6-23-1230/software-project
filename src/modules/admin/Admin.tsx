@@ -21,16 +21,18 @@ import {
   Status,
   formatTime,
 } from "../../components/ui";
+type AdminReviewItem = Item & { reviewReason: string };
+
 export function Admin({ notify }: { notify: (s: string) => void }) {
   const [tab, setTab] = useState("review"),
-    [items, setItems] = useState<Item[] | null>(null),
+    [items, setItems] = useState<AdminReviewItem[] | null>(null),
     [disputes, setDisputes] = useState<Dispute[] | null>(null),
     [backups, setBackups] = useState<Backup[] | null>(null),
     [revision, setRevision] = useState(0),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false),
     [reviewFilter, setReviewFilter] = useState("pending"),
-    [reject, setReject] = useState<Item | null>(null),
+    [reject, setReject] = useState<AdminReviewItem | null>(null),
     [resolution, setResolution] = useState(""),
     [reason, setReason] = useState(""),
     [resolve, setResolve] = useState<Dispute | null>(null),
@@ -39,9 +41,7 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
     let alive = true;
     setError("");
     Promise.all([
-      api<Item[]>(
-        "/admin/items" + (reviewFilter ? "?reviewStatus=" + reviewFilter : ""),
-      ),
+      api<AdminReviewItem[]>("/admin/items"),
       api<Dispute[]>("/admin/disputes"),
       api<Backup[]>("/admin/backups"),
     ])
@@ -58,7 +58,10 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
     return () => {
       alive = false;
     };
-  }, [revision, reviewFilter]);
+  }, [revision]);
+  const displayedItems = items?.filter(
+    (item) => !reviewFilter || item.reviewStatus === reviewFilter,
+  );
   async function act(path: string, body: unknown, message: string) {
     setBusy(true);
     setError("");
@@ -171,9 +174,9 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
                 <option value="">全部状态</option>
               </select>
             </div>
-            {!items ? (
+            {!displayedItems ? (
               <Loading />
-            ) : items.length ? (
+            ) : displayedItems.length ? (
               <div className="table-scroll">
                 <table>
                   <thead>
@@ -186,7 +189,7 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
                     </tr>
                   </thead>
                   <tbody>
-                    {items.map((i) => (
+                    {displayedItems.map((i) => (
                       <tr key={i.id}>
                         <td>
                           <div className="table-item">
@@ -204,10 +207,14 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
                         <td>{formatTime(i.createdAt)}</td>
                         <td>
                           <Status value={i.reviewStatus} />
+                          {i.reviewStatus === "rejected" && i.reviewReason && (
+                            <small>审核理由：{i.reviewReason}</small>
+                          )}
                         </td>
                         <td>
                           <div className="row-actions">
-                            {i.reviewStatus === "pending" && (
+                            {i.status === "active" &&
+                              i.reviewStatus !== "approved" && (
                               <button
                                 className="button small"
                                 disabled={busy}
@@ -220,20 +227,29 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
                                 }
                               >
                                 <Check size={14} />
-                                通过
+                                {i.reviewStatus === "rejected"
+                                  ? "重新通过"
+                                  : "通过"}
                               </button>
                             )}
-                            {i.reviewStatus !== "rejected" && (
+                            {i.status === "active" &&
+                              i.reviewStatus !== "rejected" && (
                               <button
                                 className="button secondary small"
                                 disabled={busy}
-                                onClick={() => setReject(i)}
+                                onClick={() => {
+                                  setReason("");
+                                  setReject(i);
+                                }}
                               >
                                 <X size={14} />
                                 {i.reviewStatus === "approved"
                                   ? "下架"
                                   : "驳回"}
                               </button>
+                            )}
+                            {i.status !== "active" && (
+                              <small>记录已完成或撤回，无法审核</small>
                             )}
                           </div>
                         </td>
@@ -265,7 +281,11 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
                   {d.status === "open" ? (
                     <button
                       className="button secondary small"
-                      onClick={() => setResolve(d)}
+                      disabled={busy}
+                      onClick={() => {
+                        setResolution("");
+                        setResolve(d);
+                      }}
                     >
                       记录处理结果
                     </button>
@@ -318,6 +338,7 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
                     </span>
                     <button
                       className="button secondary small"
+                      disabled={busy}
                       onClick={() => setRestore(b)}
                     >
                       <RotateCcw size={14} />
