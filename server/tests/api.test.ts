@@ -183,6 +183,24 @@ test("malformed bodies, enums, dates, image URLs, pagination and phone are rejec
   );
 });
 
+test("new campus choices are accepted for item creation", async (t) => {
+  const { call, login } = await fixture(t);
+  const { token } = await login("20260001");
+  for (const campus of [
+    "马房山校区（西院）",
+    "马房山校区（东院）",
+    "鉴湖校区",
+    "军山校区",
+  ]) {
+    const response = await call("/items", {
+      token,
+      body: { ...draft, title: `${campus}招领物品`, campus },
+    });
+    assert.equal(response.status, 201, campus);
+    assert.equal(response.data.campus, campus);
+  }
+});
+
 test("new items are private until review; owners and admin see them and strangers cannot edit", async (t) => {
   const { call, login } = await fixture(t);
   const owner = await login("20260001"),

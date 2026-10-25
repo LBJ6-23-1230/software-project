@@ -1,4 +1,6 @@
 let token = sessionStorage.getItem("campus-session") || "";
+const backendUnavailable =
+  "无法连接后端服务，请确认已启动 API 服务（开发端口 4318）后重试。";
 export function setToken(value: string) {
   token = value;
   if (value) sessionStorage.setItem("campus-session", value);
@@ -8,16 +10,22 @@ export async function api<T>(
   path: string,
   options: RequestInit = {},
 ): Promise<T> {
-  const response = await fetch("/api" + path, {
-    ...options,
-    headers: {
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...(options.body ? { "Content-Type": "application/json" } : {}),
-      ...options.headers,
-    },
-  });
+  let response: Response;
+  try {
+    response = await fetch("/api" + path, {
+      ...options,
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(options.body ? { "Content-Type": "application/json" } : {}),
+        ...options.headers,
+      },
+    });
+  } catch {
+    throw new Error(backendUnavailable);
+  }
   // R03: a proxy HTML response must never be mistaken for a successful write.
   const result = await response.json().catch(() => {
+    if (response.status >= 500) throw new Error(backendUnavailable);
     throw new Error("服务返回了无法识别的响应，请刷新确认结果后重试");
   });
   if (!response.ok) {

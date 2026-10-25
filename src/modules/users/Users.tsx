@@ -163,6 +163,7 @@ export function Profile({
     [name, setName] = useState(user.name),
     [phone, setPhone] = useState(user.phone),
     [busy, setBusy] = useState(false),
+    [binding, setBinding] = useState(false),
     [withdraw, setWithdraw] = useState<Item | null>(null),
     [page, setPage] = useState(1);
   useEffect(() => {
@@ -197,14 +198,17 @@ export function Profile({
     }
   }
   async function bind() {
-    setBusy(true);
+    if (user.verified) return;
+    setBinding(true);
+    setError("");
     try {
-      onUpdate(await patch<User>("/users/me", { verified: true }));
+      const updated = await patch<User>("/users/me", { verified: true });
+      onUpdate(updated);
       notify("已完成演示校园身份绑定");
     } catch (e) {
       setError(errorMessage(e));
     } finally {
-      setBusy(false);
+      setBinding(false);
     }
   }
   return (
@@ -378,10 +382,11 @@ export function Profile({
                 <p>完成演示绑定，体验完整的校园账号流程。</p>
                 <button
                   className="button secondary full"
-                  disabled={busy}
+                  aria-busy={binding}
+                  disabled={busy || binding}
                   onClick={bind}
                 >
-                  绑定演示校园身份
+                  {binding ? "正在绑定…" : "绑定演示校园身份"}
                 </button>
               </>
             )}

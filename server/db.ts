@@ -67,6 +67,15 @@ export function openDatabase(path: string) {
   );
   db.exec(schema);
   if (!db.prepare("SELECT id FROM users LIMIT 1").get()) seed(db);
+  db.exec(`
+    UPDATE items
+    SET campus = CASE
+      WHEN location LIKE '%东院%' THEN '马房山校区（东院）'
+      WHEN location LIKE '%鉴湖%' THEN '鉴湖校区'
+      ELSE '马房山校区（西院）'
+    END
+    WHERE campus = '马房山校区';
+  `);
   return db;
 }
 function seed(db: DatabaseSync) {
@@ -123,7 +132,7 @@ function seed(db: DatabaseSync) {
         "寻找遗落的校园卡套",
         "证件卡片",
         "鉴湖食堂至西院宿舍路上",
-        "马房山校区",
+        "鉴湖校区",
         "浅绿色透明卡套，里面有校园卡和一张便利店积分卡。如有拾到，请通过站内联系。",
         "card",
         "u-lin",
@@ -175,7 +184,7 @@ function seed(db: DatabaseSync) {
         "鉴湖教学楼门口拾到钥匙",
         "其他物品",
         "鉴湖教学楼东门",
-        "马房山校区",
+        "鉴湖校区",
         "三把钥匙和一个黄色挂件。请描述挂件的图案，确认后可以约在教学楼门口交接。",
         "keys",
         "u-chen",
@@ -227,7 +236,7 @@ function seed(db: DatabaseSync) {
         "已经归还的小熊钥匙扣",
         "其他物品",
         "西院快递站",
-        "马房山校区",
+        "马房山校区（西院）",
         "一串带小熊挂件的钥匙，已通过特征核验并交还给失主。感谢大家的帮助。",
         "keys",
         "u-chen",
@@ -240,7 +249,7 @@ function seed(db: DatabaseSync) {
         "东院教学楼拾到笔记本",
         "书籍文具",
         "东院教四楼",
-        "马房山校区",
+        "马房山校区（东院）",
         "米色硬壳笔记本，首页写有课程表。希望失主可以通过站内认领。",
         "book",
         "u-lin",

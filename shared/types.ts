@@ -104,4 +104,11 @@ export const CATEGORIES = [
   "衣物配饰",
   "其他物品",
 ] as const;
-export const CAMPUSES = ["马房山校区", "余家头校区", "南湖校区"] as const;
+export const CAMPUSES = [
+  "马房山校区（西院）",
+  "马房山校区（东院）",
+  "鉴湖校区",
+  "余家头校区",
+  "南湖校区",
+  "军山校区",
+] as const;
