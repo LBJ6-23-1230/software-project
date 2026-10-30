@@ -44,12 +44,12 @@ export function ItemCard({
     <button className="item-card" onClick={onClick}>
       <div className="item-image">
         <img
-          src={item.imageUrl || "/assets/bag.svg"}
+          src={item.imageUrl || "/assets/bag.jpg"}
           alt={item.title}
           loading="lazy"
           onError={(e) => {
             e.currentTarget.onerror = null;
-            e.currentTarget.src = "/assets/bag.svg";
+            e.currentTarget.src = "/assets/bag.jpg";
           }}
         />
         <span className={`item-type ${item.type}`}>
@@ -443,21 +443,46 @@ function ItemDetail({
   onLogin: () => void;
   onClaim: () => void;
 }) {
-  const [proof, setProof] = useState(""),
+  const [current, setCurrent] = useState<Item>(item),
+    [proof, setProof] = useState(""),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false),
     [matches, setMatches] = useState<Match[]>([]);
+  // The modal opens from a list snapshot; refresh from the API so status,
+  // review and claimability always reflect the latest item data.
   useEffect(() => {
-    api<Match[]>(`/items/${item.id}/matches`)
+    let alive = true;
+    setCurrent(item);
+    api<Item>(`/items/${item.id}`)
+      .then((fresh) => {
+        if (alive) setCurrent(fresh);
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [item.id]);
+  useEffect(() => {
+    api<Match[]>(`/items/${current.id}/matches`)
       .then(setMatches)
       .catch(() => {});
-  }, [item.id]);
+  }, [current.id]);
+  function openMatch(matchItem: Item) {
+    setCurrent(matchItem);
+    setProof("");
+    setError("");
+  }
+  function backToOrigin() {
+    setCurrent(item);
+    setProof("");
+    setError("");
+  }
   async function submit(e: FormEvent) {
     e.preventDefault();
     setBusy(true);
     setError("");
     try {
-      await post("/claims", { itemId: item.id, proof });
+      await post("/claims", { itemId: current.id, proof });
       onClaim();
     } catch (e) {
       setError(errorMessage(e));
@@ -465,45 +490,52 @@ function ItemDetail({
       setBusy(false);
     }
   }
+  const viewingMatch = current.id !== item.id;
   return (
     <Modal
-      title={item.type === "found" ? "招领详情" : "寻物详情"}
+      title={current.type === "found" ? "招领详情" : "寻物详情"}
       onClose={onClose}
       wide
     >
       <div className="detail-layout">
         <div className="detail-visual">
-          <img src={item.imageUrl || "/assets/bag.svg"} alt={item.title} />
+          <img src={current.imageUrl || "/assets/bag.jpg"} alt={current.title} />
           <Info>认领前请核对物品特征，不要向任何人支付认领费用。</Info>
         </div>
         <div className="detail-copy">
+          {viewingMatch && (
+            <button className="text-button detail-back" onClick={backToOrigin}>
+              <ChevronLeft size={14} />
+              返回原物品
+            </button>
+          )}
           <div className="inline-tags">
-            <span className={`item-type inline ${item.type}`}>
-              {item.type === "found" ? "拾到物品" : "寻找失物"}
+            <span className={`item-type inline ${current.type}`}>
+              {current.type === "found" ? "拾到物品" : "寻找失物"}
             </span>
-            <Status value={item.status} />
+            <Status value={current.status} />
           </div>
-          <h2>{item.title}</h2>
+          <h2>{current.title}</h2>
           <div className="detail-facts">
             <p>
               <MapPin size={16} />
-              {item.campus} · {item.location}
+              {current.campus} · {current.location}
             </p>
             <p>
               <CalendarDays size={16} />
-              {formatDate(item.occurredAt)}{" "}
-              {item.type === "found" ? "拾到" : "遗失"}
+              {formatDate(current.occurredAt)}{" "}
+              {current.type === "found" ? "拾到" : "遗失"}
             </p>
           </div>
           <h4>物品描述</h4>
-          <p className="description">{item.description}</p>
+          <p className="description">{current.description}</p>
           <p className="muted">
-            发布者：校园用户 · {formatDate(item.createdAt)}
+            发布者：校园用户 · {formatDate(current.createdAt)}
           </p>
-          {item.type === "found" &&
-          item.status === "active" &&
-          item.reviewStatus === "approved" ? (
-            user?.id === item.ownerId ? (
+          {current.type === "found" &&
+          current.status === "active" &&
+          current.reviewStatus === "approved" ? (
+            user?.id === current.ownerId ? (
               <Info>
                 这是你发布的信息，可在个人中心管理，在我的认领中处理申请。
               </Info>
@@ -533,7 +565,7 @@ function ItemDetail({
             )
           ) : (
             <Info>
-              {item.type === "lost"
+              {current.type === "lost"
                 ? "如果你拾到了相似物品，请发布招领信息，便于失主核对并申请认领。"
                 : "此物品当前不接受新的认领申请。"}
             </Info>
@@ -546,16 +578,21 @@ function ItemDetail({
             <Sparkles size={18} />
             可能相关的物品
           </h3>
-          <p>根据物品类别与描述等规则推荐，请自行核对。</p>
+          <p>根据类别、地点与关键词规则推荐，点击可查看详情并申请认领。</p>
           <div className="match-list">
             {matches.slice(0, 3).map((m) => (
-              <div key={m.item.id}>
-                <img src={m.item.imageUrl || "/assets/bag.svg"} alt="" />
+              <button
+                key={m.item.id}
+                className="match-item"
+                onClick={() => openMatch(m.item)}
+              >
+                <img src={m.item.imageUrl || "/assets/bag.jpg"} alt="" />
                 <span>
                   <b>{m.item.title}</b>
                   <small>{m.reasons.join(" · ")}</small>
                 </span>
-              </div>
+                <ChevronRight size={14} className="match-arrow" />
+              </button>
             ))}
           </div>
         </div>

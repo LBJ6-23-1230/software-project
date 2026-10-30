@@ -190,7 +190,7 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
                       <tr key={i.id}>
                         <td>
                           <div className="table-item">
-                            <img src={i.imageUrl || "/assets/bag.svg"} alt="" />
+                            <img src={i.imageUrl || "/assets/bag.jpg"} alt="" />
                             <div>
                               <b>{i.title}</b>
                               <p>{i.description}</p>

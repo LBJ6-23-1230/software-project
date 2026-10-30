@@ -45,7 +45,7 @@ export function validateItem(
   const description = text(input.description, "描述", 5, 2000);
   let imageUrl =
     input.imageUrl === undefined || input.imageUrl === ""
-      ? `/assets/${type === "found" ? "bag" : "keys"}.svg`
+      ? `/assets/${type === "found" ? "bag" : "keys"}.jpg`
       : input.imageUrl;
   if (typeof imageUrl !== "string") fail(400, "VALIDATION", "图片格式无效");
   if (!/^\/assets\/[a-zA-Z0-9_-]+\.(svg|png|jpe?g|webp)$/.test(imageUrl)) {

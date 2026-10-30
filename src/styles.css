@@ -1322,16 +1322,29 @@ small {
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-2);
 }
-.match-list > div {
+.match-list > button {
   display: flex;
   gap: var(--space-1);
   align-items: center;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: var(--space-1);
+  cursor: pointer;
+}
+.match-list > button:hover {
+  border-color: var(--green);
+  background: var(--mint);
 }
 .match-list img {
   width: 48px;
   height: 48px;
   border-radius: 6px;
   object-fit: cover;
+  flex: none;
 }
 .match-list b {
   font-size: 12px;
@@ -1341,6 +1354,15 @@ small {
   font-size: 12px;
   color: var(--muted);
   display: block;
+}
+.match-arrow {
+  flex: none;
+  margin-left: auto;
+  color: var(--muted);
+}
+.detail-back {
+  margin-bottom: var(--space-1);
+  align-self: flex-start;
 }
 .form-layout {
   display: grid;

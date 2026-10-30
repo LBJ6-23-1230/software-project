@@ -138,7 +138,11 @@ export function registerClaimRoutes(app: Express, db: DatabaseSync) {
   app.post("/api/claims/:id/messages", (req, res) => {
     const user = requireUser(res),
       claimId = req.params.id as string;
-    participant(db, claimId, user);
+    const claim = participant(db, claimId, user);
+    // Terminal claims keep their history readable but accept no new messages,
+    // matching the read-only conversation shown in the UI.
+    if (["completed", "rejected", "cancelled"].includes(claim.status))
+      fail(409, "INVALID_TRANSITION", "该认领已结束，此会话仅供查阅");
     const content = text(body(req, ["content"]).content, "消息", 1, 1000),
       messageId = id();
     db.prepare("INSERT INTO messages VALUES (?,?,?,?,?)").run(

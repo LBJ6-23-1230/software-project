@@ -481,6 +481,51 @@ test("private messages and disputes are participant-only and admin resolution pr
   );
 });
 
+test("terminal claims keep message history readable but reject new messages", async (t) => {
+  const { call, login } = await fixture(t);
+  const owner = await login("20260002"),
+    applicant = await login("20260001");
+  const item = (await call("/items?type=found")).data.items.find(
+    (x: any) => x.ownerId === owner.user.id && x.status === "active",
+  );
+  const claim = async (proof: string) =>
+    (
+      await call("/claims", {
+        token: applicant.token,
+        body: { itemId: item.id, proof },
+      })
+    ).data;
+  const send = (claimId: string, token: string, content: string) =>
+    call(`/claims/${claimId}/messages`, { token, body: { content } });
+  const expectClosed = async (claimId: string, token: string) => {
+    assert.equal((await send(claimId, token, "终态尝试发送")).status, 409);
+    // History stays readable for both participants.
+    assert.equal((await call(`/claims/${claimId}/messages`, { token })).status, 200);
+  };
+  const cancelled = await claim("准备撤销的申请证明内容");
+  await call(`/claims/${cancelled.id}/action`, {
+    token: applicant.token,
+    body: { action: "cancel" },
+  });
+  await expectClosed(cancelled.id, applicant.token);
+  const rejected = await claim("准备拒绝的申请证明内容");
+  await call(`/claims/${rejected.id}/action`, {
+    token: owner.token,
+    body: { action: "reject" },
+  });
+  await expectClosed(rejected.id, owner.token);
+  const completed = await claim("准备完成的申请证明内容");
+  await call(`/claims/${completed.id}/action`, {
+    token: owner.token,
+    body: { action: "approve" },
+  });
+  await call(`/claims/${completed.id}/action`, {
+    token: applicant.token,
+    body: { action: "complete" },
+  });
+  await expectClosed(completed.id, applicant.token);
+});
+
 test("cancel and reject are constrained and withdrawn or lost items cannot be claimed", async (t) => {
   const { call, login } = await fixture(t);
   const owner = await login("20260002"),
