@@ -29,4 +29,8 @@ F04—F06责任人为csw；现有身份、个人中心、认领、审核及共�
 
 生成脚本为`scripts/build-csw-worklist.py`和`scripts/build-csw-report.py`。前者需要保留原始个人清单模板，通过`--template`指定；两者用`--snapshot`固定证据链接，以`--output-dir`或`--output`指定产物。使用Codex打包Python和python-docx，不新增项目依赖。Word最终稿放在`deliverables/`，图源和原始证据继续保留。
 
+- [个人工作清单最终修订稿](deliverables/个人工作清单_陈思威_公约逐条核对修订版.docx)：5页，公约15条逐一核对。
+- [模块工程记录](deliverables/F04-F06模块工程记录_陈思威.docx)：11页，含7张图与验收速查。
+- [交付核对](交付核对.md)：最终文件、校对方式、验证边界与分支说明。
+
 11月12日交付复核的30项测试、类型检查和构建结果见[交付复核](../../reports/csw/2026-11-12-handover/report.json)。

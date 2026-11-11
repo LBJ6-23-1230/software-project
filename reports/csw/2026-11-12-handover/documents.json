@@ -1,0 +1,24 @@
+{
+  "checkedAt": "2026-11-11T23:31:44.054263+00:00",
+  "files": [
+    {
+      "file": "个人工作清单_陈思威_公约逐条核对修订版.docx",
+      "pages": 5,
+      "embedded_images": 0,
+      "sha256": "73933f062f3a801e4f3004a4b0611c966dca7b84a98e7d084eea6344b1f5dd7f",
+      "visual_review": "all pages inspected after latest render"
+    },
+    {
+      "file": "F04-F06模块工程记录_陈思威.docx",
+      "pages": 11,
+      "embedded_images": 7,
+      "sha256": "5136743b59c50745397b0a109bcaaa216bd813fb98b48fd702fa0c1821085a48",
+      "visual_review": "all pages inspected after latest render"
+    }
+  ],
+  "original_template_unchanged": true,
+  "links_checked": 50,
+  "broken_links": [],
+  "evidence_snapshot": "2f37855bb959220a0251dcaa64b4a24994f24190",
+  "review_method": "Word PDF export + pypdfium2 page PNG; final 16 pages visually inspected; document facts self-reviewed"
+}

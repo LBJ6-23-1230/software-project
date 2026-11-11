@@ -68,6 +68,7 @@ def para(text='',size=11.5,after=7,keep=False,style=None):
         for r in p.runs:
             r.bold=True
             r._element.get_or_add_rPr().rFonts.set(qn('w:eastAsia'),'微软雅黑')
+    if style=='Title':p.paragraph_format.line_spacing=Pt(28)
     return p
 
 def table(rows):
@@ -125,7 +126,7 @@ while i<len(lines):
     if im:
         path=source.parent/im.group(2);assert path.is_file(),path
         p=para('',after=2,keep=True);p.alignment=WD_ALIGN_PARAGRAPH.CENTER
-        p.add_run().add_picture(str(path),width=Cm(16.3))
+        p.add_run().add_picture(str(path),width=Cm(15.0))
         p.paragraph_format.line_spacing=1.0
         cp=para(im.group(1),9.5,8);cp.alignment=WD_ALIGN_PARAGRAPH.CENTER
         figures+=1;continue
