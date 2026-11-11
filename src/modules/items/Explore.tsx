@@ -166,12 +166,26 @@ export function Explore({
           <div className="art-orbit" />
           <div className="art-note note-one">
             <span className="paper-pin" />
-            <img src="/assets/keys.svg" alt="" />
+            <img
+              src="/assets/keys.svg"
+              alt=""
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = "/assets/bag.svg";
+              }}
+            />
             <b>是你的钥匙吗？</b>
             <small>寻找它的主人</small>
           </div>
           <div className="art-note note-two">
-            <img src="/assets/card.svg" alt="" />
+            <img
+              src="/assets/card.svg"
+              alt=""
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = "/assets/book.svg";
+              }}
+            />
             <b>你的失物，有了新消息</b>
             <span>
               <HeartHandshake size={15} />
