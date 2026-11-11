@@ -22,6 +22,11 @@ import {
 import { schema, transaction } from "../db.ts";
 import { validateItem } from "./items.ts";
 
+// Keep moderation notes in admin-only responses, not the public item projection.
+const adminItemSelect = itemSelect.replace(
+  " FROM items i JOIN",
+  ",i.reviewReason FROM items i JOIN",
+);
 const backupId =
   /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
 const columns = {
@@ -177,7 +182,7 @@ export function registerAdminRoutes(
     res.json(
       db
         .prepare(
-          `${itemSelect}${review ? " WHERE i.reviewStatus=?" : ""} ORDER BY i.createdAt DESC,i.id`,
+          `${adminItemSelect}${review ? " WHERE i.reviewStatus=?" : ""} ORDER BY i.createdAt DESC,i.id`,
         )
         .all(...(review ? [review] : [])),
     );
@@ -201,7 +206,7 @@ export function registerAdminRoutes(
         "UPDATE items SET reviewStatus=?,reviewReason=? WHERE id=?",
       ).run(action === "approve" ? "approved" : "rejected", reason, itemId);
     });
-    res.json(getItem(db, itemId));
+    res.json(db.prepare(`${adminItemSelect} WHERE i.id=?`).get(itemId));
   });
   app.get("/api/admin/disputes", (_req, res) => {
     requireAdmin(res);
@@ -224,10 +229,13 @@ export function registerAdminRoutes(
     if (!dispute) fail(404, "NOT_FOUND", "未找到此争议");
     if (dispute.status !== "open")
       fail(409, "INVALID_TRANSITION", "此争议已经处理");
-    // A resolution records mediation; claim state still changes only through its participant state machine.
-    db.prepare(
-      "UPDATE disputes SET status='resolved',resolution=? WHERE id=?",
+    // Guard the transition in SQL as well: a prior resolution is immutable.
+    // Only the dispute changes; the claim's state machine is untouched.
+    const result = db.prepare(
+      "UPDATE disputes SET status='resolved',resolution=? WHERE id=? AND status='open'",
     ).run(resolution, disputeId);
+    if (result.changes !== 1)
+      fail(409, "INVALID_TRANSITION", "此争议已经处理");
     res.json(db.prepare("SELECT * FROM disputes WHERE id=?").get(disputeId));
   });
   app.get("/api/admin/backups", (_req, res) => {
@@ -269,14 +277,37 @@ export function registerAdminRoutes(
     )
       fail(409, "INVALID_BACKUP", "备份中缺少当前管理员，不能恢复");
     transaction(db, () => {
-      const sessions = db.prepare("SELECT * FROM sessions").all();
+      // Session tokens are not part of the business snapshot. Invalidate sessions
+      // if the restored account has different credentials or privileges; otherwise
+      // a login created after a password/role change could survive the rollback.
+      const usersBefore = new Map(
+        (db.prepare("SELECT id,passwordHash,role FROM users").all() as {
+          id: string;
+          passwordHash: string;
+          role: string;
+        }[]).map((user) => [user.id, user]),
+      );
+      const sessions = db.prepare("SELECT * FROM sessions").all() as {
+        tokenHash: string;
+        userId: string;
+        expiresAt: string;
+      }[];
+      const eligible = new Set(
+        snapshot.users
+          .filter((user) => {
+            const before = usersBefore.get(String(user.id));
+            return before?.passwordHash === user.passwordHash &&
+              before?.role === user.role;
+          })
+          .map((user) => String(user.id)),
+      );
       db.exec(
         "DELETE FROM disputes; DELETE FROM messages; DELETE FROM claims; DELETE FROM items; DELETE FROM sessions; DELETE FROM users;",
       );
       insertSnapshot(db, snapshot);
       const insert = db.prepare("INSERT INTO sessions VALUES (?,?,?)");
       for (const session of sessions)
-        if (snapshot.users.some((user) => user.id === session.userId))
+        if (eligible.has(session.userId))
           insert.run(session.tokenHash, session.userId, session.expiresAt);
     });
     res.json({ ok: true });
