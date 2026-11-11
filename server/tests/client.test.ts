@@ -18,6 +18,18 @@ test('client reports a readable error for a null error body', async (t) => {
   await assert.rejects(api('/items'), (error: Error) => !(error instanceof TypeError) && /失败|响应/.test(error.message));
 });
 
+test('client explains how to recover when the backend is unavailable', async (t) => {
+  t.mock.method(globalThis, 'fetch', async () => {
+    throw new TypeError('Failed to fetch');
+  });
+  await assert.rejects(api('/items'), /无法连接后端服务.*4318/);
+});
+
+test('client recognizes a failed development proxy as an unavailable backend', async (t) => {
+  t.mock.method(globalThis, 'fetch', async () => new Response('', { status: 502 }));
+  await assert.rejects(api('/items'), /无法连接后端服务.*4318/);
+});
+
 test('client preserves JSON success payloads and server rejection messages', async (t) => {
   t.mock.method(globalThis, 'fetch', async () => Response.json({ ok: true }));
   assert.deepEqual(await api('/auth/logout', { method: 'POST' }), { ok: true });

@@ -10,7 +10,7 @@ import {
   X,
   LogOut,
   Leaf,
-} from "lucide-react";
+} from "./components/icons";
 import type { User, Item } from "../shared/types";
 import { api, post, setToken } from "./api/client";
 import { Explore } from "./modules/items/Explore";
@@ -20,6 +20,13 @@ import { Claims } from "./modules/claims/Claims";
 import { Admin } from "./modules/admin/Admin";
 import { Empty } from "./components/ui";
 export type Page = "explore" | "publish" | "claims" | "profile" | "admin";
+const PAGE_TITLES: Record<Page, string> = {
+  explore: "拾光广场",
+  publish: "发布信息",
+  claims: "我的认领",
+  profile: "个人中心",
+  admin: "管理工作台",
+};
 const getPage = (): Page => {
   const p = location.hash.replace("#/", "") as Page;
   return ["explore", "publish", "claims", "profile", "admin"].includes(p)
@@ -33,8 +40,12 @@ export default function App() {
     [login, setLogin] = useState(false),
     [mobile, setMobile] = useState(false),
     [toast, setToast] = useState(""),
+    [announcement, setAnnouncement] = useState(""),
     [editing, setEditing] = useState<Item | null>(null),
     [version, setVersion] = useState(0);
+  const mainRef = useRef<HTMLElement | null>(null);
+  const firstPage = useRef(true);
+  const focusAfterAuth = useRef(false);
   useEffect(() => {
     api<User>("/auth/me")
       .then(setUser)
@@ -48,10 +59,33 @@ export default function App() {
     return () => window.removeEventListener("hashchange", f);
   }, []);
   useEffect(() => {
+    const title = PAGE_TITLES[page];
+    document.title = `${title} · 拾光校园`;
+    if (firstPage.current) {
+      firstPage.current = false;
+      return;
+    }
+    setAnnouncement(`已切换到${title}页面`);
+    const frame = requestAnimationFrame(() => {
+      const heading = document.querySelector<HTMLElement>("#main-content h1");
+      (heading ?? mainRef.current)?.focus();
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [page]);
+  useEffect(() => {
     if (!toast) return;
     const id = setTimeout(() => setToast(""), 4500);
     return () => clearTimeout(id);
   }, [toast]);
+  useEffect(() => {
+    if (!focusAfterAuth.current) return;
+    focusAfterAuth.current = false;
+    const id = setTimeout(() => {
+      const heading = document.querySelector<HTMLElement>("#main-content h1");
+      (heading ?? mainRef.current)?.focus();
+    }, 0);
+    return () => clearTimeout(id);
+  }, [user]);
   const sidebarRef = useRef<HTMLElement | null>(null);
   useEffect(() => {
     if (!mobile) return;
@@ -108,6 +142,25 @@ export default function App() {
   const protectedPage = page !== "explore" && !user;
   return (
     <div className="app-shell">
+      <a
+        className="skip-link"
+        href="#main-content"
+        onClick={(event) => {
+          event.preventDefault();
+          mainRef.current?.focus();
+          mainRef.current?.scrollIntoView({ block: "start" });
+        }}
+      >
+        跳到主要内容
+      </a>
+      <div
+        className="sr-only"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {announcement}
+      </div>
       {mobile && (
         <button
           className="sidebar-scrim"
@@ -115,8 +168,13 @@ export default function App() {
           onClick={() => setMobile(false)}
         />
       )}
-      <aside ref={sidebarRef} className={`sidebar ${mobile ? "is-open" : ""}`}>
-        <a href="#/explore" className="brand" aria-label="拾光校园首页">
+      <aside
+        ref={sidebarRef}
+        id="app-sidebar"
+        aria-label="侧边栏"
+        className={`sidebar ${mobile ? "is-open" : ""}`}
+      >
+        <a href="#/explore" className="brand">
           <img src="/assets/logo.svg" alt="" />
           <div>
             拾光校园<small>让遗失，遇见归还。</small>
@@ -130,11 +188,12 @@ export default function App() {
           <X />
         </button>
         <div className="nav-caption">校园服务</div>
-        <nav>
+        <nav aria-label="主导航">
           {nav.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
               className={`nav-item ${page === id ? "active" : ""}`}
+              aria-current={page === id ? "page" : undefined}
               onClick={() => {
                 if (id === "publish") setEditing(null);
                 navigate(id);
@@ -142,7 +201,9 @@ export default function App() {
             >
               <Icon size={20} />
               {label}
-              {id === "explore" && <span className="nav-dot" />}
+              {id === "explore" && (
+                <span className="nav-dot" aria-hidden="true" />
+              )}
             </button>
           ))}
         </nav>
@@ -150,6 +211,7 @@ export default function App() {
         <div className="nav-caption">管理服务</div>
         <button
           className={`nav-item ${page === "admin" ? "active" : ""}`}
+          aria-current={page === "admin" ? "page" : undefined}
           onClick={() => navigate("admin")}
         >
           <ShieldCheck size={20} />
@@ -176,6 +238,7 @@ export default function App() {
             <button
               className="mobile-toggle icon-button"
               aria-expanded={mobile}
+              aria-controls="app-sidebar"
               aria-label="打开导航"
               onClick={() => setMobile(true)}
             >
@@ -190,7 +253,7 @@ export default function App() {
           </div>
           <div className="topbar-actions">
             <span className="campus-indicator">
-              <span />
+              <span aria-hidden="true" />
               校园里的温暖连接
             </span>
             {user ? (
@@ -199,7 +262,9 @@ export default function App() {
                   className="account-button"
                   onClick={() => navigate("profile")}
                 >
-                  <span className="avatar">{user.name.slice(0, 1)}</span>
+                  <span className="avatar" aria-hidden="true">
+                    {user.name.slice(0, 1)}
+                  </span>
                   <span>{user.name}</span>
                 </button>
                 <button
@@ -228,7 +293,12 @@ export default function App() {
             )}
           </div>
         </header>
-        <main className="main-content" id="main-content">
+        <main
+          className="main-content"
+          id="main-content"
+          tabIndex={-1}
+          ref={mainRef}
+        >
           {protectedPage ? (
             <Empty
               title={authReady ? "登录后继续" : "正在恢复登录状态"}
@@ -300,6 +370,7 @@ export default function App() {
         <LoginDialog
           onClose={() => setLogin(false)}
           onSuccess={(u) => {
+            focusAfterAuth.current = true;
             setUser(u);
             setLogin(false);
             notify("登录成功，欢迎回到拾光校园");
@@ -307,7 +378,7 @@ export default function App() {
         />
       )}
       {toast && (
-        <div className="toast" role="status">
+        <div className="toast" role="status" aria-live="polite" aria-atomic="true">
           {toast}
         </div>
       )}

@@ -1,0 +1,190 @@
+- complementary:
+  - link "拾光校园首页":
+    - /url: "#/explore"
+    - text: 拾光校园 让遗失，遇见归还。
+  - text: 校园服务
+  - navigation:
+    - button "拾光广场":
+      - img
+      - text: 拾光广场
+    - button "发布信息":
+      - img
+      - text: 发布信息
+    - button "我的认领":
+      - img
+      - text: 我的认领
+    - button "个人中心":
+      - img
+      - text: 个人中心
+  - text: 管理服务
+  - button "管理工作台":
+    - img
+    - text: 管理工作台
+  - img
+  - strong: 每一份善意，都有回响
+  - paragraph: 让物品回到主人身边， 也让校园多一点温暖。
+  - text: 武汉理工大学校园互助项目 课程演示版 · 虚构示例数据
+- banner:
+  - text: 校园互助 /
+  - strong: 拾光广场
+  - text: 校园里的温暖连接
+  - button "登录 / 注册":
+    - text: 登录 / 注册
+    - img
+- main:
+  - text: 把遗失的小事，交给整个校园
+  - heading "总有一份善意， 让失物回到你身边。" [level=1]
+  - paragraph: 寻找遗失的物品，也帮别人找回小小的安心。
+  - button "发布失物 / 招领":
+    - img
+    - text: 发布失物 / 招领
+  - img
+  - text: 一起，让善意发生
+  - img
+  - strong: "1"
+  - text: 件物品已回到主人身边
+  - img
+  - strong: "4"
+  - text: 条寻物信息
+  - img
+  - strong: "6"
+  - text: 条招领信息 当前演示数据
+  - heading "校园失物动态" [level=2]
+  - paragraph: 也许你在找的，就在这里。
+  - text: 持续传递善意
+  - img
+  - textbox "搜索物品名称、描述或地点":
+    - /placeholder: 搜索物品名称、描述或地点…
+  - button "搜索"
+  - button "全部信息"
+  - button "招领信息"
+  - button "寻物信息"
+  - img
+  - combobox "选择校区":
+    - option "全部校区" [selected]
+    - option "马房山校区（西院）"
+    - option "马房山校区（东院）"
+    - option "鉴湖校区"
+    - option "余家头校区"
+    - option "南湖校区"
+    - option "军山校区"
+  - button "全部分类"
+  - button "证件卡片"
+  - button "数码产品"
+  - button "生活用品"
+  - button "书籍文具"
+  - button "衣物配饰"
+  - button "其他物品"
+  - button "南湖图书馆拾到一把蓝色雨伞 拾到物品 生活用品 10/24 发布 南湖图书馆拾到一把蓝色雨伞 南湖图书馆一楼自习区 南湖校区 查看详情":
+    - img "南湖图书馆拾到一把蓝色雨伞"
+    - text: 拾到物品 生活用品
+    - time: 10/24 发布
+    - heading "南湖图书馆拾到一把蓝色雨伞" [level=3]
+    - paragraph:
+      - img
+      - text: 南湖图书馆一楼自习区
+    - text: 南湖校区 查看详情
+    - img
+  - button "寻找遗落的校园卡套 寻找失物 证件卡片 10/24 发布 寻找遗落的校园卡套 鉴湖食堂至西院宿舍路上 鉴湖校区 查看详情":
+    - img "寻找遗落的校园卡套"
+    - text: 寻找失物 证件卡片
+    - time: 10/24 发布
+    - heading "寻找遗落的校园卡套" [level=3]
+    - paragraph:
+      - img
+      - text: 鉴湖食堂至西院宿舍路上
+    - text: 鉴湖校区 查看详情
+    - img
+  - button "博学广场拾到无线耳机 拾到物品 数码产品 10/24 发布 博学广场拾到无线耳机 博学广场长椅 南湖校区 查看详情":
+    - img "博学广场拾到无线耳机"
+    - text: 拾到物品 数码产品
+    - time: 10/24 发布
+    - heading "博学广场拾到无线耳机" [level=3]
+    - paragraph:
+      - img
+      - text: 博学广场长椅
+    - text: 南湖校区 查看详情
+    - img
+  - button "余家头操场的奶白色水杯 拾到物品 生活用品 10/24 发布 余家头操场的奶白色水杯 余家头田径场看台 余家头校区 查看详情":
+    - img "余家头操场的奶白色水杯"
+    - text: 拾到物品 生活用品
+    - time: 10/24 发布
+    - heading "余家头操场的奶白色水杯" [level=3]
+    - paragraph:
+      - img
+      - text: 余家头田径场看台
+    - text: 余家头校区 查看详情
+    - img
+  - button "求寻一本写满笔记的高等数学 寻找失物 书籍文具 10/24 发布 求寻一本写满笔记的高等数学 新二教学楼 201 教室 南湖校区 查看详情":
+    - img "求寻一本写满笔记的高等数学"
+    - text: 寻找失物 书籍文具
+    - time: 10/24 发布
+    - heading "求寻一本写满笔记的高等数学" [level=3]
+    - paragraph:
+      - img
+      - text: 新二教学楼 201 教室
+    - text: 南湖校区 查看详情
+    - img
+  - button "鉴湖教学楼门口拾到钥匙 拾到物品 其他物品 10/24 发布 鉴湖教学楼门口拾到钥匙 鉴湖教学楼东门 鉴湖校区 查看详情":
+    - img "鉴湖教学楼门口拾到钥匙"
+    - text: 拾到物品 其他物品
+    - time: 10/24 发布
+    - heading "鉴湖教学楼门口拾到钥匙" [level=3]
+    - paragraph:
+      - img
+      - text: 鉴湖教学楼东门
+    - text: 鉴湖校区 查看详情
+    - img
+  - button "黑色帆布包落在校车上了 寻找失物 衣物配饰 10/24 发布 黑色帆布包落在校车上了 南湖至余家头校车 余家头校区 查看详情":
+    - img "黑色帆布包落在校车上了"
+    - text: 寻找失物 衣物配饰
+    - time: 10/24 发布
+    - heading "黑色帆布包落在校车上了" [level=3]
+    - paragraph:
+      - img
+      - text: 南湖至余家头校车
+    - text: 余家头校区 查看详情
+    - img
+  - button "体育馆更衣区拾到运动手表 拾到物品 数码产品 10/24 发布 体育馆更衣区拾到运动手表 南湖体育馆更衣区 南湖校区 查看详情":
+    - img "体育馆更衣区拾到运动手表"
+    - text: 拾到物品 数码产品
+    - time: 10/24 发布
+    - heading "体育馆更衣区拾到运动手表" [level=3]
+    - paragraph:
+      - img
+      - text: 南湖体育馆更衣区
+    - text: 南湖校区 查看详情
+    - img
+  - button "蓝色折叠伞遗失在图书馆 寻找失物 生活用品 10/24 发布 蓝色折叠伞遗失在图书馆 南湖图书馆二楼 南湖校区 查看详情":
+    - img "蓝色折叠伞遗失在图书馆"
+    - text: 寻找失物 生活用品
+    - time: 10/24 发布
+    - heading "蓝色折叠伞遗失在图书馆" [level=3]
+    - paragraph:
+      - img
+      - text: 南湖图书馆二楼
+    - text: 南湖校区 查看详情
+    - img
+  - text: 共 10 条信息
+  - button "上一页" [disabled]:
+    - img
+  - text: 1 / 2
+  - button "下一页":
+    - img
+  - complementary:
+    - img
+    - heading "拾到物品，怎么办？" [level=3]
+    - paragraph: 你的一点帮助， 可能是别人一整天的幸运。
+    - list:
+      - listitem: 1 发布招领信息 描述物品与拾取地点
+      - listitem: 2 核对认领信息 保留关键特征用于验证
+      - listitem: 3 安心完成归还 当面核验，在系统确认
+    - button "我拾到了物品":
+      - text: 我拾到了物品
+      - img
+    - img
+    - heading "让善意，也有保障" [level=3]
+    - paragraph: 请勿公开完整学号、证件号码或手机号。认领时核对物品细节，在校园公共场所交接。
+    - img
+    - text: 一件失物，一次温暖的重逢。
+- contentinfo: 拾光校园，让每一次归还都有迹可循。 善意传递 · 隐私保护

@@ -1,5 +1,10 @@
-import { useState, type FormEvent, type ChangeEvent } from "react";
-import { Upload, Send, ImagePlus, MapPin, ClipboardList } from "lucide-react";
+import {
+  useId,
+  useState,
+  type FormEvent,
+  type ChangeEvent,
+} from "react";
+import { Upload, Send, ImagePlus, MapPin, ClipboardList } from "../../components/icons";
 import {
   CAMPUSES,
   CATEGORIES,
@@ -42,6 +47,8 @@ export function Publish({
   );
   const [busy, setBusy] = useState(false),
     [error, setError] = useState("");
+  const descriptionHintId = useId();
+  const imageHintId = useId();
   const update = (key: keyof ItemInput, value: string) =>
     setForm((f) => ({ ...f, [key]: value }));
   async function upload(e: ChangeEvent<HTMLInputElement>) {
@@ -90,14 +97,19 @@ export function Publish({
         }
       />
       <div className="form-layout">
-        <form className="panel publish-form" onSubmit={submit}>
+        <form
+          className="panel publish-form"
+          aria-label="发布信息表单"
+          onSubmit={submit}
+        >
           <h3>
             <ClipboardList size={20} />
             基本信息
           </h3>
-          <div className="type-picker">
+          <div className="type-picker" role="group" aria-label="发布信息类型">
             <button
               type="button"
+              aria-pressed={form.type === "found"}
               className={form.type === "found" ? "selected" : ""}
               onClick={() => update("type", "found")}
             >
@@ -106,6 +118,7 @@ export function Publish({
             </button>
             <button
               type="button"
+              aria-pressed={form.type === "lost"}
               className={form.type === "lost" ? "selected" : ""}
               onClick={() => update("type", "lost")}
             >
@@ -114,7 +127,7 @@ export function Publish({
             </button>
           </div>
           <label>
-            物品名称 <span className="required">*</span>
+            物品名称 <span className="required" aria-hidden="true">*</span>
             <input
               required
               minLength={2}
@@ -138,7 +151,7 @@ export function Publish({
             </label>
             <label>
               {form.type === "found" ? "拾取" : "遗失"}日期{" "}
-              <span className="required">*</span>
+              <span className="required" aria-hidden="true">*</span>
               <input
                 required
                 type="date"
@@ -164,7 +177,7 @@ export function Publish({
               </select>
             </label>
             <label>
-              具体地点 <span className="required">*</span>
+              具体地点 <span className="required" aria-hidden="true">*</span>
               <input
                 required
                 minLength={2}
@@ -176,17 +189,18 @@ export function Publish({
             </label>
           </div>
           <label>
-            物品描述 <span className="required">*</span>
+            物品描述 <span className="required" aria-hidden="true">*</span>
             <textarea
               rows={4}
               required
               minLength={5}
               maxLength={2000}
+              aria-describedby={descriptionHintId}
               value={form.description}
               onChange={(e) => update("description", e.target.value)}
               placeholder="描述颜色、外观、拾取或遗失经过。请保留一两处细节，用于认领核验。"
             />
-            <small className="field-count">
+            <small className="field-count" id={descriptionHintId}>
               {form.description.length} / 2000
             </small>
           </label>
@@ -199,7 +213,9 @@ export function Publish({
                 <>
                   <ImagePlus size={30} />
                   <b>选择一张清晰的物品照片</b>
-                  <small>JPG / PNG / WebP，最大 700 KB</small>
+                  <small id={imageHintId}>
+                    JPG / PNG / WebP，最大 700 KB
+                  </small>
                 </>
               )}
               <span className="upload-button">
@@ -210,14 +226,16 @@ export function Publish({
                 className="file-input"
                 type="file"
                 accept="image/jpeg,image/png,image/webp"
+                aria-label="选择物品图片"
+                aria-describedby={imageHintId}
                 onChange={upload}
               />
             </span>
           </label>
-          <ErrorBox error={error} />
+          <ErrorBox error={error} focus />
           <div className="form-submit">
             <span>提交后由管理员审核，保护信息真实性。</span>
-            <button className="button" disabled={busy}>
+            <button type="submit" className="button" aria-busy={busy} disabled={busy}>
               <Send size={17} />
               {busy ? "正在提交…" : item ? "保存并提交审核" : "提交发布"}
             </button>

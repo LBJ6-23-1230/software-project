@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useId, useState, type FormEvent } from "react";
 import {
   Search,
   MapPin,
@@ -12,7 +12,7 @@ import {
   ChevronRight,
   CalendarDays,
   ArrowUpRight,
-} from "lucide-react";
+} from "../../components/icons";
 import {
   CATEGORIES,
   CAMPUSES,
@@ -40,12 +40,13 @@ export function ItemCard({
   item: Item;
   onClick: () => void;
 }) {
+  const titleId = `item-${item.id}-title`;
   return (
-    <button className="item-card" onClick={onClick}>
+    <article className="item-card" aria-labelledby={titleId}>
       <div className="item-image">
         <img
           src={item.imageUrl || "/assets/bag.svg"}
-          alt={item.title}
+          alt=""
           loading="lazy"
           onError={(e) => {
             e.currentTarget.onerror = null;
@@ -62,22 +63,29 @@ export function ItemCard({
       <div className="item-card-body">
         <div className="item-meta">
           <span>{item.category}</span>
-          <time>{formatDate(item.createdAt)} 发布</time>
+          <time dateTime={item.createdAt}>
+            {formatDate(item.createdAt)} 发布
+          </time>
         </div>
-        <h3>{item.title}</h3>
+        <h3 id={titleId}>{item.title}</h3>
         <p className="item-location">
           <MapPin size={14} />
           {item.location}
         </p>
         <div className="item-card-footer">
           <span>{item.campus}</span>
-          <span className="card-link">
+          <button
+            type="button"
+            className="card-link"
+            aria-label={`查看详情：${item.title}`}
+            onClick={onClick}
+          >
             查看详情
             <ArrowUpRight size={14} />
-          </span>
+          </button>
         </div>
       </div>
-    </button>
+    </article>
   );
 }
 
@@ -139,13 +147,13 @@ export function Explore({
   }
   return (
     <>
-      <section className="hero">
+      <section className="hero" aria-labelledby="explore-hero-title">
         <div className="hero-copy">
           <div className="hero-note">
-            <span />
+            <span aria-hidden="true" />
             把遗失的小事，交给整个校园
           </div>
-          <h1>
+          <h1 id="explore-hero-title">
             总有一份善意，
             <br />
             让失物回到你身边。
@@ -166,12 +174,26 @@ export function Explore({
           <div className="art-orbit" />
           <div className="art-note note-one">
             <span className="paper-pin" />
-            <img src="/assets/keys.svg" alt="" />
+            <img
+              src="/assets/keys.svg"
+              alt=""
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = "/assets/bag.svg";
+              }}
+            />
             <b>是你的钥匙吗？</b>
             <small>寻找它的主人</small>
           </div>
           <div className="art-note note-two">
-            <img src="/assets/card.svg" alt="" />
+            <img
+              src="/assets/card.svg"
+              alt=""
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = "/assets/book.svg";
+              }}
+            />
             <b>你的失物，有了新消息</b>
             <span>
               <HeartHandshake size={15} />
@@ -185,7 +207,7 @@ export function Explore({
           <span className="art-star star-two">✧</span>
         </div>
       </section>
-      <div className="stat-strip">
+      <div className="stat-strip" role="group" aria-label="校园互助数据">
         <div>
           <span className="stat-icon green">
             <HeartHandshake size={20} />
@@ -213,20 +235,27 @@ export function Explore({
         <span className="stat-footnote">当前演示数据</span>
       </div>
       <div className="explore-layout">
-        <section className="list-section">
+        <section className="list-section" aria-labelledby="explore-list-title">
           <div className="section-title">
             <div>
-              <h2>校园失物动态</h2>
+              <h2 id="explore-list-title">校园失物动态</h2>
               <p>也许你在找的，就在这里。</p>
             </div>
             <span className="live-label">
-              <span />
+              <span aria-hidden="true" />
               持续传递善意
             </span>
           </div>
-          <form className="search-bar" onSubmit={search}>
+          <form
+            className="search-bar"
+            role="search"
+            aria-label="搜索物品"
+            onSubmit={search}
+          >
             <Search size={20} />
             <input
+              type="search"
+              name="q"
               aria-label="搜索物品名称、描述或地点"
               placeholder="搜索物品名称、描述或地点…"
               value={input}
@@ -237,7 +266,7 @@ export function Explore({
             </button>
           </form>
           <div className="filter-top">
-            <div className="segmented" aria-label="信息类型">
+            <div className="segmented" role="group" aria-label="信息类型">
               {[
                 ["", "全部信息"],
                 ["found", "招领信息"],
@@ -245,6 +274,8 @@ export function Explore({
               ].map(([value, label]) => (
                 <button
                   key={value}
+                  type="button"
+                  aria-pressed={type === value}
                   className={type === value ? "selected" : ""}
                   onClick={() => {
                     setType(value);
@@ -272,8 +303,14 @@ export function Explore({
               </select>
             </div>
           </div>
-          <div className="category-filters">
+          <div
+            className="category-filters"
+            role="group"
+            aria-label="按物品分类筛选"
+          >
             <button
+              type="button"
+              aria-pressed={!category}
               className={!category ? "selected" : ""}
               onClick={() => {
                 setCategory("");
@@ -285,6 +322,8 @@ export function Explore({
             {CATEGORIES.map((c) => (
               <button
                 key={c}
+                type="button"
+                aria-pressed={category === c}
                 className={category === c ? "selected" : ""}
                 onClick={() => {
                   setCategory(c);
@@ -296,6 +335,16 @@ export function Explore({
             ))}
           </div>
           <ErrorBox error={error} />
+          <p
+            className="sr-only"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            {!loading && !error && data
+              ? `共找到 ${data.total} 条信息`
+              : ""}
+          </p>
           {loading ? (
             <Loading />
           ) : data?.items.length ? (
@@ -309,10 +358,11 @@ export function Explore({
                   />
                 ))}
               </div>
-              <div className="pagination">
+              <nav className="pagination" aria-label="信息分页">
                 <span>共 {data.total} 条信息</span>
                 <div>
                   <button
+                    type="button"
                     className="icon-button"
                     aria-label="上一页"
                     disabled={page === 1}
@@ -321,10 +371,11 @@ export function Explore({
                     <ChevronLeft size={18} />
                   </button>
                   <span>
-                    {page} /{" "}
-                    {Math.max(1, Math.ceil(data.total / data.pageSize))}
+                    第 {page} /{" "}
+                    {Math.max(1, Math.ceil(data.total / data.pageSize))} 页
                   </span>
                   <button
+                    type="button"
                     className="icon-button"
                     aria-label="下一页"
                     disabled={page * data.pageSize >= data.total}
@@ -333,7 +384,7 @@ export function Explore({
                     <ChevronRight size={18} />
                   </button>
                 </div>
-              </div>
+              </nav>
             </>
           ) : !error ? (
             <Empty
@@ -348,6 +399,7 @@ export function Explore({
                     setType("");
                     setQ("");
                     setInput("");
+                    setPage(1);
                   }}
                 >
                   清除筛选
@@ -356,7 +408,7 @@ export function Explore({
             />
           ) : null}
         </section>
-        <aside className="right-rail">
+        <aside className="right-rail" aria-label="校园互助提示">
           <div className="guide-card">
             <span className="guide-icon">
               <HeartHandshake size={25} />
@@ -447,6 +499,7 @@ function ItemDetail({
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false),
     [matches, setMatches] = useState<Match[]>([]);
+  const proofHintId = useId();
   useEffect(() => {
     api<Match[]>(`/items/${item.id}/matches`)
       .then(setMatches)
@@ -473,7 +526,7 @@ function ItemDetail({
     >
       <div className="detail-layout">
         <div className="detail-visual">
-          <img src={item.imageUrl || "/assets/bag.svg"} alt={item.title} />
+          <img src={item.imageUrl || "/assets/bag.svg"} alt="" />
           <Info>认领前请核对物品特征，不要向任何人支付认领费用。</Info>
         </div>
         <div className="detail-copy">
@@ -491,7 +544,9 @@ function ItemDetail({
             </p>
             <p>
               <CalendarDays size={16} />
-              {formatDate(item.occurredAt)}{" "}
+              <time dateTime={item.occurredAt}>
+                {formatDate(item.occurredAt)}
+              </time>{" "}
               {item.type === "found" ? "拾到" : "遗失"}
             </p>
           </div>
@@ -519,14 +574,22 @@ function ItemDetail({
                     required
                     minLength={5}
                     maxLength={1000}
+                    aria-describedby={proofHintId}
                     value={proof}
                     onChange={(e) => setProof(e.target.value)}
                     placeholder="描述只有你知道的物品特征，例如内侧标记、遗失经过等。"
                   />
                 </label>
-                <small>证明仅对认领双方可见，不会展示在广场。</small>
-                <ErrorBox error={error} />
-                <button className="button full" aria-busy={busy} disabled={busy}>
+                <small id={proofHintId}>
+                  证明仅对认领双方可见，不会展示在广场。
+                </small>
+                <ErrorBox error={error} focus />
+                <button
+                  type="submit"
+                  className="button full"
+                  aria-busy={busy}
+                  disabled={busy}
+                >
                   {busy ? "正在提交…" : "这是我的，申请认领"}
                 </button>
               </form>

@@ -6,7 +6,7 @@ import {
   Check,
   AlertTriangle,
   RefreshCw,
-} from "lucide-react";
+} from "../../components/icons";
 import type { Claim, Message, User } from "../../../shared/types";
 import { api, post, errorMessage } from "../../api/client";
 import {
@@ -46,6 +46,12 @@ export function Claims({
     [confirm, setConfirm] = useState("");
   const active = claims?.find((c) => c.id === selected);
   const bottom = useRef<HTMLDivElement>(null);
+  const detailHeading = useRef<HTMLHeadingElement>(null);
+  function choose(id: string) {
+    setSelected(id);
+    setContent("");
+    requestAnimationFrame(() => detailHeading.current?.focus());
+  }
   useEffect(() => {
     let alive = true;
     api<Claim[]>("/claims")
@@ -165,8 +171,8 @@ export function Claims({
         />
       ) : (
         <div className="claims-layout">
-          <section className="panel claim-list">
-            <div className="tabs compact">
+          <section className="panel claim-list" aria-label="认领记录列表">
+            <div className="tabs compact" role="group" aria-label="认领记录筛选">
               {[
                 ["all", "全部"],
                 ["mine", "我申请的"],
@@ -174,6 +180,8 @@ export function Claims({
               ].map(([id, label]) => (
                 <button
                   key={id}
+                  type="button"
+                  aria-pressed={filter === id}
                   className={filter === id ? "active" : ""}
                   onClick={() => setFilter(id)}
                 >
@@ -185,14 +193,13 @@ export function Claims({
               shown.map((c) => (
                 <button
                   key={c.id}
+                  type="button"
+                  aria-current={selected === c.id ? "true" : undefined}
                   className={`claim-list-row ${selected === c.id ? "selected" : ""}`}
-                  onClick={() => {
-                    setSelected(c.id);
-                    setContent("");
-                  }}
+                  onClick={() => choose(c.id)}
                 >
                   <div>
-                    <span className="claim-avatar">
+                    <span className="claim-avatar" aria-hidden="true">
                       <MessageCircle size={20} />
                     </span>
                     <span>
@@ -205,7 +212,7 @@ export function Claims({
                     </span>
                   </div>
                   <footer>
-                    <time>{formatTime(c.createdAt)}</time>
+                    <time dateTime={c.createdAt}>{formatTime(c.createdAt)}</time>
                     <span className={`claim-state ${c.status}`}>
                       {labels[c.status]}
                     </span>
@@ -220,15 +227,24 @@ export function Claims({
             )}
           </section>
           {active && (
-            <section className="panel claim-detail">
+            <section
+              className="panel claim-detail"
+              aria-labelledby="claim-detail-title"
+            >
               <div className="claim-detail-heading">
                 <div>
-                  <h2>{active.itemTitle}</h2>
+                  <h2
+                    id="claim-detail-title"
+                    tabIndex={-1}
+                    ref={detailHeading}
+                  >
+                    {active.itemTitle}
+                  </h2>
                   <p>认领编号 {active.id.slice(-8)}</p>
                 </div>
                 <Status value={active.status} />
               </div>
-              <div className="claim-progress">
+              <div className="claim-progress" role="list" aria-label="认领进度">
                 {["提交申请", "核验通过", "确认归还"].map((label, index) => {
                   const step =
                     active.status === "completed"
@@ -237,7 +253,12 @@ export function Claims({
                         ? 1
                         : 0;
                   return (
-                    <div key={label} className={index <= step ? "done" : ""}>
+                    <div
+                      key={label}
+                      role="listitem"
+                      aria-current={index === step ? "step" : undefined}
+                      className={index <= step ? "done" : ""}
+                    >
                       <span>
                         {index < step ? <Check size={14} /> : index + 1}
                       </span>
@@ -263,6 +284,7 @@ export function Claims({
                 {active.status === "pending" && active.ownerId === user.id && (
                   <>
                     <button
+                      type="button"
                       className="button small"
                       aria-busy={busy} disabled={busy}
                       onClick={() => setConfirm("approve")}
@@ -270,6 +292,7 @@ export function Claims({
                       核验通过
                     </button>
                     <button
+                      type="button"
                       className="button secondary danger small"
                       aria-busy={busy} disabled={busy}
                       onClick={() => setConfirm("reject")}
@@ -281,6 +304,7 @@ export function Claims({
                 {active.status === "pending" &&
                   active.applicantId === user.id && (
                     <button
+                      type="button"
                       className="button secondary danger small"
                       aria-busy={busy} disabled={busy}
                       onClick={() => setConfirm("cancel")}
@@ -291,6 +315,7 @@ export function Claims({
                 {active.status === "approved" &&
                   active.applicantId === user.id && (
                     <button
+                      type="button"
                       className="button small"
                       aria-busy={busy} disabled={busy}
                       onClick={() => setConfirm("complete")}
@@ -304,6 +329,7 @@ export function Claims({
                   </span>
                 )}
                 <button
+                  type="button"
                   className="text-button muted"
                   onClick={() => setDispute(true)}
                 >
@@ -315,7 +341,13 @@ export function Claims({
                 <h3>站内沟通</h3>
                 <span>以角色称呼，保护真实身份</span>
               </div>
-              <div className="messages" aria-live="polite">
+              <div
+                className="messages"
+                role="log"
+                aria-label="站内消息"
+                aria-live="polite"
+                aria-relevant="additions"
+              >
                 {!messages.length && (
                   <div className="chat-empty">
                     先打个招呼，核对只有彼此知道的细节。
@@ -332,16 +364,24 @@ export function Claims({
                         : m.senderId === active.ownerId
                           ? "拾到者"
                           : "认领人"}{" "}
-                      · {formatTime(m.createdAt)}
+                      ·{" "}
+                      <time dateTime={m.createdAt}>
+                        {formatTime(m.createdAt)}
+                      </time>
                     </small>
                     <p>{m.content}</p>
                   </div>
                 ))}
                 <div ref={bottom} />
               </div>
-              <form className="message-compose" onSubmit={send}>
+              <form
+                className="message-compose"
+                aria-label="发送站内消息"
+                onSubmit={send}
+              >
                 <input
                   aria-label="站内消息"
+                  autoComplete="off"
                   placeholder="写下想对对方说的话…"
                   value={content}
                   maxLength={1000}
@@ -351,6 +391,7 @@ export function Claims({
                   )}
                 />
                 <button
+                  type="submit"
                   className="button" aria-busy={busy}
                   disabled={
                     busy ||
@@ -377,7 +418,7 @@ export function Claims({
       )}
       {dispute && (
         <Modal title="提交认领争议" onClose={() => setDispute(false)}>
-          <form onSubmit={report} className="stack-form">
+          <form onSubmit={report} className="stack-form" aria-label="提交认领争议表单">
             <Info>
               请具体说明情况，管理员将结合记录核查，不会自动改变认领结果。
             </Info>
@@ -392,8 +433,8 @@ export function Claims({
                 placeholder="例如：物品特征与描述不一致，或对方未实际归还…"
               />
             </label>
-            <ErrorBox error={error} />
-            <button className="button" aria-busy={busy} disabled={busy}>
+            <ErrorBox error={error} focus />
+            <button type="submit" className="button" aria-busy={busy} disabled={busy}>
               提交管理员处理
             </button>
           </form>
@@ -410,12 +451,17 @@ export function Claims({
                   ? "确认认领线索不符，拒绝这次申请？"
                   : "确认撤销本次申请？"}
           </p>
-          <ErrorBox error={error} />
+          <ErrorBox error={error} focus />
           <div className="dialog-actions">
-            <button className="button secondary" onClick={() => setConfirm("")}>
+            <button
+              type="button"
+              className="button secondary"
+              onClick={() => setConfirm("")}
+            >
               暂不操作
             </button>
             <button
+              type="button"
               className={`button ${confirm === "reject" || confirm === "cancel" ? "danger" : ""}`}
               aria-busy={busy} disabled={busy}
               onClick={() => action(confirm)}
