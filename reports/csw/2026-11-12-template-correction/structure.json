@@ -1,0 +1,28 @@
+{
+  "template": "个人工作清单.docx",
+  "template_sha256": "593ebdd4d2460d6430b82eae5332a9574f60539f8ccb8bce9d803d55109a43ed",
+  "output": "个人工作清单_陈思威_原模板精简版.docx",
+  "changed_package_parts": [
+    "word/document.xml"
+  ],
+  "filled_slots": [
+    "table[0]/row[0]/cell[1]",
+    "table[0]/row[0]/cell[3]",
+    "table[0]/row[1]/cell[1]",
+    "table[0]/row[2]/cell[1]",
+    "table[1]/row[0]/cell[1]",
+    "table[1]/row[0]/cell[3]",
+    "table[1]/row[1]/cell[1]",
+    "table[1]/row[1]/cell[3]",
+    "table[1]/row[2]/cell[1]",
+    "table[1]/row[2]/cell[3]",
+    "table[2]/row[1]/cell[0]",
+    "table[2]/row[1]/cell[1]",
+    "table[2]/row[1]/cell[2]",
+    "table[2]/row[1]/cell[3]",
+    "body/paragraph[8]",
+    "body/paragraph[11]"
+  ],
+  "structure": "Original 3 tables, 12 body paragraphs, all labels, properties and section geometry preserved",
+  "statistics_scope": "1261 physical lines in four items files; 411 added lines in seven module/verification code files; 12 directly related API tests, of which 11 include quality assertions; 3 code commits through 0326277, excluding later document commits; 1 improvement iteration"
+}

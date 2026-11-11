@@ -27,10 +27,10 @@ F04—F06责任人为csw；现有身份、个人中心、认领、审核及共�
 
 ## Word生成与交付
 
-生成脚本为`scripts/build-csw-worklist.py`和`scripts/build-csw-report.py`。前者需要保留原始个人清单模板，通过`--template`指定；两者用`--snapshot`固定证据链接，以`--output-dir`或`--output`指定产物。使用Codex打包Python和python-docx，不新增项目依赖。Word最终稿放在`deliverables/`，图源和原始证据继续保留。
+个人清单使用`scripts/fill-csw-worklist-template.py`，只填写原始模板中的既有空格与文字占位，不更改样式或表格结构；通过`--template`指定原模板，`--output`指定产物，`--evidence`保存保留性核对。工程记录由`scripts/build-csw-report.py`生成，作为独立补充材料。旧扩展稿的生成器和文件仅留作历史记录。
 
-- [个人工作清单最终修订稿](deliverables/个人工作清单_陈思威_公约逐条核对修订版.docx)：5页，公约15条逐一核对。
+- [个人工作清单原模板精简版](deliverables/个人工作清单_陈思威_原模板精简版.docx)：**当前提交版本，1页**，严格保留原模板，只填既有栏目。
 - [模块工程记录](deliverables/F04-F06模块工程记录_陈思威.docx)：11页，含7张图与验收速查。
-- [交付核对](交付核对.md)：最终文件、校对方式、验证边界与分支说明。
+- [交付核对](交付核对.md)：最新模板修正、历史版本、验证边界与分支说明。此前5页扩展清单不作为当前提交版本。
 
 11月12日交付复核的30项测试、类型检查和构建结果见[交付复核](../../reports/csw/2026-11-12-handover/report.json)。

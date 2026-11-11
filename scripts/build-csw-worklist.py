@@ -1,3 +1,4 @@
+"""Legacy expanded form. Current submission uses fill-csw-worklist-template.py."""
 from pathlib import Path
 from hashlib import sha256
 from collections import Counter
