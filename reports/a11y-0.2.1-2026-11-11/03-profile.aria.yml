@@ -1,0 +1,96 @@
+- link "跳到主要内容":
+  - /url: "#main-content"
+- status: 已切换到个人中心页面
+- complementary "侧边栏":
+  - link "拾光校园 让遗失，遇见归还。":
+    - /url: "#/explore"
+  - text: 校园服务
+  - navigation "主导航":
+    - button "拾光广场"
+    - button "发布信息"
+    - button "我的认领"
+    - button "个人中心"
+  - text: 管理服务
+  - button "管理工作台"
+  - strong: 每一份善意，都有回响
+  - paragraph: 让物品回到主人身边， 也让校园多一点温暖。
+  - text: 武汉理工大学校园互助项目 课程演示版 · 虚构示例数据
+- banner:
+  - text: 校园互助 /
+  - strong: 个人中心
+  - text: 校园里的温暖连接
+  - button "林同学"
+  - button "退出登录"
+- main:
+  - heading "我的校园足迹" [level=1]
+  - paragraph: 每一次发布与归还，都值得被好好记录。
+  - heading "林同学" [level=2]
+  - paragraph: 校园用户·演示身份已绑定
+  - button "编辑资料"
+  - region "我的校园足迹内容":
+    - group "个人中心视图":
+      - button "我的发布 6" [pressed]
+      - button "资料与隐私"
+      - button "我的认领"
+    - article:
+      - text: 寻物 已通过
+      - heading "寻找遗落的校园卡套" [level=3]
+      - paragraph:
+        - text: 鉴湖食堂至西院宿舍路上 ·
+        - time: 10/24
+      - button "编辑「寻找遗落的校园卡套」": 编辑
+      - button "撤回「寻找遗落的校园卡套」": 撤回
+    - article:
+      - text: 招领 已通过
+      - heading "余家头操场的奶白色水杯" [level=3]
+      - paragraph:
+        - text: 余家头田径场看台 ·
+        - time: 10/24
+      - button "编辑「余家头操场的奶白色水杯」": 编辑
+      - button "撤回「余家头操场的奶白色水杯」": 撤回
+    - article:
+      - text: 寻物 已通过
+      - heading "黑色帆布包落在校车上了" [level=3]
+      - paragraph:
+        - text: 南湖至余家头校车 ·
+        - time: 10/24
+      - button "编辑「黑色帆布包落在校车上了」": 编辑
+      - button "撤回「黑色帆布包落在校车上了」": 撤回
+    - article:
+      - text: 招领 已通过
+      - heading "体育馆更衣区拾到运动手表" [level=3]
+      - paragraph:
+        - text: 南湖体育馆更衣区 ·
+        - time: 10/24
+      - button "编辑「体育馆更衣区拾到运动手表」": 编辑
+      - button "撤回「体育馆更衣区拾到运动手表」": 撤回
+    - article:
+      - text: 寻物 已通过
+      - heading "蓝色折叠伞遗失在图书馆" [level=3]
+      - paragraph:
+        - text: 南湖图书馆二楼 ·
+        - time: 10/24
+      - button "编辑「蓝色折叠伞遗失在图书馆」": 编辑
+      - button "撤回「蓝色折叠伞遗失在图书馆」": 撤回
+    - article:
+      - text: 招领 待审核
+      - heading "东院教学楼拾到笔记本" [level=3]
+      - paragraph:
+        - text: 东院教四楼 ·
+        - time: 10/24
+      - button "编辑「东院教学楼拾到笔记本」": 编辑
+      - button "撤回「东院教学楼拾到笔记本」": 撤回
+    - navigation "我的发布分页":
+      - text: 共 6 条
+      - button "上一页" [disabled]
+      - text: 第 1 页
+      - button "下一页" [disabled]
+  - complementary "校园身份与隐私提示":
+    - heading "校园身份" [level=3]
+    - text: 演示绑定已完成
+    - paragraph: 当前为课程演示身份，不代表真实校园身份认证。
+    - text: 真实校园认证接口由用户管理模块后续对接。
+    - heading "隐私由你掌握" [level=3]
+    - paragraph: 聊天使用角色称呼。认领证明仅对当事人开放，发布信息时也请主动遮挡敏感内容。
+- contentinfo: 拾光校园，让每一次归还都有迹可循。 善意传递 · 隐私保护
+- status: 登录成功，欢迎回到拾光校园

@@ -1,70 +1,80 @@
 # 课程平台揭榜主贴草稿
 
-> 主贴标题统一格式：**揭榜适配-姓名-视障友好适配**
->
-> 当前草稿使用 `xzh`；如平台要求实名，把标题中的 `xzh` 替换为本人姓名即可。
->
-> 汇总说明（2026-11-11）：本贴记录 0.1.1 在 `software-task-2` 上的适配结果；改动已汇总到 `software-project` 的 `main`（0.2.0），仓库链接与验证数字如需以汇总版为准请同步更新。
+> 主贴标题统一格式：**揭榜适配-姓名-视障友好适配**。发布前填写本人姓名，并按本人实际理解、修改和验证情况补充个人贡献；本草稿不冒用 xzh/csw/stt/gbl 任一成员身份。本轮只更新仓库草稿，未代发课程平台。
 
 ## 标题
 
-揭榜适配-xzh-视障友好适配
+揭榜适配-姓名-视障友好适配
 
 ## 正文
 
-**项目**：拾光校园 · 校园失物招领系统（xzh 负责 F01–F03 用户管理）
-**适配版本**：0.1.1（2026-11-02）
-**仓库**：https://github.com/LBJ6-23-1230/software-task-2
-**说明文档**：[docs/accessibility.md](https://github.com/LBJ6-23-1230/software-task-2/blob/main/docs/accessibility.md)
+**项目**：拾光校园 · 校园失物招领系统
+
+**适配版本**：0.2.1（2026-11-11，基于四分支汇总版 0.2.0 增量优化）
+
+**仓库**：[software-project](https://github.com/LBJ6-23-1230/software-project)
+
+**说明文档**：[无障碍适配与测试记录](https://github.com/LBJ6-23-1230/software-project/blob/main/docs/accessibility.md)
 
 ### 一、适配说明
 
-本项目是 React + TypeScript 的 Web 应用，在 Windows 浏览器中运行。本次按照揭榜任务二对视障用户的要求，以 WCAG 2.1 AA / WAI-ARIA 为口径，对**原有界面与交互**做无障碍改造，**没有新增任何业务功能**。原 `xzh` 项目保持不动，适配代码放在独立的 `xzh2` 副本中。
+本项目是 React + TypeScript 的 Web 应用，在 Windows 的 Chrome/Edge 中运行，并非原生 Windows 桌面工程。采用 HTML/ARIA、WCAG 检查与 Windows 浏览器强制颜色支持来落实任务书的名称/角色/状态、键盘焦点、高对比度与原功能保持要求；是否符合任务书的平台口径，需由任课教师确认。
 
-1. **名称、角色、状态**
-   - 侧边导航有名称，当前页 `aria-current="page"`；筛选、视图切换用 `aria-pressed` 暴露选中状态。
-   - 物品卡片改为 `article` + `h3` + “查看详情”按钮，标题可被屏幕阅读器按标题导航，按钮名包含物品标题。
-   - 弹窗有 `role="dialog"`、`aria-modal`、`aria-labelledby`，打开时背景 `#root` 设为 `inert`。
-   - 表单保留原生 `label`/`required`，错误信息 `role="alert"` 并自动聚焦；表格有 `caption`、`scope`，重复的通过/驳回按钮带物品标题。
-   - 装饰图标统一 `aria-hidden`；站内消息使用 `role="log"`；空态/加载态/结果数量使用 `role="status"`。
+本次只优化已有界面和交互，**没有新增业务功能**，后端 API、数据库契约、权限与认领状态机均未改变。沿用 xzh 用户管理 F01–F03、csw 发布浏览 F04–F06、stt 认领沟通 F07–F09、gbl 系统管理 F10–F12 的分类。该分类是课程责任边界，不证明本轮代码由各成员独立完成。
 
-2. **键盘操作**
-   - 新增“跳到主要内容”，首个 Tab 即可跳过侧边导航。
-   - 所有原功能均可用键盘完成；弹窗与移动端抽屉 Tab 焦点锁定，Esc 关闭并把焦点还给触发按钮。
-   - 路由切换后焦点落到页面 `h1`，文档标题同步更新，并通过 `role="status"` 播报页面变化。
-   - 审核表格在窄屏下可聚焦并用键盘横向滚动；按钮/输入最小 40×40 px，焦点环清晰可见。
+1. **名称、角色、状态与错误关联**
+   - 保留既有导航、卡片、表格、进度与消息语义。
+   - 表单使用原生必填/格式/长度约束，失败后聚焦可读错误汇总；链接支持键盘跳到对应字段。
+   - 字段通过 `aria-invalid` 标识错误，`aria-describedby` 同时关联错误和原提示；修正输入后移除过期错误。
+   - 请求级失败仍由 `role="alert"` 整体解释，不把“账号或密码错误”武断归因到某一个字段。
+   - 选择图片后格式说明保持可访问，上传区域有键盘焦点环。
 
-3. **高对比度与低视力**
-   - 支持系统 `forced-colors`（Windows 高对比度）与 `prefers-contrast: more`，用系统色保留控件边框与焦点。
-   - 选中态不再只依赖颜色；深色主题同步校验。
-   - 200% 缩放、文本间距覆盖、390px 窄屏均无横向溢出。
+2. **键盘操作与模态隔离**
+   - 保留跳到主要内容、路由标题/焦点和弹窗焦点循环。
+   - 修复叠加弹窗的一次 Escape 关闭两层问题，仅顶层处理键盘；下层和页面 `inert`，逐层关闭恢复焦点，最终恢复原滚动状态。
+   - 移动导航打开期间隔离主体，暴露有名称模态，关闭后恢复主体与触发按钮焦点。
+   - 使用 Chromium 实际可访问树检查背景隔离，不只依赖 DOM 快照。
+
+3. **高对比度与原功能保持**
+   - 保留 `forced-colors`、`prefers-contrast`、深色主题及非颜色选中线索；补充错误与上传焦点样式。
+   - 原业务流程在普通及浏览器强制颜色模式下分别通过六步冒烟。
+   - 修正冒烟脚本的异步状态读取时序，等待“等待交接”真正可见后断言，不改业务逻辑来迁就测试。
 
 ### 二、测试记录
 
-环境：Windows、Node.js 26.3.0、Chrome 156、Playwright + axe-core 4.14.0。
+环境：Windows、Node.js v24.16.0、Chrome 157.0.8103.39、axe-core 4.14.0。使用独立演示数据库，不修改原日常数据库。
 
-| 检查 | 命令 | 结果 |
+| 检查 | 命令 | 实际结果 |
 | --- | --- | --- |
-| 无障碍规则扫描 | `npm run test:a11y` | 10 次 axe 扫描，**0 违规**；28/28 项键盘/焦点/高对比度检查通过 |
-| 自动化回归 | `npm test` | **19/19 通过**（HTTP 集成 + 客户端边界） |
-| 生产构建 | `npm run build` | TypeScript + Vite 构建通过 |
-| 原有业务冒烟 | `npm run test:smoke` | 6/6 步骤通过：发布 → 审核 → 搜索/详情 → 认领 → 站内消息 → 发布者核验 |
+| 无障碍规则与原交互 | `npm.cmd run test:a11y` | 10 次 axe 扫描 0 违规节点；28/28 项交互检查通过 |
+| 新增边界回归 | `npm.cmd run test:a11y:regression` | 15/15 通过；同组用例在旧版 0.2.0 为 3/15 |
+| 原自动化回归 | `npm.cmd test` | 25/25 通过 |
+| 生产构建 | `npm.cmd run build` | TypeScript + Vite 构建通过 |
+| 原业务冒烟 | `npm.cmd run test:smoke` | 普通及强制颜色模式各 6/6：发布、审核、搜索/详情、认领、消息、发布者核验 |
 
-审计覆盖广场（浅色/深色/更多对比度/强制颜色）、登录弹窗、物品详情、个人中心、发布、认领、管理工作台、移动端抽屉。改造前基线为每次扫描 1 个 `label-content-name-mismatch` 违规、10/28 检查通过；改造后为 0 违规、28/28 通过。
+证据：[本轮验证摘要](https://github.com/LBJ6-23-1230/software-project/blob/main/docs/verification-0.2.1-2026-11-11.md)、[规则与交互报告](https://github.com/LBJ6-23-1230/software-project/blob/main/reports/a11y-0.2.1-2026-11-11/report.json)、[新增回归与截图](https://github.com/LBJ6-23-1230/software-project/tree/main/reports/a11y-regression-2026-11-11)。
 
 ### 三、复现方式
 
 ```powershell
-npm install
-npm run build
-npm start          # http://127.0.0.1:4318
-npm run test:a11y  # 需要本机 Chrome/Edge
-npm run test:smoke
+npm.cmd ci
+npm.cmd test
+npm.cmd run build
+npm.cmd run test:a11y:regression # 自启隔离服务
+npm.cmd start                  # 以下命令在另一终端，对演示数据运行
+npm.cmd run test:a11y
+npm.cmd run test:smoke
+$env:SMOKE_FORCED_COLORS='active'
+npm.cmd run test:smoke
+Remove-Item Env:SMOKE_FORCED_COLORS
 ```
+
+默认服务地址为 `http://127.0.0.1:4318`；测试需要本机 Chrome/Edge，可通过 `CHROME_PATH` 指定。业务冒烟会新增虚构演示记录，应对演示数据库运行；新增边界回归自动隔离。
 
 ### 四、未完成 / 说明
 
-- 未使用真实 NVDA/Narrator/TalkBack 人工听读，证据为 Chromium accessibility tree + axe-core + 键盘自动化；建议验收时用 NVDA 抽查登录、发布、认领三条主流程。
-- Windows 高对比度用 `forced-colors` 模拟，未在真实系统主题下逐项截图。
-- 本项目为 Web 应用，不声称完成原生 Windows UIA 或 Android TalkBack 适配。
-- 未新增业务功能；接口、数据库、权限与认领状态机均未改动。
+- 未进行真实 NVDA/Narrator 人工听读，不能把自动化或 AX 树检查表述为人工听读验收。
+- 强制颜色为浏览器模拟，未逐项验收真实 Windows 系统对比度主题。
+- 尚未完成全功能纯键盘人工验收；自动化规则与脚本检查不代表完整 WCAG 合规认证。
+- 本项目为 Web 应用，不声称完成原生 Windows UIA 或 Android TalkBack 适配；平台口径待教师确认。
+- 本轮为 AI 辅助优化；提交人需要理解并核查代码，以真实操作和记录说明本人贡献。

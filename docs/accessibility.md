@@ -1,5 +1,64 @@
 # 视障友好适配说明与测试记录
 
+## 当前版本：0.2.1（2026-11-11）
+
+本轮基于 `software-project` 已汇总的 0.2.0 做增量适配，沿用四模块分类；不是重新实现此前 `xzh2` 的工作。依据本地任务书，只优化原有界面交互，不增加业务功能。项目是 Web 应用，**不能因为运行在 Windows 就称为原生 Windows 桌面工程**；课程是否接受浏览器适配口径待教师确认。
+
+### 本轮需求、实现与证据
+
+| 任务要求 / 对应模块 | 0.2.1 实际改动 | 实现位置 | 验证 |
+| --- | --- | --- | --- |
+| 名称/角色/状态；xzh F01/F02、csw F04、stt/gbl F11、gbl F10 | 原生约束错误生成可聚焦汇总；错误链接跳到字段；`aria-invalid` 标识，`aria-describedby` 同时保留原提示；修改后清除旧错误；登录/注册切换维持唯一 ID，受控值变更同步错误；请求级错误继续整体播报 | `src/components/AccessibleForm.tsx` 与原模块表单 | 新增回归 1–6、8–10 项 |
+| 键盘完整操作；公共弹窗 | Escape 只关闭顶层；Tab 不进入下层；下层 `inert`；逐层关闭恢复触发焦点，最后恢复原滚动 | `src/components/ui.tsx` | 新增回归 11–12 项；真实 Chromium AX 树检查 |
+| 屏幕切换；公共导航 | 移动导航暴露有名称模态；打开期间主体 `inert`，关闭后恢复主体和焦点；跨入桌面断点自动释放隔离并聚焦主体 | `src/App.tsx` | 新增回归 13–15 项；390px 截图 |
+| 控件说明与可感知焦点；csw F04 | 选图后保留格式说明的 DOM 目标；文件控件焦点在上传区域可见；错误样式有非颜色线索；错误汇总使用对比度足够的深红色 | `Publish.tsx`、`src/styles.css` | 新增回归第 7 项；4 次错误态 axe 扫描；原强制颜色/对比度审计 |
+| 原功能完整；F01–F10 主业务串联 | 冒烟等待“等待交接”状态真正刷新；支持强制颜色模式，不改变业务状态机 | `scripts/smoke-test.mjs` | 普通 / 强制颜色各 6/6 |
+
+代码范围对应课程模块负责人，不代表本轮修改由各成员独立完成。本轮为 AI 辅助优化与集成，成员仍需理解、审核并保留自己的实际证据。
+
+### 实测结果与复现
+
+Windows、Node.js **v24.16.0**、Chrome **157.0.8103.39**、axe-core **4.14.0**。同一组新增用例在旧版 `2a8f061` 源码快照上为 **3/15 通过、12 项失败**；当前为 **15/15 通过**。基线失败不是原有 28 项检查退化，而是新增覆盖暴露了此前未测的边界。
+
+| 检查 | 当前结果 | 证据 |
+| --- | --- | --- |
+| 原 HTTP / 客户端回归 | 25/25，退出码 0 | `npm.cmd test` |
+| 生产构建 | 通过，1590 modules，退出码 0 | `npm.cmd run build` |
+| 原无障碍审计 | 10 次扫描 0 违规节点，28/28 交互通过 | [JSON 与截图](../reports/a11y-0.2.1-2026-11-11/report.json) |
+| 新增边界回归 | 15/15，退出码 0 | [JSON 与截图](../reports/a11y-regression-2026-11-11/report.json) |
+| 错误态附加规则扫描 | 登录、发布、争议、审核共 4 次，0 违规 | 同一新增回归 JSON 的 `errorScans` |
+| 同组基线回归 | 3/15，退出码 1（预期失败） | [基线 JSON](../reports/a11y-regression-baseline-2026-11-11/report.json) |
+| 原业务冒烟 | 普通、强制颜色各 6/6，退出码均为 0 | [本轮验证摘要](verification-0.2.1-2026-11-11.md) |
+
+```powershell
+npm.cmd ci
+npm.cmd test
+npm.cmd run build
+npm.cmd run test:a11y:regression # 自启临时端口与隔离数据库，无需先启动主服务
+npm.cmd start                 # 以下两项在另一个终端执行，对演示数据运行
+npm.cmd run test:a11y
+npm.cmd run test:smoke
+$env:SMOKE_FORCED_COLORS='active'
+npm.cmd run test:smoke
+Remove-Item Env:SMOKE_FORCED_COLORS
+```
+
+本轮审计和冒烟使用 `A11Y_BASE_URL` / `SMOKE_BASE_URL` 指向 `http://127.0.0.1:5173` 上的独立演示库与最新生产构建；默认复现端口仍是 4318。新增回归自行启动隔离 API/Vite，临时数据库在被 Git 忽略的 `output/` 中，不访问正常 `data/campus.sqlite`。截图均为虚构演示账号与数据。
+
+### 证据边界
+
+- **已执行**：自动化规则、真实浏览器键盘/焦点操作、DOM 与 Chromium 实际可访问树检查、浏览器强制颜色模拟、业务回归。
+- **尚未执行**：真实 NVDA/Narrator 人工听读、真实 Windows 对比度主题切换验收、全功能纯键盘人工验收。不能把自动化结果写成“屏幕阅读器已人工验收”。
+- Playwright `ariaSnapshot` 是基于 DOM 的结构快照，对 `inert` 的反映与实际 AX 树不完全相同。新增回归用 CDP `Accessibility.getFullAXTree` 检查未忽略的角色，不能仅靠快照推断背景已从辅助技术中隐藏。
+- 原审计对部分插画仍有 `color-contrast` 的 `incomplete`，表示需人工判断，不能当作违规或当作已确认通过。
+- 自动检查不构成完整 WCAG 合规认证；对具体课程任务的平台适用性、个人贡献与最终成绩不作保证。
+
+规范参考：[W3C 模态弹窗模式](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)、[表单通知](https://www.w3.org/WAI/tutorials/forms/notifications/)、[aria-invalid](https://www.w3.org/WAI/WCAG22/Techniques/aria/ARIA21)。
+
+---
+
+## 历史记录：0.1.1 原适配（保留）
+
 - 项目：拾光校园 · 校园失物招领系统（xzh 用户管理 F01–F03 所属课程项目）
 - 适配副本：`xzh2`（原 `xzh` 目录未改动）
 - 版本：0.1.1

@@ -1,10 +1,12 @@
 # 拾光校园 · 失物招领系统
 
-四人课程项目完整汇总版：React/TypeScript + Vite、Express、Node.js 内置 SQLite。覆盖用户管理、发布浏览、失物认领与站内沟通、后台管理四个子系统，并包含视障友好无障碍适配。版本 **0.2.0（分支汇总）**，用于本机课程演示与验收。
+四人课程项目完整汇总版：React/TypeScript + Vite、Express、Node.js 内置 SQLite。覆盖用户管理、发布浏览、失物认领与站内沟通、后台管理四个子系统，并包含视障友好无障碍适配。版本 **0.2.1（无障碍增量优化）**，用于本机课程演示与验收。
 
 > `main` 已汇总 `csw` / `gbl` / `stt` / `xzh` 四个开发分支，并吸收 `xzh2`（`software-task-2`）的视障友好适配。原分支保留用于追溯，`main` 是完整的课程展示版本。合并明细见 [分支汇总记录](docs/integration-2026-11-11.md)。
 
-当前实际验证：自动化测试 **25/25 通过**、生产构建通过、端到端冒烟 **6/6 步骤通过**、无障碍审计 **10 次 axe 扫描 0 违规 / 28 项交互检查通过**。结果与限制见 [验证记录](docs/verification.md)。
+当前实际验证：自动化测试 **25/25 通过**、生产构建通过、普通及强制颜色模式业务冒烟各 **6/6 步骤通过**、无障碍审计 **10 次 axe 扫描 0 违规 / 28 项交互检查通过**、新增边界回归 **15/15 通过**。结果与限制见 [验证记录](docs/verification.md)。
+
+0.2.1 补齐表单错误汇总与字段关联、叠加弹窗逐层关闭、导航抽屉背景隔离、上传提示持续可访问，并修复冒烟脚本提前读取旧状态的问题。保留原业务与四模块分类。**本项目是 Windows 浏览器中的 Web 应用；是否符合任务书的“Windows 桌面项目”口径待教师确认。** 自动扫描不代表真实读屏听读或完整 WCAG 合规认证。
 
 ## 本地运行
 
@@ -46,6 +48,7 @@ npm start
 2. **键盘完整操作**：提供“跳到主要内容”；路由切换后焦点落到一级标题并更新文档标题、通过 `role="status"` 播报；弹窗与移动端抽屉焦点锁定，Esc 关闭并把焦点还给触发按钮；审核表格可聚焦横向滚动。
 3. **高对比度与低视力**：支持系统 `forced-colors`（Windows 高对比度）与 `prefers-contrast: more`；选中态不只依赖颜色；深色主题、200% 缩放、文本间距覆盖均验证无横向溢出。
 4. **原功能可用**：登录、发布、审核、搜索、详情、认领申请、站内消息、发布者核验等流程通过端到端冒烟测试。
+5. **错误与模态边界（0.2.1）**：原生约束失败后聚焦错误汇总，链接可跳转字段，`aria-invalid` / `aria-describedby` 随修正更新；下层弹窗和导航背景使用 `inert` 隔离，Escape 逐层关闭。新增回归在独立数据库上自启服务，不影响日常数据。
 
 复现检查（需本机 Chrome 或 Edge）：
 
@@ -55,7 +58,18 @@ npm start          # 另开一个终端
 npm test           # 25 项服务端/客户端回归
 npm run test:a11y  # axe-core 扫描 + 键盘/焦点/高对比度检查
 npm run test:smoke # 原有业务流程端到端冒烟
+npm run test:a11y:regression # 自启隔离服务，15 项边界回归，无需 npm start
 ```
+
+强制颜色模式业务验证（浏览器模拟，非真实 Windows 主题切换）：
+
+```powershell
+$env:SMOKE_FORCED_COLORS='active'
+npm.cmd run test:smoke
+Remove-Item Env:SMOKE_FORCED_COLORS
+```
+
+`test:smoke` 会创建演示发布、消息和认领数据，应对演示数据库执行；`test:a11y:regression` 自动隔离，报告默认写入 `reports/a11y-regression-latest/`。
 
 完整适配说明见 [无障碍适配说明与测试记录](docs/accessibility.md)，课程平台发帖草稿见 [提交用主贴](docs/submission-post.md)。
 

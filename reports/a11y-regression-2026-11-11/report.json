@@ -1,0 +1,87 @@
+{
+  "generatedAt": "2026-11-11T09:31:20.436Z",
+  "node": "v24.16.0",
+  "browser": "157.0.8103.39",
+  "platform": "win32",
+  "scope": "Browser automation; not NVDA/Narrator listening or actual Windows contrast themes",
+  "errorScans": [
+    {
+      "name": "login-errors",
+      "violations": []
+    },
+    {
+      "name": "publish-errors",
+      "violations": []
+    },
+    {
+      "name": "dispute-errors",
+      "violations": []
+    },
+    {
+      "name": "admin-errors",
+      "violations": []
+    }
+  ],
+  "checks": [
+    {
+      "name": "F01 必填错误汇总聚焦、字段关联及键盘定位",
+      "passed": true
+    },
+    {
+      "name": "F01 修正字段清除旧错误，重复提交仍可定位",
+      "passed": true
+    },
+    {
+      "name": "F01 登录注册切换错误 ID 唯一，移除字段不留旧错误",
+      "passed": true
+    },
+    {
+      "name": "F01 快捷填入受控值后清除过期错误",
+      "passed": true
+    },
+    {
+      "name": "F01 服务端拒绝仍播报请求错误，不误标具体字段",
+      "passed": true
+    },
+    {
+      "name": "F04 发布表单错误不清空草稿，关联保留原提示",
+      "passed": true
+    },
+    {
+      "name": "F04 选择图片后格式说明依然可访问，上传有焦点环",
+      "passed": true
+    },
+    {
+      "name": "F02 手机号格式错误可定位和恢复",
+      "passed": true
+    },
+    {
+      "name": "F11 认领争议必填错误在弹窗内定位",
+      "passed": true
+    },
+    {
+      "name": "F10 审核原因错误可定位，不触发审核写入",
+      "passed": true
+    },
+    {
+      "name": "公共弹窗：下层隔离，Tab 仅在最上层循环",
+      "passed": true
+    },
+    {
+      "name": "公共弹窗：Escape 逐层关闭并恢复焦点和滚动",
+      "passed": true
+    },
+    {
+      "name": "公共导航：抽屉打开时主体对辅助技术隔离",
+      "passed": true
+    },
+    {
+      "name": "公共导航：关闭恢复主体与触发焦点",
+      "passed": true
+    },
+    {
+      "name": "公共导航：打开抽屉后跨桌面断点释放主体",
+      "passed": true
+    }
+  ]
+}

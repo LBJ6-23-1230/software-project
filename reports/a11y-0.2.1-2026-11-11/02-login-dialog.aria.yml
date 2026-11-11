@@ -1,0 +1,165 @@
+- link "跳到主要内容":
+  - /url: "#main-content"
+- status
+- complementary "侧边栏":
+  - link "拾光校园 让遗失，遇见归还。":
+    - /url: "#/explore"
+  - text: 校园服务
+  - navigation "主导航":
+    - button "拾光广场"
+    - button "发布信息"
+    - button "我的认领"
+    - button "个人中心"
+  - text: 管理服务
+  - button "管理工作台"
+  - strong: 每一份善意，都有回响
+  - paragraph: 让物品回到主人身边， 也让校园多一点温暖。
+  - text: 武汉理工大学校园互助项目 课程演示版 · 虚构示例数据
+- banner:
+  - text: 校园互助 /
+  - strong: 拾光广场
+  - text: 校园里的温暖连接
+  - button "登录 / 注册"
+- main:
+  - region "总有一份善意， 让失物回到你身边。":
+    - text: 把遗失的小事，交给整个校园
+    - heading "总有一份善意， 让失物回到你身边。" [level=1]
+    - paragraph: 寻找遗失的物品，也帮别人找回小小的安心。
+    - button "发布失物 / 招领"
+    - text: 一起，让善意发生
+  - group "校园互助数据":
+    - strong: "1"
+    - text: 件物品已回到主人身边
+    - strong: "4"
+    - text: 条寻物信息
+    - strong: "10"
+    - text: 条招领信息 当前演示数据
+  - region "校园失物动态":
+    - heading "校园失物动态" [level=2]
+    - paragraph: 也许你在找的，就在这里。
+    - text: 持续传递善意
+    - search "搜索物品":
+      - searchbox "搜索物品名称、描述或地点"
+      - button "搜索"
+    - group "信息类型":
+      - button "全部信息" [pressed]
+      - button "招领信息"
+      - button "寻物信息"
+    - combobox "选择校区":
+      - option "全部校区" [selected]
+      - option "马房山校区（西院）"
+      - option "马房山校区（东院）"
+      - option "鉴湖校区"
+      - option "余家头校区"
+      - option "南湖校区"
+      - option "军山校区"
+    - group "按物品分类筛选":
+      - button "全部分类" [pressed]
+      - button "证件卡片"
+      - button "数码产品"
+      - button "生活用品"
+      - button "书籍文具"
+      - button "衣物配饰"
+      - button "其他物品"
+    - status: 共找到 14 条信息
+    - article "无障碍适配验收20261111092146":
+      - text: 拾到物品 生活用品
+      - time: 11/11 发布
+      - heading "无障碍适配验收20261111092146" [level=3]
+      - paragraph: 南湖图书馆一楼大厅
+      - text: 南湖校区
+      - button "查看详情：无障碍适配验收20261111092146": 查看详情
+    - article "无障碍适配验收20261111092142":
+      - text: 拾到物品 生活用品
+      - time: 11/11 发布
+      - heading "无障碍适配验收20261111092142" [level=3]
+      - paragraph: 南湖图书馆一楼大厅
+      - text: 南湖校区
+      - button "查看详情：无障碍适配验收20261111092142": 查看详情
+    - article "无障碍适配验收20261111090129":
+      - text: 拾到物品 生活用品
+      - time: 11/11 发布
+      - heading "无障碍适配验收20261111090129" [level=3]
+      - paragraph: 南湖图书馆一楼大厅
+      - text: 南湖校区
+      - button "查看详情：无障碍适配验收20261111090129": 查看详情
+    - article "无障碍适配验收20261111090059":
+      - text: 拾到物品 生活用品
+      - time: 11/11 发布
+      - heading "无障碍适配验收20261111090059" [level=3]
+      - paragraph: 南湖图书馆一楼大厅
+      - text: 南湖校区
+      - button "查看详情：无障碍适配验收20261111090059": 查看详情
+    - article "南湖图书馆拾到一把蓝色雨伞":
+      - text: 拾到物品 生活用品
+      - time: 10/24 发布
+      - heading "南湖图书馆拾到一把蓝色雨伞" [level=3]
+      - paragraph: 南湖图书馆一楼自习区
+      - text: 南湖校区
+      - button "查看详情：南湖图书馆拾到一把蓝色雨伞": 查看详情
+    - article "寻找遗落的校园卡套":
+      - text: 寻找失物 证件卡片
+      - time: 10/24 发布
+      - heading "寻找遗落的校园卡套" [level=3]
+      - paragraph: 鉴湖食堂至西院宿舍路上
+      - text: 鉴湖校区
+      - button "查看详情：寻找遗落的校园卡套": 查看详情
+    - article "博学广场拾到无线耳机":
+      - text: 拾到物品 数码产品
+      - time: 10/24 发布
+      - heading "博学广场拾到无线耳机" [level=3]
+      - paragraph: 博学广场长椅
+      - text: 南湖校区
+      - button "查看详情：博学广场拾到无线耳机": 查看详情
+    - article "余家头操场的奶白色水杯":
+      - text: 拾到物品 生活用品
+      - time: 10/24 发布
+      - heading "余家头操场的奶白色水杯" [level=3]
+      - paragraph: 余家头田径场看台
+      - text: 余家头校区
+      - button "查看详情：余家头操场的奶白色水杯": 查看详情
+    - article "求寻一本写满笔记的高等数学":
+      - text: 寻找失物 书籍文具
+      - time: 10/24 发布
+      - heading "求寻一本写满笔记的高等数学" [level=3]
+      - paragraph: 新二教学楼 201 教室
+      - text: 南湖校区
+      - button "查看详情：求寻一本写满笔记的高等数学": 查看详情
+    - navigation "信息分页":
+      - text: 共 14 条信息
+      - button "上一页" [disabled]
+      - text: 第 1 / 2 页
+      - button "下一页"
+  - complementary "校园互助提示":
+    - heading "拾到物品，怎么办？" [level=3]
+    - paragraph: 你的一点帮助， 可能是别人一整天的幸运。
+    - list:
+      - listitem: 1 发布招领信息 描述物品与拾取地点
+      - listitem: 2 核对认领信息 保留关键特征用于验证
+      - listitem: 3 安心完成归还 当面核验，在系统确认
+    - button "我拾到了物品"
+    - heading "让善意，也有保障" [level=3]
+    - paragraph: 请勿公开完整学号、证件号码或手机号。认领时核对物品细节，在校园公共场所交接。
+    - text: 一件失物，一次温暖的重逢。
+- contentinfo: 拾光校园，让每一次归还都有迹可循。 善意传递 · 隐私保护
+- dialog "欢迎回到拾光校园":
+  - heading "欢迎回到拾光校园" [level=2]
+  - button "关闭窗口"
+  - paragraph: 连接每一份遗失与善意。
+  - form "登录或注册表单":
+    - text: 校园账号
+    - textbox "校园账号":
+      - /placeholder: 请输入学号或账号
+    - text: 密码
+    - textbox "密码":
+      - /placeholder: 请输入密码
+    - button "登录"
+  - paragraph:
+    - text: 还没有账号？
+    - button "创建账号"
+  - text: 快速填入演示账号
+  - group "快速填入演示账号":
+    - button "填入林同学演示账号": 林同学
+    - button "填入陈同学演示账号": 陈同学
+    - button "填入管理员演示账号": 管理员
+  - text: 仅供课程演示，不连接学校真实账号。

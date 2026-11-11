@@ -1,4 +1,22 @@
-# 0.1.0 初版验证记录
+# 项目验证记录
+
+## 0.2.1 本轮验证（2026-11-11）
+
+Windows、Node.js v24.16.0、Chrome 157.0.8103.39、axe-core 4.14.0。
+
+| 检查 | 结果 |
+| --- | --- |
+| `npm.cmd test` | 25/25 通过，0 fail，退出码 0 |
+| `npm.cmd run build` | TypeScript 与生产构建通过，1590 modules，退出码 0 |
+| `npm.cmd run test:a11y` | 10 次 axe 扫描 0 违规节点，28/28 交互检查通过 |
+| `npm.cmd run test:a11y:regression` | 15/15 通过；0.2.0 同组新增边界基线为 3/15 |
+| `npm.cmd run test:smoke` | 普通模式 6/6；`SMOKE_FORCED_COLORS=active` 时 6/6 |
+
+本轮按实际检查记录，不把历史结果当作重跑结果。浏览器使用独立演示数据库；未执行真实 NVDA/Narrator 听读和真实系统对比度主题验收。详见 [本轮命令与证据](verification-0.2.1-2026-11-11.md) 和 [当前适配说明](accessibility.md)。
+
+---
+
+# 0.1.0 初版验证记录（历史）
 
 日期：2026-10-24。环境：Windows、Node.js v24.16.0、Vite v7.3.7。本记录为当前初版的实际检查，既有阶段记录保留在 reports/。
 
