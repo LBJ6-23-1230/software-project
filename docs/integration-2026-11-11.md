@@ -44,7 +44,7 @@
 
 ## 实际验证
 
-环境：Windows、Node.js v26.3.0、Chrome 156、axe-core 4.14.0。以下均为 2026-11-11 在汇总后的 `integration` 工作树实际执行：
+环境：Windows、Node.js v26.3.0、Chrome 157、axe-core 4.14.0。以下均为 2026-11-11 在汇总后的 `integration` 工作树实际执行：
 
 | 检查 | 实际结果 |
 | ---- | -------- |
