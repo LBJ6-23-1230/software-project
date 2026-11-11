@@ -1,0 +1,11 @@
+{
+  "verifiedAt": "2026-11-11T23:33:26.683153+00:00",
+  "branch": "codex/csw-covenant-engineering",
+  "first_published_commit": "6c0f631f5c031951470d22e42dda5d7856e1fd35",
+  "verified_by": "git ls-remote compared with local HEAD",
+  "repository": "https://github.com/LBJ6-23-1230/software-project",
+  "main_merged": false,
+  "working_tree_retained": true,
+  "materials": "docs/csw/README.md",
+  "remaining": "Personal rehearsal, actual contribution confirmation, real screen-reader/weak-network/low-end-device tests remain explicitly pending"
+}
