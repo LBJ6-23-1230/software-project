@@ -27,7 +27,7 @@ async function run(name:string,script:string,extra:Record<string,string>={}){
   checks.push({name,exitCode:Number(exitCode),log:`${name}.txt`});
 }
 try{
-  await run("a11y","scripts/a11y-audit.mjs");
+  if(process.env.CSW_VERIFY_SMOKE_ONLY!=="1")await run("a11y","scripts/a11y-audit.mjs");
   await run("smoke-normal","scripts/smoke-test.mjs");
   await run("smoke-forced-colors","scripts/smoke-test.mjs",{SMOKE_FORCED_COLORS:"active"});
 }finally{

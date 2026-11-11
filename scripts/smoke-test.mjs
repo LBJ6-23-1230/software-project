@@ -91,6 +91,8 @@ async function main() {
     await card.getByRole("button", { name: /查看详情/ }).click();
     const dialog = page.getByRole("dialog");
     await dialog.waitFor();
+    // Wait for authoritative detail; keep the original location assertion.
+    await dialog.getByRole("heading", { name: title, exact: true }).waitFor();
     assert.match(await dialog.innerText(), /南湖图书馆一楼大厅/);
     await page.keyboard.press("Escape");
     await dialog.waitFor({ state: "hidden" });

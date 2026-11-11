@@ -61,3 +61,5 @@
 - 测试夹具纠正：首次启动受已有5173端口影响；首次定位将type=search误写为textbox；匹配样本起初同类型。已更正夹具，以上不计产品缺陷证据。更正后基线8项均因目标行为缺失失败，原产品代码未修改。
 - Task 1 complete：reports/csw/2026-11-11-baseline/report.json及截图记录0/8，命令退出1（预期RED）。server/tests/items.test.ts新增5项原能力覆盖首次即通过，未称为缺陷红绿修复。
 - Task 2 intermediate：三项主体改进后6/8，B02/B04因新错误态的axe color-contrast失败。Ruling: 新增items.css仅给本模块请求错误使用现有red-dark变量，不修改公共ErrorBox或他人页面；代价是其他页面的同类潜在问题仍需各自验收。
+- Task 2 checks：模块浏览器8/8、3次错误/告知态axe扫描0违规；全量HTTP/客户端30/30；类型检查与Vite生产构建通过（1591模块）；既有无障碍边界15/15；生产构建10次axe扫描0违规、28/28交互检查通过。
+- 业务冒烟发现同步断言提前读取新的详情加载态。Ruling: 保留地点断言，先等待所选物品标题加载完成；调整仅涉及公共冒烟脚本等待条件，不修改业务逻辑或放宽权限断言。代价是慢请求将按原12秒超时失败。修复前输出保留production-before-wait目录。
