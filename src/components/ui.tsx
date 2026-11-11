@@ -9,7 +9,9 @@ import {
   CircleHelp,
 } from "./icons";
 
-let modalDepth = 0;
+const modalStack: HTMLDivElement[] = [];
+let originalOverflow = "";
+let originalRootInert = false;
 function setBackgroundInert(inert: boolean) {
   const root = document.getElementById("root");
   if (!root) return;
@@ -30,18 +32,27 @@ export function Modal({
 }) {
   const titleId = useId();
   const box = useRef<HTMLDivElement>(null);
+  const backdrop = useRef<HTMLDivElement>(null);
   const closeRef = useRef(onClose);
   closeRef.current = onClose;
   useEffect(() => {
     const previous = document.activeElement as HTMLElement | null;
-    const overflow = document.body.style.overflow;
+    const layer = backdrop.current!;
+    if (!modalStack.length) {
+      originalOverflow = document.body.style.overflow;
+      originalRootInert = document.getElementById("root")?.hasAttribute("inert") ?? false;
+    }
+    const below = modalStack.at(-1);
+    if (below) below.inert = true;
+    modalStack.push(layer);
     document.body.style.overflow = "hidden";
-    modalDepth += 1;
     setBackgroundInert(true);
     box.current?.focus();
     const handler = (event: KeyboardEvent) => {
+      if (modalStack.at(-1) !== layer) return;
       if (event.key === "Escape") {
-        event.stopPropagation();
+        event.preventDefault();
+        event.stopImmediatePropagation();
         closeRef.current();
       }
       if (event.key === "Tab") {
@@ -75,17 +86,26 @@ export function Modal({
     };
     document.addEventListener("keydown", handler);
     return () => {
-      document.body.style.overflow = overflow;
       document.removeEventListener("keydown", handler);
-      modalDepth = Math.max(0, modalDepth - 1);
-      if (modalDepth === 0) setBackgroundInert(false);
-      if (previous?.isConnected) previous.focus();
-      else document.getElementById("main-content")?.focus();
+      const wasTop = modalStack.at(-1) === layer;
+      modalStack.splice(modalStack.indexOf(layer), 1);
+      const top = modalStack.at(-1);
+      if (top) top.inert = false;
+      else {
+        setBackgroundInert(originalRootInert);
+        document.body.style.overflow = originalOverflow;
+      }
+      if (wasTop) {
+        if (previous?.isConnected && !previous.closest("[inert]")) previous.focus();
+        else if (top) top.querySelector<HTMLElement>('[role="dialog"]')?.focus();
+        else document.getElementById("main-content")?.focus();
+      }
     };
   }, []);
   return createPortal(
     <div
       className="modal-backdrop"
+      ref={backdrop}
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}

@@ -1,3 +1,4 @@
+import { AccessibleForm } from "../../components/AccessibleForm";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import {
   MessageCircle,
@@ -396,7 +397,7 @@ export function Claims({
                 ))}
                 <div ref={bottom} />
               </div>
-              <form
+              <AccessibleForm
                 className="message-compose"
                 aria-label="发送站内消息"
                 onSubmit={send}
@@ -426,7 +427,7 @@ export function Claims({
                   <Send size={16} />
                   发送
                 </button>
-              </form>
+              </AccessibleForm>
               {["completed", "rejected", "cancelled"].includes(
                 active.status,
               ) && (
@@ -440,7 +441,7 @@ export function Claims({
       )}
       {dispute && (
         <Modal title="提交认领争议" onClose={() => setDispute(false)}>
-          <form onSubmit={report} className="stack-form" aria-label="提交认领争议表单">
+          <AccessibleForm onSubmit={report} className="stack-form" aria-label="提交认领争议表单">
             <Info>
               请具体说明情况，管理员将结合记录核查，不会自动改变认领结果。
             </Info>
@@ -459,7 +460,7 @@ export function Claims({
             <button type="submit" className="button" aria-busy={busy} disabled={busy}>
               提交管理员处理
             </button>
-          </form>
+          </AccessibleForm>
         </Modal>
       )}
       {confirm && (

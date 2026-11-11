@@ -3104,8 +3104,18 @@ button[aria-busy="true"]::after {
   }
 }
 
+.form-errors { color: var(--red-dark); }
+.form-errors ul { margin: 8px 0 0; padding-left: 24px; }
+.form-errors a { color: inherit; text-decoration: underline; }
+.form-errors:focus,
+.upload-zone:focus-within { outline: 3px solid var(--focus); outline-offset: 3px; }
+[aria-invalid="true"] { border: 2px solid var(--red); }
+
 /* Windows 高对比度 / 系统强制颜色：使用系统色保留控件与焦点边界。 */
 @media (forced-colors: active) {
+  .form-errors:focus,
+  .upload-zone:focus-within { outline: 3px solid Highlight; }
+  [aria-invalid="true"] { border: 2px dashed CanvasText; }
   .button,
   .button.secondary,
   .icon-button,

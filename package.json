@@ -1,6 +1,6 @@
 {
   "name": "campus-lost-found",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "type": "module",
   "engines": {
@@ -13,6 +13,7 @@
     "build": "tsc --noEmit && vite build",
     "test": "node --import tsx --test server/**/*.test.ts",
     "test:a11y": "node scripts/a11y-audit.mjs",
+    "test:a11y:regression": "node --import tsx scripts/a11y-regression.ts",
     "test:smoke": "node scripts/smoke-test.mjs",
     "start": "node --import tsx server/index.ts"
   },

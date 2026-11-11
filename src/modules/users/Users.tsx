@@ -1,3 +1,4 @@
+import { AccessibleForm } from "../../components/AccessibleForm";
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import {
   ShieldCheck,
@@ -59,7 +60,7 @@ export function LoginDialog({
         <img src="/assets/logo.svg" alt="" />
         <p>连接每一份遗失与善意。</p>
       </div>
-      <form onSubmit={submit} className="stack-form" aria-label="登录或注册表单">
+      <AccessibleForm onSubmit={submit} className="stack-form" aria-label="登录或注册表单">
         {register && (
           <label>
             昵称
@@ -103,7 +104,7 @@ export function LoginDialog({
           <LogIn size={17} />
           {busy ? "请稍候…" : register ? "注册并登录" : "登录"}
         </button>
-      </form>
+      </AccessibleForm>
       <p className="auth-switch">
         {register ? "已经有账号？" : "还没有账号？"}
         <button
@@ -351,7 +352,7 @@ export function Profile({
               />
             )
           ) : (
-            <form
+            <AccessibleForm
               className="settings-form stack-form"
               aria-label="资料与隐私表单"
               onSubmit={save}
@@ -401,7 +402,7 @@ export function Profile({
               >
                 {busy ? "正在保存…" : "保存资料"}
               </button>
-            </form>
+            </AccessibleForm>
           )}
         </section>
         <aside className="profile-side" aria-label="校园身份与隐私提示">

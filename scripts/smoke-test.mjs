@@ -50,7 +50,8 @@ async function toast(page, text) {
 async function main() {
   if (!executablePath) throw new Error("未找到 Chrome/Edge，请设置 CHROME_PATH");
   const browser = await chromium.launch({ executablePath, headless: true });
-  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 },
+    forcedColors: process.env.SMOKE_FORCED_COLORS === "active" ? "active" : "none" });
   page.setDefaultTimeout(12000);
   try {
     await page.goto(base + "/", { waitUntil: "domcontentloaded" });
@@ -134,6 +135,7 @@ async function main() {
     await confirm.waitFor();
     await confirm.getByRole("button", { name: "确认", exact: true }).click();
     await toast(page, "认领状态已更新");
+    await page.locator(".claim-detail").getByText("等待交接", { exact: true }).waitFor();
     assert.match(await page.locator(".claim-detail").innerText(), /等待交接/);
     log("发布者核验通过，认领进入等待交接");
 

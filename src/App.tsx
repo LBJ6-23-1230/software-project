@@ -88,10 +88,21 @@ export default function App() {
   }, [user]);
   const sidebarRef = useRef<HTMLElement | null>(null);
   useEffect(() => {
+    const viewport = window.matchMedia("(max-width: 760px)");
+    const closeOnDesktop = () => {
+      if (!viewport.matches) setMobile(false);
+    };
+    viewport.addEventListener("change", closeOnDesktop);
+    return () => viewport.removeEventListener("change", closeOnDesktop);
+  }, []);
+  useEffect(() => {
     if (!mobile) return;
     const sidebar = sidebarRef.current;
     if (!sidebar) return;
     const previous = document.activeElement as HTMLElement | null;
+    const workspace = document.querySelector<HTMLElement>(".workspace");
+    const wasInert = workspace?.inert ?? false;
+    if (workspace) workspace.inert = true;
     const focusables = () =>
       Array.from(
         sidebar.querySelectorAll<HTMLElement>(
@@ -121,7 +132,9 @@ export default function App() {
     document.addEventListener("keydown", onKey);
     return () => {
       document.removeEventListener("keydown", onKey);
-      previous?.focus?.();
+      if (workspace) workspace.inert = wasInert;
+      if (previous?.isConnected && previous.offsetParent !== null) previous.focus();
+      else mainRef.current?.focus();
     };
   }, [mobile]);  function navigate(p: Page) {
     location.hash = "/" + p;
@@ -165,6 +178,8 @@ export default function App() {
         <button
           className="sidebar-scrim"
           aria-label="关闭导航"
+          aria-hidden="true"
+          tabIndex={-1}
           onClick={() => setMobile(false)}
         />
       )}
@@ -172,6 +187,8 @@ export default function App() {
         ref={sidebarRef}
         id="app-sidebar"
         aria-label="侧边栏"
+        role={mobile ? "dialog" : undefined}
+        aria-modal={mobile ? true : undefined}
         className={`sidebar ${mobile ? "is-open" : ""}`}
       >
         <a href="#/explore" className="brand">

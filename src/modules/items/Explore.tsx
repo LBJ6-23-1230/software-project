@@ -1,3 +1,4 @@
+import { AccessibleForm } from "../../components/AccessibleForm";
 import { useEffect, useId, useState, type FormEvent } from "react";
 import {
   Search,
@@ -246,7 +247,7 @@ export function Explore({
               持续传递善意
             </span>
           </div>
-          <form
+          <AccessibleForm
             className="search-bar"
             role="search"
             aria-label="搜索物品"
@@ -264,7 +265,7 @@ export function Explore({
             <button className="button small" type="submit">
               搜索
             </button>
-          </form>
+          </AccessibleForm>
           <div className="filter-top">
             <div className="segmented" role="group" aria-label="信息类型">
               {[
@@ -599,7 +600,7 @@ function ItemDetail({
                 登录后申请认领
               </button>
             ) : (
-              <form onSubmit={submit} className="claim-form">
+              <AccessibleForm onSubmit={submit} className="claim-form">
                 <label>
                   认领证明
                   <textarea
@@ -624,7 +625,7 @@ function ItemDetail({
                 >
                   {busy ? "正在提交…" : "这是我的，申请认领"}
                 </button>
-              </form>
+              </AccessibleForm>
             )
           ) : (
             <Info>

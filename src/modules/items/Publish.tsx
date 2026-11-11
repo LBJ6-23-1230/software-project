@@ -1,3 +1,4 @@
+import { AccessibleForm } from "../../components/AccessibleForm";
 import {
   useId,
   useState,
@@ -97,7 +98,7 @@ export function Publish({
         }
       />
       <div className="form-layout">
-        <form
+        <AccessibleForm
           className="panel publish-form"
           aria-label="发布信息表单"
           onSubmit={submit}
@@ -213,11 +214,9 @@ export function Publish({
                 <>
                   <ImagePlus size={30} />
                   <b>选择一张清晰的物品照片</b>
-                  <small id={imageHintId}>
-                    JPG / PNG / WebP，最大 700 KB
-                  </small>
                 </>
               )}
+              <small id={imageHintId}>JPG / PNG / WebP，最大 700 KB</small>
               <span className="upload-button">
                 <Upload size={15} />
                 {form.imageUrl ? "更换图片" : "选择图片"}
@@ -240,7 +239,7 @@ export function Publish({
               {busy ? "正在提交…" : item ? "保存并提交审核" : "提交发布"}
             </button>
           </div>
-        </form>
+        </AccessibleForm>
         <aside className="form-help panel">
           <h3>一份有用的发布</h3>
           <ol>

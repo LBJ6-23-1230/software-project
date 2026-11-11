@@ -1,3 +1,4 @@
+import { AccessibleForm } from "../../components/AccessibleForm";
 import { useEffect, useState, type FormEvent } from "react";
 import {
   ShieldCheck,
@@ -388,7 +389,7 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
       </div>
       {reject && (
         <Modal title="记录审核原因" onClose={() => setReject(null)}>
-          <form className="stack-form" aria-label="记录审核原因表单" onSubmit={rejectItem}>
+          <AccessibleForm className="stack-form" aria-label="记录审核原因表单" onSubmit={rejectItem}>
             <p>物品：{reject.title}</p>
             <label>
               原因
@@ -405,12 +406,12 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
             <button type="submit" className="button danger" aria-busy={busy} disabled={busy}>
               确认驳回 / 下架
             </button>
-          </form>
+          </AccessibleForm>
         </Modal>
       )}
       {resolve && (
         <Modal title="处理认领争议" onClose={() => setResolve(null)}>
-          <form className="stack-form" aria-label="处理认领争议表单" onSubmit={resolveDispute}>
+          <AccessibleForm className="stack-form" aria-label="处理认领争议表单" onSubmit={resolveDispute}>
             <p>{resolve.reason}</p>
             <Info>此操作记录处理结论，不自动改变物品和认领状态。</Info>
             <label>
@@ -428,7 +429,7 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
             <button type="submit" className="button" aria-busy={busy} disabled={busy}>
               保存处理结果
             </button>
-          </form>
+          </AccessibleForm>
         </Modal>
       )}
       {restore && (
