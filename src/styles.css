@@ -61,6 +61,8 @@
 }
 body {
   margin: 0;
+  background: var(--bg);
+  color: var(--ink);
 }
 button,
 input,
@@ -2982,4 +2984,166 @@ button[aria-busy="true"]::after {
   --shadow: 0 8px 24px var(--shadow-color);
   --paper: #393226;
   --pin: #E7AB58;
+}
+
+/* === 视障友好适配（揭榜任务二）2026-11-02 === */
+/* 仅供屏幕阅读器的文本；用于跳过导航、结果播报等。 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 键盘用户首个焦点即可跳过侧边导航。 */
+.skip-link {
+  position: fixed;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 200;
+  padding: var(--space-2) var(--space-3);
+  background: var(--green);
+  color: var(--on-accent);
+  border-radius: 8px;
+  font-weight: 700;
+  transform: translateY(-200%);
+  transition: transform 0.16s ease-out;
+}
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* 程序化聚焦标题/主区域时不显示干扰性的轮廓，交互控件仍有焦点环。 */
+.main-content:focus,
+.main-content h1:focus,
+.main-content h2:focus,
+.settings-form h3:focus {
+  outline: none;
+}
+
+/* 卡片改为 article + 标题 + 详情按钮，整卡仍可点击。 */
+.item-card {
+  position: relative;
+}
+.item-card:focus-within {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.card-link {
+  position: static;
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  color: var(--muted);
+}
+.card-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.item-card .card-link:focus-visible {
+  outline: none;
+}
+
+/* 选中态不只靠颜色：增加边框/内阴影，低视力用户也能分辨。 */
+.nav-item.active {
+  box-shadow: inset 3px 0 0 var(--green);
+}
+.segmented button.selected,
+.type-picker .selected {
+  border: 1px solid var(--green);
+}
+.type-picker button {
+  border-width: 1px;
+}
+.status {
+  border: 1px solid transparent;
+}
+
+/* 系统“更多对比度”偏好：加深辅助文字与控件边框。 */
+@media (prefers-contrast: more) {
+  :root[data-theme="light"] {
+    --muted: #2b3538;
+    --border: #6b6254;
+    --control-border: #3f3a31;
+    --soft: #f1ece2;
+    --mint: #dcede5;
+    --red-soft: #ffe7e1;
+    --orange-soft: #ffedcf;
+  }
+  :root[data-theme="dark"] {
+    --muted: #f2ede4;
+    --border: #8d8477;
+    --control-border: #d6cec0;
+    --soft: #3b352c;
+    --mint: #31463c;
+    --red-soft: #54322e;
+    --orange-soft: #4f3d25;
+  }
+  .panel,
+  .item-card,
+  .search-bar,
+  input,
+  select,
+  textarea,
+  .button.secondary,
+  .upload-zone {
+    border-width: 2px;
+  }
+  :focus-visible {
+    outline-width: 4px;
+  }
+}
+
+/* Windows 高对比度 / 系统强制颜色：使用系统色保留控件与焦点边界。 */
+@media (forced-colors: active) {
+  .button,
+  .button.secondary,
+  .icon-button,
+  .nav-item,
+  .tabs > button,
+  .segmented button,
+  .category-filters button,
+  .type-picker button,
+  .claim-list-row,
+  .item-card,
+  .search-bar,
+  .panel,
+  .status,
+  .upload-zone,
+  .hero,
+  input,
+  select,
+  textarea {
+    border: 1px solid CanvasText;
+  }
+  .nav-item.active,
+  .tabs > button.active,
+  .tabs > button[aria-pressed="true"],
+  .segmented button.selected,
+  .segmented button[aria-pressed="true"],
+  .category-filters button.selected,
+  .category-filters button[aria-pressed="true"],
+  .type-picker button[aria-pressed="true"],
+  .claim-list-row.selected,
+  .claim-list-row[aria-current="true"] {
+    outline: 3px solid Highlight;
+    outline-offset: -3px;
+  }
+  :focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 3px;
+  }
+  .hero-art {
+    display: none;
+  }
 }

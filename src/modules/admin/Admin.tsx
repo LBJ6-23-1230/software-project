@@ -8,7 +8,7 @@ import {
   RotateCcw,
   Check,
   X,
-} from "lucide-react";
+} from "../../components/icons";
 import type { Backup, Dispute, Item } from "../../../shared/types";
 import { api, post, errorMessage } from "../../api/client";
 import {
@@ -117,7 +117,7 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
           </span>
         }
       />
-      <div className="admin-stats">
+      <div className="admin-stats" role="group" aria-label="管理工作台概览">
         <div className="panel">
           <FileCheck2 />
           <span>
@@ -142,7 +142,7 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
         </div>
       </div>
       <div className="panel admin-panel">
-        <div className="tabs">
+        <div className="tabs" role="group" aria-label="管理工作台视图">
           {[
             ["review", "信息审核", FileCheck2],
             ["disputes", "争议处理", Scale],
@@ -150,6 +150,8 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
           ].map(([id, label, Icon]) => (
             <button
               key={id as string}
+              type="button"
+              aria-pressed={tab === id}
               className={tab === id ? "active" : ""}
               onClick={() => setTab(id as string)}
             >
@@ -177,15 +179,21 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
             {!displayedItems ? (
               <Loading />
             ) : displayedItems.length ? (
-              <div className="table-scroll">
+              <div
+                className="table-scroll"
+                role="region"
+                aria-label="物品审核表格"
+                tabIndex={0}
+              >
                 <table>
+                  <caption className="sr-only">物品审核列表</caption>
                   <thead>
                     <tr>
-                      <th>物品信息</th>
-                      <th>类型 / 地点</th>
-                      <th>提交时间</th>
-                      <th>状态</th>
-                      <th>操作</th>
+                      <th scope="col">物品信息</th>
+                      <th scope="col">类型 / 地点</th>
+                      <th scope="col">提交时间</th>
+                      <th scope="col">状态</th>
+                      <th scope="col">操作</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -204,7 +212,11 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
                           {i.type === "found" ? "招领" : "寻物"}
                           <small>{i.location}</small>
                         </td>
-                        <td>{formatTime(i.createdAt)}</td>
+                        <td>
+                          <time dateTime={i.createdAt}>
+                            {formatTime(i.createdAt)}
+                          </time>
+                        </td>
                         <td>
                           <Status value={i.reviewStatus} />
                           {i.reviewStatus === "rejected" && i.reviewReason && (
@@ -216,7 +228,9 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
                             {i.status === "active" &&
                               i.reviewStatus !== "approved" && (
                               <button
+                                type="button"
                                 className="button small"
+                                aria-label={`审核通过：${i.title}`}
                                 disabled={busy}
                                 onClick={() =>
                                   act(
@@ -235,7 +249,9 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
                             {i.status === "active" &&
                               i.reviewStatus !== "rejected" && (
                               <button
+                                type="button"
                                 className="button secondary small"
+                                aria-label={`${i.reviewStatus === "approved" ? "下架" : "驳回"}：${i.title}`}
                                 disabled={busy}
                                 onClick={() => {
                                   setReason("");
@@ -277,11 +293,17 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
                     <Status value={d.status} />
                   </div>
                   <p>{d.reason}</p>
-                  <small>{formatTime(d.createdAt)}</small>
+                  <small>
+                    <time dateTime={d.createdAt}>
+                      {formatTime(d.createdAt)}
+                    </time>
+                  </small>
                   {d.status === "open" ? (
                     <button
+                      type="button"
                       className="button secondary small"
                       disabled={busy}
+                      aria-label={`记录争议处理结果：${d.claimId.slice(-8)}`}
                       onClick={() => {
                         setResolution("");
                         setResolve(d);
@@ -315,7 +337,9 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
                 <p>初版支持手动备份与恢复。</p>
               </div>
               <button
+                type="button"
                 className="button"
+                aria-busy={busy}
                 disabled={busy}
                 onClick={() => act("/admin/backups", {}, "备份已创建")}
               >
@@ -331,14 +355,20 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
                   <article key={b.id}>
                     <DatabaseBackup size={24} />
                     <span>
-                      <b>{formatTime(b.createdAt)}</b>
+                      <b>
+                        <time dateTime={b.createdAt}>
+                          {formatTime(b.createdAt)}
+                        </time>
+                      </b>
                       <small>
                         {b.id} · {(b.size / 1024).toFixed(1)} KB
                       </small>
                     </span>
                     <button
+                      type="button"
                       className="button secondary small"
                       disabled={busy}
+                      aria-label={`恢复 ${formatTime(b.createdAt)} 的备份`}
                       onClick={() => setRestore(b)}
                     >
                       <RotateCcw size={14} />
@@ -358,7 +388,7 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
       </div>
       {reject && (
         <Modal title="记录审核原因" onClose={() => setReject(null)}>
-          <form className="stack-form" onSubmit={rejectItem}>
+          <form className="stack-form" aria-label="记录审核原因表单" onSubmit={rejectItem}>
             <p>物品：{reject.title}</p>
             <label>
               原因
@@ -371,8 +401,8 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
                 placeholder="说明需要修改的内容或下架依据"
               />
             </label>
-            <ErrorBox error={error} />
-            <button className="button danger" disabled={busy}>
+            <ErrorBox error={error} focus />
+            <button type="submit" className="button danger" aria-busy={busy} disabled={busy}>
               确认驳回 / 下架
             </button>
           </form>
@@ -380,7 +410,7 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
       )}
       {resolve && (
         <Modal title="处理认领争议" onClose={() => setResolve(null)}>
-          <form className="stack-form" onSubmit={resolveDispute}>
+          <form className="stack-form" aria-label="处理认领争议表单" onSubmit={resolveDispute}>
             <p>{resolve.reason}</p>
             <Info>此操作记录处理结论，不自动改变物品和认领状态。</Info>
             <label>
@@ -394,8 +424,8 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
                 placeholder="说明核查情况和处理结论"
               />
             </label>
-            <ErrorBox error={error} />
-            <button className="button" disabled={busy}>
+            <ErrorBox error={error} focus />
+            <button type="submit" className="button" aria-busy={busy} disabled={busy}>
               保存处理结果
             </button>
           </form>
@@ -404,20 +434,26 @@ export function Admin({ notify }: { notify: (s: string) => void }) {
       {restore && (
         <Modal title="恢复选定备份？" onClose={() => setRestore(null)}>
           <p>
-            将恢复到 {formatTime(restore.createdAt)}{" "}
+            将恢复到{" "}
+            <time dateTime={restore.createdAt}>
+              {formatTime(restore.createdAt)}
+            </time>{" "}
             的数据。备份之后的发布、认领、消息和用户变更可能丢失。
           </p>
           <Info>请确认已保存当前数据。本操作仅用于本地课程演示。</Info>
-          <ErrorBox error={error} />
+          <ErrorBox error={error} focus />
           <div className="dialog-actions">
             <button
+              type="button"
               className="button secondary"
               onClick={() => setRestore(null)}
             >
               取消
             </button>
             <button
+              type="button"
               className="button danger"
+              aria-busy={busy}
               disabled={busy}
               onClick={async () => {
                 if (

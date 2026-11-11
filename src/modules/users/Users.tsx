@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import {
   ShieldCheck,
   UserRound,
@@ -6,7 +6,7 @@ import {
   ArrowRight,
   LogIn,
   CheckCircle2,
-} from "lucide-react";
+} from "../../components/icons";
 import type { AuthResult, Item, ItemPage, User } from "../../../shared/types";
 import { api, post, patch, setToken, errorMessage } from "../../api/client";
 import {
@@ -59,7 +59,7 @@ export function LoginDialog({
         <img src="/assets/logo.svg" alt="" />
         <p>连接每一份遗失与善意。</p>
       </div>
-      <form onSubmit={submit} className="stack-form">
+      <form onSubmit={submit} className="stack-form" aria-label="登录或注册表单">
         {register && (
           <label>
             昵称
@@ -98,8 +98,8 @@ export function LoginDialog({
             placeholder={register ? "至少 8 位，包含字母和数字" : "请输入密码"}
           />
         </label>
-        <ErrorBox error={error} />
-        <button className="button full" disabled={busy}>
+        <ErrorBox error={error} focus />
+        <button type="submit" className="button full" aria-busy={busy} disabled={busy}>
           <LogIn size={17} />
           {busy ? "请稍候…" : register ? "注册并登录" : "登录"}
         </button>
@@ -107,6 +107,7 @@ export function LoginDialog({
       <p className="auth-switch">
         {register ? "已经有账号？" : "还没有账号？"}
         <button
+          type="button"
           className="text-button"
           onClick={() => {
             setRegister(!register);
@@ -118,8 +119,8 @@ export function LoginDialog({
       </p>
       {!register && (
         <div className="demo-accounts">
-          <span>快速填入演示账号</span>
-          <div>
+          <span id="demo-accounts-label">快速填入演示账号</span>
+          <div role="group" aria-labelledby="demo-accounts-label">
             {[
               ["20260001", "林同学"],
               ["20260002", "陈同学"],
@@ -127,6 +128,8 @@ export function LoginDialog({
             ].map(([id, label]) => (
               <button
                 key={id}
+                type="button"
+                aria-label={`填入${label}演示账号`}
                 onClick={() => {
                   setStudentId(id);
                   setPassword("Campus123!");
@@ -166,6 +169,12 @@ export function Profile({
     [binding, setBinding] = useState(false),
     [withdraw, setWithdraw] = useState<Item | null>(null),
     [page, setPage] = useState(1);
+  const settingsTitle = useRef<HTMLHeadingElement>(null);
+  const phoneHintId = useId();
+  const showSettings = () => {
+    setTab("settings");
+    requestAnimationFrame(() => settingsTitle.current?.focus());
+  };
   useEffect(() => {
     let alive = true;
     setData(null);
@@ -218,7 +227,9 @@ export function Profile({
         description="每一次发布与归还，都值得被好好记录。"
       />
       <div className="profile-banner panel">
-        <span className="avatar avatar-large">{user.name.slice(0, 1)}</span>
+        <span className="avatar avatar-large" aria-hidden="true">
+          {user.name.slice(0, 1)}
+        </span>
         <div>
           <h2>{user.name}</h2>
           <p>
@@ -227,32 +238,36 @@ export function Profile({
             {user.verified ? "演示身份已绑定" : "尚未绑定校园身份"}
           </p>
         </div>
-        <button className="button secondary" onClick={() => setTab("settings")}>
+        <button type="button" className="button secondary" onClick={showSettings}>
           <Pencil size={15} />
           编辑资料
         </button>
       </div>
       <div className="profile-layout">
-        <section className="panel">
-          <div className="tabs">
+        <section className="panel" aria-label="我的校园足迹内容">
+          <div className="tabs" role="group" aria-label="个人中心视图">
             <button
+              type="button"
+              aria-pressed={tab === "posts"}
               className={tab === "posts" ? "active" : ""}
               onClick={() => setTab("posts")}
             >
               我的发布 {data && <span>{data.total}</span>}
             </button>
             <button
+              type="button"
+              aria-pressed={tab === "settings"}
               className={tab === "settings" ? "active" : ""}
               onClick={() => setTab("settings")}
             >
               资料与隐私
             </button>
-            <button onClick={onClaims}>
+            <button type="button" onClick={onClaims}>
               我的认领
               <ArrowRight size={14} />
             </button>
           </div>
-          <ErrorBox error={error} />
+          <ErrorBox error={error} focus />
           {tab === "posts" ? (
             !data ? (
               <Loading />
@@ -263,7 +278,7 @@ export function Profile({
                     <article key={item.id}>
                       <img
                         src={item.imageUrl || "/assets/bag.jpg"}
-                        alt={item.title}
+                        alt=""
                       />
                       <div className="my-item-info">
                         <div className="inline-tags">
@@ -277,19 +292,26 @@ export function Profile({
                         </div>
                         <h3>{item.title}</h3>
                         <p>
-                          {item.location} · {formatDate(item.createdAt)}
+                          {item.location} ·{" "}
+                          <time dateTime={item.createdAt}>
+                            {formatDate(item.createdAt)}
+                          </time>
                         </p>
                       </div>
                       {item.status === "active" && (
                         <div className="row-actions">
                           <button
+                            type="button"
                             className="button secondary small"
+                            aria-label={`编辑「${item.title}」`}
                             onClick={() => onEdit(item)}
                           >
                             编辑
                           </button>
                           <button
+                            type="button"
                             className="text-button muted"
+                            aria-label={`撤回「${item.title}」`}
                             onClick={() => setWithdraw(item)}
                           >
                             撤回
@@ -299,18 +321,20 @@ export function Profile({
                     </article>
                   ))}
                 </div>
-                <div className="pagination">
+                <nav className="pagination" aria-label="我的发布分页">
                   <span>共 {data.total} 条</span>
                   <div>
                     <button
+                      type="button"
                       className="button secondary small"
                       disabled={page === 1}
                       onClick={() => setPage(page - 1)}
                     >
                       上一页
                     </button>
-                    <span>{page}</span>
+                    <span>第 {page} 页</span>
                     <button
+                      type="button"
                       className="button secondary small"
                       disabled={page * 9 >= data.total}
                       onClick={() => setPage(page + 1)}
@@ -318,7 +342,7 @@ export function Profile({
                       下一页
                     </button>
                   </div>
-                </div>
+                </nav>
               </>
             ) : (
               <Empty
@@ -327,8 +351,12 @@ export function Profile({
               />
             )
           ) : (
-            <form className="settings-form stack-form" onSubmit={save}>
-              <h3>
+            <form
+              className="settings-form stack-form"
+              aria-label="资料与隐私表单"
+              onSubmit={save}
+            >
+              <h3 tabIndex={-1} ref={settingsTitle}>
                 <UserRound size={18} />
                 基本资料
               </h3>
@@ -338,6 +366,7 @@ export function Profile({
                   required
                   minLength={2}
                   maxLength={30}
+                  autoComplete="nickname"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -351,21 +380,31 @@ export function Profile({
                 联系电话（选填）
                 <input
                   type="tel"
+                  inputMode="tel"
+                  autoComplete="tel"
                   pattern="[0-9]{11}"
                   maxLength={11}
+                  aria-describedby={phoneHintId}
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="11 位手机号"
                 />
-                <small>仅本人可见，不会自动分享给其他用户。</small>
+                <small id={phoneHintId}>
+                  仅本人可见，不会自动分享给其他用户。
+                </small>
               </label>
-              <button className="button" disabled={busy}>
+              <button
+                type="submit"
+                className="button"
+                aria-busy={busy}
+                disabled={busy}
+              >
                 {busy ? "正在保存…" : "保存资料"}
               </button>
             </form>
           )}
         </section>
-        <aside className="profile-side">
+        <aside className="profile-side" aria-label="校园身份与隐私提示">
           <div className="panel verification">
             <ShieldCheck size={28} />
             <h3>校园身份</h3>
@@ -381,6 +420,7 @@ export function Profile({
               <>
                 <p>完成演示绑定，体验完整的校园账号流程。</p>
                 <button
+                  type="button"
                   className="button secondary full"
                   aria-busy={binding}
                   disabled={busy || binding}
@@ -406,16 +446,19 @@ export function Profile({
             撤回「{withdraw.title}
             」后，将不再出现在公开列表。有进行中认领的信息暂不能撤回。
           </p>
-          <ErrorBox error={error} />
+          <ErrorBox error={error} focus />
           <div className="dialog-actions">
             <button
+              type="button"
               className="button secondary"
               onClick={() => setWithdraw(null)}
             >
               保留发布
             </button>
             <button
+              type="button"
               className="button danger"
+              aria-busy={busy}
               disabled={busy}
               onClick={async () => {
                 setBusy(true);

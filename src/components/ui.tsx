@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import {
   X,
   SearchX,
@@ -6,7 +7,16 @@ import {
   CheckCircle2,
   Clock3,
   CircleHelp,
-} from "lucide-react";
+} from "./icons";
+
+let modalDepth = 0;
+function setBackgroundInert(inert: boolean) {
+  const root = document.getElementById("root");
+  if (!root) return;
+  if (inert) root.setAttribute("inert", "");
+  else root.removeAttribute("inert");
+}
+
 export function Modal({
   title,
   children,
@@ -26,6 +36,8 @@ export function Modal({
     const previous = document.activeElement as HTMLElement | null;
     const overflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    modalDepth += 1;
+    setBackgroundInert(true);
     box.current?.focus();
     const handler = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -65,10 +77,13 @@ export function Modal({
     return () => {
       document.body.style.overflow = overflow;
       document.removeEventListener("keydown", handler);
-      previous?.focus();
+      modalDepth = Math.max(0, modalDepth - 1);
+      if (modalDepth === 0) setBackgroundInert(false);
+      if (previous?.isConnected) previous.focus();
+      else document.getElementById("main-content")?.focus();
     };
   }, []);
-  return (
+  return createPortal(
     <div
       className="modal-backdrop"
       onMouseDown={(e) => {
@@ -95,7 +110,8 @@ export function Modal({
         </div>
         {children}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 export function Empty({
@@ -108,7 +124,7 @@ export function Empty({
   action?: ReactNode;
 }) {
   return (
-    <div className="empty">
+    <div className="empty" role="status">
       <SearchX size={38} />
       <h3>{title}</h3>
       <p>{description}</p>
@@ -118,15 +134,33 @@ export function Empty({
 }
 export function Loading() {
   return (
-    <div className="loading" role="status">
+    <div className="loading" role="status" aria-live="polite" aria-atomic="true">
       <LoaderCircle className="spin" size={24} />
       正在加载…
     </div>
   );
 }
-export function ErrorBox({ error }: { error: string }) {
+export function ErrorBox({
+  error,
+  focus = false,
+  id,
+}: {
+  error: string;
+  focus?: boolean;
+  id?: string;
+}) {
+  const ref = useRef<HTMLParagraphElement>(null);
+  useEffect(() => {
+    if (error && focus) ref.current?.focus();
+  }, [error, focus]);
   return error ? (
-    <p className="error-box" role="alert">
+    <p
+      id={id}
+      className="error-box"
+      role="alert"
+      tabIndex={focus ? -1 : undefined}
+      ref={ref}
+    >
       {error}
     </p>
   ) : null;
@@ -171,7 +205,7 @@ export function PageHeading({
     <div className="page-heading">
       <div>
         {eyebrow && <p className="subheading">{eyebrow}</p>}
-        <h1>{title}</h1>
+        <h1 tabIndex={-1}>{title}</h1>
         <p>{description}</p>
       </div>
       {action}
