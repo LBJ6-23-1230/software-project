@@ -127,16 +127,21 @@ try {
     await scan("detail-error");
     await page.screenshot({path:resolve(out,"detail-unavailable.png"),fullPage:true});
   });
-  await check("B05","详情失败后重试读取最新数据",async()=>{
+  await check("B05","详情重试展示最新响应并更新认领入口",async()=>{
     let fail=true;
     await page.route(`**/api/items/${items[0].id}`,async route=>{
-      if(fail)await route.fulfill({status:503,json:{error:{code:"TEST_FAILURE",message:"暂不可用"}}});else await route.continue();
+      if(fail)await route.fulfill({status:503,json:{error:{code:"TEST_FAILURE",message:"暂不可用"}}});
+      else {
+        const response=await route.fetch();
+        const latest=await response.json();
+        await route.fulfill({response,json:{...latest,title:`${titles[0]}刷新后`,status:"claimed"}});
+      }
     });
     await openFixture(items[0].id,titles[0]);const dialog=page.getByRole("dialog");
     await dialog.getByRole("alert").waitFor();fail=false;
     await dialog.getByRole("button",{name:"重试加载详情",exact:true}).click();
-    await dialog.getByRole("heading",{name:titles[0],exact:true}).waitFor();
-    await dialog.getByRole("textbox",{name:"认领证明"}).waitFor();
+    await dialog.getByRole("heading",{name:`${titles[0]}刷新后`,exact:true}).waitFor();
+    assert.equal(await dialog.getByRole("textbox",{name:"认领证明"}).count(),0,"最新已归还状态不得保留旧认领入口");
   });
   await check("B06","相关物品慢响应不得覆盖返回后的原物品",async()=>{
     await openFixture(items[0].id,titles[0]);const dialog=page.getByRole("dialog");
