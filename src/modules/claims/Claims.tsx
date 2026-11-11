@@ -6,6 +6,8 @@ import {
   Check,
   AlertTriangle,
   RefreshCw,
+  Clock3,
+  CheckCircle2,
 } from "lucide-react";
 import type { Claim, Message, User } from "../../../shared/types";
 import { api, post, errorMessage } from "../../api/client";
@@ -16,7 +18,6 @@ import {
   Loading,
   Modal,
   PageHeading,
-  Status,
   formatTime,
 } from "../../components/ui";
 const labels: Record<string, string> = {
@@ -26,6 +27,27 @@ const labels: Record<string, string> = {
   rejected: "未通过",
   cancelled: "已撤销",
 };
+// Claim lifecycle has its own vocabulary; the shared <Status> map uses the
+// item/review wording ("待审核/已通过/已完成"), so claims render their own chip.
+function ClaimStatus({ value }: { value: string }) {
+  const color: Record<string, string> = {
+    pending: "amber",
+    approved: "green",
+    completed: "green",
+    rejected: "red",
+    cancelled: "gray",
+  };
+  return (
+    <span className={`status ${color[value] || "gray"}`}>
+      {value === "completed" ? (
+        <CheckCircle2 size={12} />
+      ) : value === "pending" || value === "approved" ? (
+        <Clock3 size={12} />
+      ) : null}
+      {labels[value] || value}
+    </span>
+  );
+}
 export function Claims({
   user,
   notify,
@@ -226,7 +248,7 @@ export function Claims({
                   <h2>{active.itemTitle}</h2>
                   <p>认领编号 {active.id.slice(-8)}</p>
                 </div>
-                <Status value={active.status} />
+                <ClaimStatus value={active.status} />
               </div>
               <div className="claim-progress">
                 {["提交申请", "核验通过", "确认归还"].map((label, index) => {

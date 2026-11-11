@@ -262,7 +262,7 @@ export function Profile({
                   {data.items.map((item) => (
                     <article key={item.id}>
                       <img
-                        src={item.imageUrl || "/assets/bag.svg"}
+                        src={item.imageUrl || "/assets/bag.jpg"}
                         alt={item.title}
                       />
                       <div className="my-item-info">
