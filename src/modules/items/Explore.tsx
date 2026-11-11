@@ -1,4 +1,5 @@
 import { AccessibleForm } from "../../components/AccessibleForm";
+import "./items.css";
 import { useEffect, useId, useState, type FormEvent } from "react";
 import {
   Search,
@@ -113,29 +114,36 @@ export function Explore({
     [input, setInput] = useState(""),
     [q, setQ] = useState(""),
     [page, setPage] = useState(1),
+    [listAttempt, setListAttempt] = useState(0),
     [detail, setDetail] = useState<Item | null>(null);
   useEffect(() => {
     let alive = true;
+    const controller = new AbortController();
     setLoading(true);
     setError("");
+    setData(null);
     const params = new URLSearchParams({ page: String(page), pageSize: "9" });
     for (const [key, value] of Object.entries({ q, type, category, campus })) {
       if (value) params.set(key, value);
     }
-    api<ItemPage>("/items?" + params)
+    api<ItemPage>("/items?" + params, { signal: controller.signal })
       .then((d) => {
         if (alive) setData(d);
       })
       .catch((e) => {
-        if (alive) setError(errorMessage(e));
+        if (alive) {
+          setData(null);
+          setError(errorMessage(e));
+        }
       })
       .finally(() => {
         if (alive) setLoading(false);
       });
     return () => {
       alive = false;
+      controller.abort();
     };
-  }, [page, q, type, category, campus]);
+  }, [page, q, type, category, campus, listAttempt]);
   useEffect(() => {
     api<Stats>("/stats")
       .then(setStats)
@@ -335,7 +343,12 @@ export function Explore({
               </button>
             ))}
           </div>
-          <ErrorBox error={error} />
+          <div className="items-feedback"><ErrorBox error={error} /></div>
+          {error && (
+            <button className="button secondary" onClick={() => setListAttempt((n) => n + 1)}>
+              重新加载列表
+            </button>
+          )}
           <p
             className="sr-only"
             role="status"
@@ -348,7 +361,7 @@ export function Explore({
           </p>
           {loading ? (
             <Loading />
-          ) : data?.items.length ? (
+          ) : !error && data?.items.length ? (
             <>
               <div className="item-grid">
                 {data.items.map((item) => (
@@ -463,6 +476,7 @@ export function Explore({
       </div>
       {detail && (
         <ItemDetail
+          key={detail.id}
           item={detail}
           user={user}
           onClose={() => setDetail(null)}
@@ -496,43 +510,69 @@ function ItemDetail({
   onLogin: () => void;
   onClaim: () => void;
 }) {
-  const [current, setCurrent] = useState<Item>(item),
+  const [selectedId, setSelectedId] = useState(item.id),
+    [detailAttempt, setDetailAttempt] = useState(0),
+    [current, setCurrent] = useState<Item | null>(null),
+    [detailLoading, setDetailLoading] = useState(true),
+    [detailError, setDetailError] = useState(""),
     [proof, setProof] = useState(""),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false),
     [matches, setMatches] = useState<Match[]>([]);
-  // The modal opens from a list snapshot; refresh from the API so status,
-  // review and claimability always reflect the latest item data.
+  // A card or match is only a selection, never proof of current visibility.
+  // Every selection and retry reads authoritative detail before allowing actions.
   const proofHintId = useId();
   useEffect(() => {
     let alive = true;
-    setCurrent(item);
-    api<Item>(`/items/${item.id}`)
+    const controller = new AbortController();
+    setCurrent(null);
+    setMatches([]);
+    setDetailError("");
+    setDetailLoading(true);
+    api<Item>(`/items/${selectedId}`, { signal: controller.signal })
       .then((fresh) => {
         if (alive) setCurrent(fresh);
       })
-      .catch(() => {});
+      .catch(() => {
+        if (alive) setDetailError("暂时无法读取这条信息，可能已撤回、不可见或网络连接异常。请重试，或关闭后重新搜索。");
+      })
+      .finally(() => {
+        if (alive) setDetailLoading(false);
+      });
     return () => {
       alive = false;
+      controller.abort();
     };
-  }, [item.id]);
+  }, [selectedId, detailAttempt]);
   useEffect(() => {
-    api<Match[]>(`/items/${current.id}/matches`)
-      .then(setMatches)
+    const sourceId = current?.id;
+    if (!sourceId) return;
+    let alive = true;
+    const controller = new AbortController();
+    api<Match[]>(`/items/${sourceId}/matches`, { signal: controller.signal })
+      .then((result) => { if (alive) setMatches(result); })
       .catch(() => {});
-  }, [current.id]);
-  function openMatch(matchItem: Item) {
-    setCurrent(matchItem);
+    return () => { alive = false; controller.abort(); };
+  }, [current?.id]);
+  function selectItem(id: string) {
+    setSelectedId(id);
+    setDetailAttempt((n) => n + 1);
+    setCurrent(null);
+    setMatches([]);
+    setDetailLoading(true);
+    setDetailError("");
     setProof("");
     setError("");
   }
+  function openMatch(matchItem: Item) {
+    selectItem(matchItem.id);
+  }
   function backToOrigin() {
-    setCurrent(item);
-    setProof("");
-    setError("");
+    selectItem(item.id);
   }
   async function submit(e: FormEvent) {
     e.preventDefault();
+    if (!current || detailLoading || detailError || busy) return;
     setBusy(true);
     setError("");
     try {
@@ -544,25 +584,29 @@ function ItemDetail({
       setBusy(false);
     }
   }
-  const viewingMatch = current.id !== item.id;
+  const viewingMatch = selectedId !== item.id;
   return (
     <Modal
-      title={current.type === "found" ? "招领详情" : "寻物详情"}
+      title={current ? (current.type === "found" ? "招领详情" : "寻物详情") : "物品详情"}
       onClose={onClose}
       wide
     >
-      <div className="detail-layout">
+      {viewingMatch && (
+        <button className="text-button detail-back" onClick={backToOrigin}>
+          <ChevronLeft size={14} />返回原物品
+        </button>
+      )}
+      {detailLoading ? <Loading /> : detailError ? (
+        <>
+          <div className="items-feedback"><ErrorBox error={detailError} focus /></div>
+          <button className="button secondary" onClick={() => selectItem(selectedId)}>重试加载详情</button>
+        </>
+      ) : current && <div className="detail-layout">
         <div className="detail-visual">
           <img src={current.imageUrl || "/assets/bag.jpg"} alt="" />
           <Info>认领前请核对物品特征，不要向任何人支付认领费用。</Info>
         </div>
         <div className="detail-copy">
-          {viewingMatch && (
-            <button className="text-button detail-back" onClick={backToOrigin}>
-              <ChevronLeft size={14} />
-              返回原物品
-            </button>
-          )}
           <div className="inline-tags">
             <span className={`item-type inline ${current.type}`}>
               {current.type === "found" ? "拾到物品" : "寻找失物"}
@@ -635,8 +679,8 @@ function ItemDetail({
             </Info>
           )}
         </div>
-      </div>
-      {matches.length > 0 && (
+      </div>}
+      {current && !detailLoading && !detailError && matches.length > 0 && (
         <div className="matches">
           <h3>
             <Sparkles size={18} />

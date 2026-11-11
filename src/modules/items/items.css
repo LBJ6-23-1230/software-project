@@ -1,0 +1,4 @@
+/* Scope stronger request-error contrast to the items module. */
+.items-feedback .error-box {
+  color: var(--red-dark);
+}
