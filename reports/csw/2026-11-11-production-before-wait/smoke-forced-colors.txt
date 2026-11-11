@@ -1,0 +1,14 @@
+✔ 发布信息并进入待审核列表
+✔ 管理员审核通过
+AssertionError [ERR_ASSERTION]: The input did not match the regular expression /南湖图书馆一楼大厅/. Input:
+
+'物品详情\n正在加载…'
+
+    at main (file:///C:/Users/16007/.codex/worktrees/csw-covenant-engineering/software-project/scripts/smoke-test.mjs:94:12) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: '物品详情\n正在加载…',
+  expected: /南湖图书馆一楼大厅/,
+  operator: 'match',
+  diff: 'simple'
+}

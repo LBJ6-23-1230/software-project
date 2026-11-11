@@ -1,0 +1,41 @@
+axe 01-explore-light: 0 violations / 28 passes
+PASS skip-link 首 Tab 可到达“跳到主要内容”且不改变路由
+PASS landmarks 页面包含可命名的主导航与主内容地标
+PASS nav-current 当前导航项带 aria-current=page
+PASS search-name 搜索框有可读名称，筛选组有组名
+PASS filter-state 筛选按钮用 aria-pressed 暴露选中状态
+PASS card-semantics 物品卡片是文章结构，标题为标题，详情动作可命名
+axe 02b-item-detail: 0 violations / 22 passes
+PASS card-detail-focus 键盘打开详情后焦点进入弹窗，Esc 关闭并回到卡片
+axe 02-login-dialog: 0 violations / 26 passes
+PASS dialog-semantics 登录弹窗有名称、模态语义和关闭按钮
+PASS dialog-focus-trap Tab 在弹窗内循环，背景不可聚焦
+PASS dialog-escape-restore Esc 关闭弹窗并把焦点还给触发按钮
+PASS form-required 登录表单必填项使用原生 required
+PASS login-status 登录成功通过 role=status 播报
+axe 03-profile: 0 violations / 24 passes
+PASS route-focus 路由切换后焦点落到页面一级标题
+PASS route-title 路由切换后文档标题随页面更新
+PASS profile-tabs 个人中心视图按钮暴露 aria-pressed
+axe 04-publish: 0 violations / 28 passes
+PASS publish-form-labels 发布表单控件均有可读名称且必填状态可感知
+axe 05-claims: 0 violations / 27 passes
+PASS claim-log 站内消息使用 log 语义，认领列表暴露当前项
+PASS claim-progress 认领进度以列表语义暴露，当前步骤可感知
+axe 06-admin-review: 0 violations / 28 passes
+PASS admin-table 审核表格有名称、列标题，重复操作按钮带物品上下文
+PASS admin-tabs 管理工作台视图按钮暴露 aria-pressed
+axe 07-explore-dark: 0 violations / 28 passes
+PASS dark-theme 深色主题实际生效
+axe 08-contrast-more: 0 violations / 28 passes
+PASS contrast-more prefers-contrast: more 下提高文字与边框对比度
+PASS forced-colors 系统强制颜色模式下保留焦点与控件边框
+PASS reduced-motion prefers-reduced-motion 下取消过渡与动画
+PASS zoom-200 200% 等效视口无横向溢出
+PASS text-spacing 文本间距覆盖后内容不横向溢出
+PASS mobile-overflow 390px 视口无横向溢出
+axe 11-mobile-drawer: 0 violations / 22 passes
+PASS mobile-drawer 抽屉焦点锁定、Esc 关闭并归还焦点
+
+合计：10 次 axe 扫描，0 个违规节点；28/28 项交互检查通过。
+报告：C:\Users\16007\.codex\worktrees\csw-covenant-engineering\software-project\reports\csw\2026-11-11-a11y\report.json

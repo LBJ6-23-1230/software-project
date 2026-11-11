@@ -1,0 +1,6 @@
+server/tests/items.test.ts(41,52): error TS18047: 'address' is possibly 'null'.
+server/tests/items.test.ts(41,60): error TS2339: Property 'port' does not exist on type 'string | AddressInfo'.
+  Property 'port' does not exist on type 'string'.
+server/tests/items.test.ts(62,38): error TS2345: Argument of type '{ pageSize: string; type?: undefined; campus?: undefined; category?: undefined; q: string; } | { pageSize: string; type: string; campus?: undefined; category?: undefined; q: string; } | { pageSize: string; type: string; campus: string; category?: undefined; q: string; } | { ...; } | { ...; } | { ...; }' is not assignable to parameter of type 'string | Record<string, string> | URLSearchParams | string[][] | undefined'.
+  Type '{ pageSize: string; type?: undefined; campus?: undefined; category?: undefined; q: string; }' is not assignable to type 'string | Record<string, string> | URLSearchParams | string[][] | undefined'.
+    Type '{ pageSize: string; type?: undefined; campus?: undefined; category?: undefined; q: string; }' is not assignable to type 'undefined'.

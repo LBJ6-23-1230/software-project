@@ -4,7 +4,9 @@
 
 > `main` 已汇总 `csw` / `gbl` / `stt` / `xzh` 四个开发分支，并吸收 `xzh2`（`software-task-2`）的视障友好适配。原分支保留用于追溯，`main` 是完整的课程展示版本。合并明细见 [分支汇总记录](docs/integration-2026-11-11.md)。
 
-当前实际验证：自动化测试 **25/25 通过**、生产构建通过、普通及强制颜色模式业务冒烟各 **6/6 步骤通过**、无障碍审计 **10 次 axe 扫描 0 违规 / 28 项交互检查通过**、新增边界回归 **15/15 通过**。结果与限制见 [验证记录](docs/verification.md)。
+当前分支在团队0.2.1上补充csw F04–F06公约落实与异常恢复：发布前用途告知、列表失败清空与重试、失效详情和过时请求处理。完整需求、设计取舍、7张UML/工程图、真实工作日志、测试和验收步骤见 [csw验收材料入口](docs/csw/README.md)。团队发布版本号仍为0.2.1。
+
+当前分支实际验证：自动化测试 **30/30 通过**、生产构建通过、模块浏览器回归 **8/8**、普通及强制颜色模式业务冒烟各 **6/6 步骤通过**、无障碍审计 **10 次 axe 扫描 0 违规 / 28 项交互检查通过**、原边界回归 **15/15 通过**。本轮结果与限制见 [csw材料](docs/csw/README.md)，团队原版本记录见 [验证记录](docs/verification.md)。
 
 0.2.1 补齐表单错误汇总与字段关联、叠加弹窗逐层关闭、导航抽屉背景隔离、上传提示持续可访问，并修复冒烟脚本提前读取旧状态的问题。保留原业务与四模块分类。**本项目是 Windows 浏览器中的 Web 应用；是否符合任务书的“Windows 桌面项目”口径待教师确认。** 自动扫描不代表真实读屏听读或完整 WCAG 合规认证。
 
@@ -55,7 +57,7 @@ npm start
 ```powershell
 npm run build
 npm start          # 另开一个终端
-npm test           # 25 项服务端/客户端回归
+npm test           # 当前分支30项服务端/客户端回归
 npm run test:a11y  # axe-core 扫描 + 键盘/焦点/高对比度检查
 npm run test:smoke # 原有业务流程端到端冒烟
 npm run test:a11y:regression # 自启隔离服务，15 项边界回归，无需 npm start
@@ -95,6 +97,7 @@ Remove-Item Env:SMOKE_FORCED_COLORS
 - [分支汇总记录](docs/integration-2026-11-11.md)、[课程要求摘要](docs/course-requirements.md)、[版本记录](CHANGELOG.md)、[实际验证](docs/verification.md)
 - [无障碍适配说明与测试记录](docs/accessibility.md)、[揭榜提交主贴草稿](docs/submission-post.md)
 - [gbl F10–F12 交付说明](docs/gbl-F10-F12-delivery.md)
+- [csw F04–F06 工程记录与验收材料](docs/csw/README.md)
 - [任务清单与质量目标](docs/task-list.md)
 - [架构、ER 与流程](docs/architecture.md)
 - [API 契约](docs/api-contract.md)与[共享类型](shared/types.ts)

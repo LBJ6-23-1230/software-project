@@ -1,0 +1,70 @@
+{
+  "generatedAt": "2026-11-11T14:40:52.610Z",
+  "node": "v24.22.1",
+  "browser": "157.0.8103.39",
+  "scope": "F04–F06 isolated browser regression; no real user data or production DB",
+  "checks": [
+    {
+      "id": "B01",
+      "name": "发布前展示用途、公开范围和保留边界",
+      "passed": true
+    },
+    {
+      "id": "B02",
+      "name": "新查询失败时不显示旧条件结果",
+      "passed": true
+    },
+    {
+      "id": "B03",
+      "name": "列表可按相同条件显式重试",
+      "passed": true
+    },
+    {
+      "id": "B04",
+      "name": "详情404不展示旧状态或认领表单",
+      "passed": true
+    },
+    {
+      "id": "B05",
+      "name": "详情失败后重试读取最新数据",
+      "passed": true
+    },
+    {
+      "id": "B06",
+      "name": "相关物品慢响应不得覆盖返回后的原物品",
+      "passed": true
+    },
+    {
+      "id": "B07",
+      "name": "详情断网提供恢复入口并保留弹窗关闭能力",
+      "passed": true
+    },
+    {
+      "id": "B08",
+      "name": "窄屏发布告知可读且没有横向溢出",
+      "passed": true
+    }
+  ],
+  "scans": [
+    {
+      "name": "publish-notice",
+      "violations": [],
+      "incomplete": [],
+      "details": []
+    },
+    {
+      "name": "list-error",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ],
+      "details": []
+    },
+    {
+      "name": "detail-error",
+      "violations": [],
+      "incomplete": [],
+      "details": []
+    }
+  ]
+}

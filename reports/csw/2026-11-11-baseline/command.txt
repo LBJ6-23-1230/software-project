@@ -1,0 +1,30 @@
+FAIL B01 发布前展示用途、公开范围和保留边界: TimeoutError: locator.waitFor: Timeout 3500ms exceeded.
+Call log:
+[2m  - waiting for getByRole('region', { name: '发布信息用途与公开范围' }) to be visible[22m
+
+FAIL B02 新查询失败时不显示旧条件结果: AssertionError [ERR_ASSERTION]: 错误条件下不得复用旧卡片
+
+1 !== 0
+
+FAIL B03 列表可按相同条件显式重试: TimeoutError: locator.click: Timeout 3500ms exceeded.
+Call log:
+[2m  - waiting for getByRole('button', { name: '重新加载列表', exact: true })[22m
+
+FAIL B04 详情404不展示旧状态或认领表单: TimeoutError: locator.waitFor: Timeout 3500ms exceeded.
+Call log:
+[2m  - waiting for getByRole('dialog').getByRole('alert') to be visible[22m
+
+FAIL B05 详情失败后重试读取最新数据: TimeoutError: locator.waitFor: Timeout 3500ms exceeded.
+Call log:
+[2m  - waiting for getByRole('dialog').getByRole('alert') to be visible[22m
+
+FAIL B06 相关物品慢响应不得覆盖返回后的原物品: AssertionError [ERR_ASSERTION]: 切换相关物品必须重新读取当前详情
+FAIL B07 详情断网提供恢复入口并保留弹窗关闭能力: TimeoutError: locator.waitFor: Timeout 3500ms exceeded.
+Call log:
+[2m  - waiting for getByRole('dialog').getByRole('alert') to be visible[22m
+
+FAIL B08 窄屏发布告知可读且没有横向溢出: TimeoutError: locator.waitFor: Timeout 3500ms exceeded.
+Call log:
+[2m  - waiting for getByRole('region', { name: '发布信息用途与公开范围' }) to be visible[22m
+
+F04–F06 checks: 0/8; 8 failed

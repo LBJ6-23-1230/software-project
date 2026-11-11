@@ -1,0 +1,13 @@
+✔ CSW-T01: title, location and description accept exact bounds and reject adjacent values (2.0326ms)
+✔ CSW-T02: image validation rejects scripts, HTML, disguised bytes and oversized content (1.8419ms)
+✔ CSW-T03: calendar dates and both information types are checked without silent date rollover (0.4399ms)
+✔ CSW-T04: six combined filters and three pages agree with fixed expected records (200.2281ms)
+✔ CSW-T05: foreign edit/withdraw and identity injection fail; owner edit re-enters private review (147.5105ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 681.0562

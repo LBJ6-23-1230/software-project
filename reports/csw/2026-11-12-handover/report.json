@@ -1,0 +1,21 @@
+{
+  "recordedAt": "2026-11-11T23:26:36.212583+00:00",
+  "scope": "Final handover verification; November 11 browser evidence retained separately",
+  "tests": {
+    "count": 30,
+    "pass": 30,
+    "fail": 0,
+    "exitCode": 0,
+    "output": "tests.txt"
+  },
+  "typescript": {
+    "command": "node node_modules/typescript/bin/tsc --noEmit",
+    "exitCode": 0,
+    "stdout": "empty on success"
+  },
+  "build": {
+    "modules": 1591,
+    "exitCode": 0,
+    "output": "build.txt"
+  }
+}

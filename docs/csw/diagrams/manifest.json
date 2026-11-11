@@ -1,0 +1,58 @@
+{
+  "generatedAt": "2026-11-11T14:52:05.407Z",
+  "runtime": "v24.22.1",
+  "browser": "157.0.8103.39",
+  "font": "Microsoft YaHei, SimHei, Arial",
+  "scope": "Engineering/UML-style views; concept classes are not runtime classes",
+  "checks": [
+    {
+      "id": "01-use-cases",
+      "title": "图 1  用例与协作边界",
+      "svg": "01-use-cases.svg",
+      "png": "01-use-cases.png",
+      "canvasOverflow": 0
+    },
+    {
+      "id": "02-domain-model",
+      "title": "图 2  OOA 领域概念类图",
+      "svg": "02-domain-model.svg",
+      "png": "02-domain-model.png",
+      "canvasOverflow": 0
+    },
+    {
+      "id": "03-implementation-dependencies",
+      "title": "图 3  OOD 实际组件与模块依赖",
+      "svg": "03-implementation-dependencies.svg",
+      "png": "03-implementation-dependencies.png",
+      "canvasOverflow": 0
+    },
+    {
+      "id": "04-publish-sequence",
+      "title": "图 4  F04 发布成功与验证边界序列",
+      "svg": "04-publish-sequence.svg",
+      "png": "04-publish-sequence.png",
+      "canvasOverflow": 0
+    },
+    {
+      "id": "05-detail-retry-sequence",
+      "title": "图 5  F05 详情异常与同物品重试序列",
+      "svg": "05-detail-retry-sequence.svg",
+      "png": "05-detail-retry-sequence.png",
+      "canvasOverflow": 0
+    },
+    {
+      "id": "06-item-state-dimensions",
+      "title": "图 6  生命周期与审核的两维状态机",
+      "svg": "06-item-state-dimensions.svg",
+      "png": "06-item-state-dimensions.png",
+      "canvasOverflow": 0
+    },
+    {
+      "id": "07-list-activity",
+      "title": "图 7  F05 查询、失败与恢复活动图",
+      "svg": "07-list-activity.svg",
+      "png": "07-list-activity.png",
+      "canvasOverflow": 0
+    }
+  ]
+}

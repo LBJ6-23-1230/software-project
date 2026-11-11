@@ -1,0 +1,62 @@
+{
+  "checkedAt": "2026-11-11T14:51:42.601Z",
+  "runtime": "v24.22.1",
+  "markdownFiles": 7,
+  "localLinksChecked": 46,
+  "brokenLinks": [],
+  "reportCharacters": 8565,
+  "reportChineseCharacters": 5258,
+  "figures": [
+    {
+      "id": "01-use-cases",
+      "width": 2160,
+      "height": 1560,
+      "svgPresent": true,
+      "canvasOverflow": 0
+    },
+    {
+      "id": "02-domain-model",
+      "width": 2160,
+      "height": 1560,
+      "svgPresent": true,
+      "canvasOverflow": 0
+    },
+    {
+      "id": "03-implementation-dependencies",
+      "width": 2160,
+      "height": 1560,
+      "svgPresent": true,
+      "canvasOverflow": 0
+    },
+    {
+      "id": "04-publish-sequence",
+      "width": 2160,
+      "height": 1560,
+      "svgPresent": true,
+      "canvasOverflow": 0
+    },
+    {
+      "id": "05-detail-retry-sequence",
+      "width": 2160,
+      "height": 1560,
+      "svgPresent": true,
+      "canvasOverflow": 0
+    },
+    {
+      "id": "06-item-state-dimensions",
+      "width": 2160,
+      "height": 1560,
+      "svgPresent": true,
+      "canvasOverflow": 0
+    },
+    {
+      "id": "07-list-activity",
+      "width": 2160,
+      "height": 1560,
+      "svgPresent": true,
+      "canvasOverflow": 0
+    }
+  ],
+  "visualReview": "All seven PNGs viewed; diagrams 2,3,6 viewed again after label/dependency revisions. Chinese rendered without missing glyphs.",
+  "scope": "Only documentation, editable diagram sources and diagram generator; no product/test edits by documentation agent."
+}

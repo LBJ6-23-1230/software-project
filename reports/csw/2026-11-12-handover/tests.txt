@@ -1,0 +1,38 @@
+✔ F10: administrator-only review and private moderation reason; lifecycle is unchanged (114.9266ms)
+✔ F10: active claim prevents arbitrary administrative takedown (109.0871ms)
+✔ F11: dispute is resolved exactly once without rewriting completed claims (114.314ms)
+✔ F12: restore needs confirmation, restores business data and revokes changed credentials (159.5282ms)
+✔ F12: inconsistent backup cannot partially replace the live database (143.1039ms)
+✔ authentication rejects invalid credentials, protects profile, and revokes logout token (238.3684ms)
+✔ registration validates fields and cannot select admin or duplicate an identity (147.9848ms)
+✔ malformed bodies, enums, dates, image URLs, pagination and phone are rejected (146.3122ms)
+✔ new campus choices are accepted for item creation (150.6811ms)
+✔ new items are private until review; owners and admin see them and strangers cannot edit (198.8328ms)
+✔ claim lifecycle protects participants, rejects duplicates, locks active claims and completes only once (230.2278ms)
+✔ private messages and disputes are participant-only and admin resolution preserves claim terminal state (212.7656ms)
+✔ terminal claims keep message history readable but reject new messages (184.6701ms)
+✔ cancel and reject are constrained and withdrawn or lost items cannot be claimed (173.3371ms)
+✔ matching filters private and same-type items and returns explainable descending scores (114.8291ms)
+✔ backup is admin-only, restores relational data atomically, and rejects traversal and corrupt snapshot (199.3589ms)
+✔ data survives application reopen (153.5279ms)
+✔ concurrent approvals and completion produce exactly one returned item and completion (193.4509ms)
+✔ valid SQLite snapshots with inconsistent participant relationships cannot replace live data (181.8224ms)
+✔ a cancelled claim remains historical when its unlocked item is edited into a lost notice and backed up (212.7276ms)
+✔ client rejects an HTML success response instead of reporting a completed write (12.5074ms)
+✔ client reports a readable error for a null error body (0.3866ms)
+✔ client explains how to recover when the backend is unavailable (0.1497ms)
+✔ client recognizes a failed development proxy as an unavailable backend (0.2195ms)
+✔ client preserves JSON success payloads and server rejection messages (0.8218ms)
+✔ CSW-T01: title, location and description accept exact bounds and reject adjacent values (2.213ms)
+✔ CSW-T02: image validation rejects scripts, HTML, disguised bytes and oversized content (2.034ms)
+✔ CSW-T03: calendar dates and both information types are checked without silent date rollover (0.4268ms)
+✔ CSW-T04: six combined filters and three pages agree with fixed expected records (212.062ms)
+✔ CSW-T05: foreign edit/withdraw and identity injection fail; owner edit re-enters private review (149.0969ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3171.0281

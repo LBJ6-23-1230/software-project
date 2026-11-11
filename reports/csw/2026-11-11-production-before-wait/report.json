@@ -1,0 +1,22 @@
+{
+  "generatedAt": "2026-11-11T14:35:04.308Z",
+  "node": "v24.22.1",
+  "scope": "Current production build with isolated SQLite; not real screen-reader listening",
+  "checks": [
+    {
+      "name": "a11y",
+      "exitCode": 0,
+      "log": "a11y.txt"
+    },
+    {
+      "name": "smoke-normal",
+      "exitCode": 1,
+      "log": "smoke-normal.txt"
+    },
+    {
+      "name": "smoke-forced-colors",
+      "exitCode": 1,
+      "log": "smoke-forced-colors.txt"
+    }
+  ]
+}
