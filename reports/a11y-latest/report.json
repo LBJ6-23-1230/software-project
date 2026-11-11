@@ -1,0 +1,425 @@
+{
+  "generatedAt": "2026-11-11T05:14:28.055Z",
+  "baseUrl": "http://127.0.0.1:4318",
+  "engine": "Chromium (system Chrome/Edge) + axe-core",
+  "browser": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "axeVersion": "4.14.0",
+  "runs": [
+    {
+      "name": "01-explore-light",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".note-two > b"
+              ],
+              "html": "<b>你的失物，有了新消息</b>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                ".star-one"
+              ],
+              "html": "<span class=\"art-star star-one\">✧</span>",
+              "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+            },
+            {
+              "target": [
+                ".star-two"
+              ],
+              "html": "<span class=\"art-star star-two\">✧</span>",
+              "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+            }
+          ]
+        }
+      ],
+      "passes": 28,
+      "violationNodeCount": 0
+    },
+    {
+      "name": "02b-item-detail",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                "p:nth-child(1)"
+              ],
+              "html": "<p>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            },
+            {
+              "target": [
+                ".muted"
+              ],
+              "html": "<p class=\"muted\">发布者：校园用户 · 11/11</p>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            },
+            {
+              "target": [
+                "span > small"
+              ],
+              "html": "<small>物品类别相同 · 同一校区 · 共同特征：图书馆</small>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            }
+          ]
+        }
+      ],
+      "passes": 22,
+      "violationNodeCount": 0
+    },
+    {
+      "name": "02-login-dialog",
+      "violations": [],
+      "incomplete": [],
+      "passes": 26,
+      "violationNodeCount": 0
+    },
+    {
+      "name": "03-profile",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".active[type=\"button\"] > span"
+              ],
+              "html": "<span>6</span>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+            }
+          ]
+        }
+      ],
+      "passes": 24,
+      "violationNodeCount": 0
+    },
+    {
+      "name": "04-publish",
+      "violations": [],
+      "incomplete": [],
+      "passes": 28,
+      "violationNodeCount": 0
+    },
+    {
+      "name": "05-claims",
+      "violations": [],
+      "incomplete": [],
+      "passes": 28,
+      "violationNodeCount": 0
+    },
+    {
+      "name": "06-admin-review",
+      "violations": [],
+      "incomplete": [],
+      "passes": 28,
+      "violationNodeCount": 0
+    },
+    {
+      "name": "07-explore-dark",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".note-two > b"
+              ],
+              "html": "<b>你的失物，有了新消息</b>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                ".star-one"
+              ],
+              "html": "<span class=\"art-star star-one\">✧</span>",
+              "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+            },
+            {
+              "target": [
+                ".star-two"
+              ],
+              "html": "<span class=\"art-star star-two\">✧</span>",
+              "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+            }
+          ]
+        }
+      ],
+      "passes": 28,
+      "violationNodeCount": 0
+    },
+    {
+      "name": "08-contrast-more",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".note-two > b"
+              ],
+              "html": "<b>你的失物，有了新消息</b>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                ".star-one"
+              ],
+              "html": "<span class=\"art-star star-one\">✧</span>",
+              "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+            },
+            {
+              "target": [
+                ".star-two"
+              ],
+              "html": "<span class=\"art-star star-two\">✧</span>",
+              "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+            }
+          ]
+        }
+      ],
+      "passes": 28,
+      "violationNodeCount": 0
+    },
+    {
+      "name": "11-mobile-drawer",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".kindness > p"
+              ],
+              "html": "<p>让物品回到主人身边，<br>也让校园多一点温暖。</p>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            },
+            {
+              "target": [
+                ".hero-note"
+              ],
+              "html": "<div class=\"hero-note\"><span aria-hidden=\"true\"></span>把遗失的小事，交给整个校园</div>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            },
+            {
+              "target": [
+                "#explore-hero-title"
+              ],
+              "html": "<h1 id=\"explore-hero-title\">总有一份善意，<br>让失物回到你身边。</h1>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            },
+            {
+              "target": [
+                ".hero-copy > p"
+              ],
+              "html": "<p>寻找遗失的物品，也帮别人找回小小的安心。</p>",
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            }
+          ]
+        }
+      ],
+      "passes": 28,
+      "violationNodeCount": 0
+    }
+  ],
+  "checks": [
+    {
+      "id": "skip-link",
+      "label": "首 Tab 可到达“跳到主要内容”且不改变路由",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "landmarks",
+      "label": "页面包含可命名的主导航与主内容地标",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "nav-current",
+      "label": "当前导航项带 aria-current=page",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "search-name",
+      "label": "搜索框有可读名称，筛选组有组名",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "filter-state",
+      "label": "筛选按钮用 aria-pressed 暴露选中状态",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "card-semantics",
+      "label": "物品卡片是文章结构，标题为标题，详情动作可命名",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "card-detail-focus",
+      "label": "键盘打开详情后焦点进入弹窗，Esc 关闭并回到卡片",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "dialog-semantics",
+      "label": "登录弹窗有名称、模态语义和关闭按钮",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "dialog-focus-trap",
+      "label": "Tab 在弹窗内循环，背景不可聚焦",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "dialog-escape-restore",
+      "label": "Esc 关闭弹窗并把焦点还给触发按钮",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "form-required",
+      "label": "登录表单必填项使用原生 required",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "login-status",
+      "label": "登录成功通过 role=status 播报",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "route-focus",
+      "label": "路由切换后焦点落到页面一级标题",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "route-title",
+      "label": "路由切换后文档标题随页面更新",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "profile-tabs",
+      "label": "个人中心视图按钮暴露 aria-pressed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "publish-form-labels",
+      "label": "发布表单控件均有可读名称且必填状态可感知",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "claim-log",
+      "label": "站内消息使用 log 语义，认领列表暴露当前项",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "claim-progress",
+      "label": "认领进度以列表语义暴露，当前步骤可感知",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "admin-table",
+      "label": "审核表格有名称、列标题，重复操作按钮带物品上下文",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "admin-tabs",
+      "label": "管理工作台视图按钮暴露 aria-pressed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "dark-theme",
+      "label": "深色主题实际生效",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "contrast-more",
+      "label": "prefers-contrast: more 下提高文字与边框对比度",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "forced-colors",
+      "label": "系统强制颜色模式下保留焦点与控件边框",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "reduced-motion",
+      "label": "prefers-reduced-motion 下取消过渡与动画",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "zoom-200",
+      "label": "200% 等效视口无横向溢出",
+      "pass": true,
+      "detail": "720px / 720px"
+    },
+    {
+      "id": "text-spacing",
+      "label": "文本间距覆盖后内容不横向溢出",
+      "pass": true,
+      "detail": "720px / 720px"
+    },
+    {
+      "id": "mobile-overflow",
+      "label": "390px 视口无横向溢出",
+      "pass": true,
+      "detail": "390px / 390px"
+    },
+    {
+      "id": "mobile-drawer",
+      "label": "抽屉焦点锁定、Esc 关闭并归还焦点",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "screenshots": [
+    "reports/a11y-latest/01-explore-light.png",
+    "reports/a11y-latest/02b-item-detail.png",
+    "reports/a11y-latest/02-login-dialog.png",
+    "reports/a11y-latest/03-profile.png",
+    "reports/a11y-latest/04-publish.png",
+    "reports/a11y-latest/05-claims.png",
+    "reports/a11y-latest/06-admin-review.png",
+    "reports/a11y-latest/07-explore-dark.png",
+    "reports/a11y-latest/08-contrast-more.png",
+    "reports/a11y-latest/09-forced-colors.png",
+    "reports/a11y-latest/10-zoom-200.png",
+    "reports/a11y-latest/11-mobile-drawer.png"
+  ],
+  "consoleErrors": []
+}

@@ -1,0 +1,78 @@
+- link "跳到主要内容":
+  - /url: "#main-content"
+- status: 已切换到发布信息页面
+- complementary "侧边栏":
+  - link "拾光校园 让遗失，遇见归还。":
+    - /url: "#/explore"
+  - text: 校园服务
+  - navigation "主导航":
+    - button "拾光广场"
+    - button "发布信息"
+    - button "我的认领"
+    - button "个人中心"
+  - text: 管理服务
+  - button "管理工作台"
+  - strong: 每一份善意，都有回响
+  - paragraph: 让物品回到主人身边， 也让校园多一点温暖。
+  - text: 武汉理工大学校园互助项目 课程演示版 · 虚构示例数据
+- banner:
+  - text: 校园互助 /
+  - strong: 发布信息
+  - text: 校园里的温暖连接
+  - button "林同学"
+  - button "退出登录"
+- main:
+  - heading "让物品与主人重新相遇" [level=1]
+  - paragraph: 写下物品的线索，让寻找更容易一点。
+  - form "发布信息表单":
+    - heading "基本信息" [level=3]
+    - group "发布信息类型":
+      - button "我拾到了物品 发布招领，帮助它回家" [pressed]
+      - button "我遗失了物品 发布寻物，寻找更多线索"
+    - text: 物品名称
+    - textbox "物品名称":
+      - /placeholder: 例如：图书馆拾到一把墨绿色雨伞
+    - text: 物品分类
+    - combobox "物品分类":
+      - option "证件卡片"
+      - option "数码产品"
+      - option "生活用品" [selected]
+      - option "书籍文具"
+      - option "衣物配饰"
+      - option "其他物品"
+    - text: 拾取日期
+    - textbox "拾取日期": 2026-11-11
+    - heading "在哪里遇见 / 遗失" [level=3]
+    - text: 所在校区
+    - combobox "所在校区":
+      - option "马房山校区（西院）"
+      - option "马房山校区（东院）"
+      - option "鉴湖校区"
+      - option "余家头校区"
+      - option "南湖校区" [selected]
+      - option "军山校区"
+    - text: 具体地点
+    - textbox "具体地点":
+      - /placeholder: 例如：图书馆二楼自习区
+    - text: 物品描述
+    - textbox "物品描述 0 / 2000":
+      - /placeholder: 描述颜色、外观、拾取或遗失经过。请保留一两处细节，用于认领核验。
+    - text: 0 / 2000 物品图片 选择一张清晰的物品照片 JPG / PNG / WebP，最大 700 KB 选择图片
+    - button "选择物品图片"
+    - text: 提交后由管理员审核，保护信息真实性。
+    - button "提交发布"
+  - complementary:
+    - heading "一份有用的发布" [level=3]
+    - list:
+      - listitem:
+        - text: 说清楚在哪里
+        - paragraph: 楼栋、楼层、教室或座位，让范围更准确。
+      - listitem:
+        - text: 留下可核验的细节
+        - paragraph: 不要一次公开所有特征，认领时再进行确认。
+      - listitem:
+        - text: 照顾彼此的隐私
+        - paragraph: 证件照片请遮挡完整学号与姓名，联系方式通过站内沟通交换。
+    - text: 没有照片也可以发布，系统将使用物品示意图。
+- contentinfo: 拾光校园，让每一次归还都有迹可循。 善意传递 · 隐私保护
+- status: 登录成功，欢迎回到拾光校园

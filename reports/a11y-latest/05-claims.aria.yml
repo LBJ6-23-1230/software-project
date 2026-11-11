@@ -1,0 +1,68 @@
+- link "跳到主要内容":
+  - /url: "#main-content"
+- status: 已切换到我的认领页面
+- complementary "侧边栏":
+  - link "拾光校园 让遗失，遇见归还。":
+    - /url: "#/explore"
+  - text: 校园服务
+  - navigation "主导航":
+    - button "拾光广场"
+    - button "发布信息"
+    - button "我的认领"
+    - button "个人中心"
+  - text: 管理服务
+  - button "管理工作台"
+  - strong: 每一份善意，都有回响
+  - paragraph: 让物品回到主人身边， 也让校园多一点温暖。
+  - text: 武汉理工大学校园互助项目 课程演示版 · 虚构示例数据
+- banner:
+  - text: 校园互助 /
+  - strong: 我的认领
+  - text: 校园里的温暖连接
+  - button "林同学"
+  - button "退出登录"
+- main:
+  - heading "每一步，都离重逢更近" [level=1]
+  - paragraph: 查看认领进度，与对方核对线索，安心完成交接。
+  - button "刷新进度"
+  - region "认领记录列表":
+    - group "认领记录筛选":
+      - button "全部" [pressed]
+      - button "我申请的"
+      - button "待我处理"
+    - button "无障碍适配验收20261111051417 我申请认领 11/11 13:14 等待交接":
+      - text: 无障碍适配验收20261111051417 我申请认领
+      - time: 11/11 13:14
+      - text: 等待交接
+    - button "无障碍适配验收20261111051403 我申请认领 11/11 13:14 等待交接":
+      - text: 无障碍适配验收20261111051403 我申请认领
+      - time: 11/11 13:14
+      - text: 等待交接
+    - button "已经归还的小熊钥匙扣 我申请认领 10/20 16:00 已归还":
+      - text: 已经归还的小熊钥匙扣 我申请认领
+      - time: 10/20 16:00
+      - text: 已归还
+  - region "无障碍适配验收20261111051417":
+    - heading "无障碍适配验收20261111051417" [level=2]
+    - paragraph: 认领编号 a154f04f
+    - text: 等待交接
+    - list "认领进度":
+      - listitem: 提交申请
+      - listitem: 2 核验通过
+      - listitem: 3 确认归还
+    - heading "认领线索（仅双方可见）" [level=4]
+    - paragraph: 伞柄内侧有一张蓝色小熊贴纸，伞骨第二根有划痕。
+    - button "我已收到物品，确认归还"
+    - button "提交争议"
+    - heading "站内沟通" [level=3]
+    - text: 以角色称呼，保护真实身份
+    - log "站内消息":
+      - text: 我 ·
+      - time: 11/11 13:14
+      - paragraph: 你好，我描述的是伞柄贴纸和伞骨划痕，请核对。
+    - form "发送站内消息":
+      - textbox "站内消息":
+        - /placeholder: 写下想对对方说的话…
+      - button "发送" [disabled]
+- contentinfo: 拾光校园，让每一次归还都有迹可循。 善意传递 · 隐私保护
+- status: 登录成功，欢迎回到拾光校园

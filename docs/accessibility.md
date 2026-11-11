@@ -6,6 +6,8 @@
 - 日期：2026-11-02
 - 对应任务：揭榜任务二「视障友好适配任务书」
 
+> 汇总说明（2026-11-11）：本文是 0.1.1 在 `xzh2` / `software-task-2` 上的历史适配记录。相关改动已吸收到 `software-project` 的 `main`（0.2.0）；汇总后的实际验证见 [分支汇总记录](integration-2026-11-11.md) 与 [验证记录](verification.md)。
+
 ## 1. 项目平台与适配口径
 
 本项目是 **Web 应用**（React 19 + TypeScript + Vite），在 Windows 的浏览器中运行，不是原生 WinForms/WPF 或 Android 工程。因此本次按 **WCAG 2.1 AA + WAI-ARIA 1.2** 做适配，并把任务书中 Windows 桌面项目的要求对应到浏览器：
