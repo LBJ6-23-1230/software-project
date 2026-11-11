@@ -29,13 +29,18 @@ changed=[]
 def fill(p,text):
     # Reuse existing runs and their exact formatting. Only an empty slot needs a new run.
     nodes=p.findall('.//w:t',NS)
+    lines=text.split('\n')
     if nodes:
-        nodes[0].text=text
+        anchor=nodes[0]
+        anchor.text=lines[0]
         for n in nodes[1:]:n.text=''
     else:
         r=p.find('w:r',NS)
         if r is None:r=etree.SubElement(p,'{'+W+'}r')
-        t=etree.SubElement(r,'{'+W+'}t');t.text=text
+        anchor=etree.SubElement(r,'{'+W+'}t');anchor.text=lines[0]
+    for line in lines[1:]:
+        br=etree.Element('{'+W+'}br');anchor.addnext(br)
+        t=etree.Element('{'+W+'}t');t.text=line;br.addnext(t);anchor=t
 
 def cell(t,row,col,text):
     p=tables[t].findall('w:tr',NS)[row].findall('w:tc',NS)[col].find('w:p',NS)
@@ -47,10 +52,12 @@ cell(0,1,1,'校园失物招领系统')
 cell(0,2,1,'负责信息发布和浏览：F04寻物/招领发布，F05分类搜索、分页与详情浏览，F06本人信息编辑与撤回，以及相应需求、设计、实现和测试。数据按模块口径填写。')
 for row,left,right in [(0,'1,261','本轮411行'),(1,'12','11'),(2,'代码3次','本轮1次')]:
     cell(1,row,1,left);cell(1,row,3,right)
-for col,text in enumerate(['Codex','分析、实现、测试及文档','缺陷定位、代码辅助修改、补测与资料整理','本轮按需使用']):
+for col,text in enumerate(['Codex\nDeepSeek\n豆包','开发与文档\n代码修改\n需求分析',
+                           '修复补测与资料整理\n辅助分析与修改代码\n梳理需求与功能范围',
+                           '本轮持续使用\n按需使用\n前期使用']):
     cell(2,1,col,text)
 fill(paragraphs[8],'第3、5、7、8、9、10条已有基本措施：发布前告知、撤回二次确认、基础无障碍、交付检查、访客浏览和模块化组织，共6条。第4、6、13条部分落实；第11、12、14、15条过程证据待补。')
-fill(paragraphs[11],'针对失效详情沿用旧快照、查询失败混用旧结果等问题，补充加载、错误和重试处理；新增5项接口测试和8项浏览器检查，保留基线失败、修复、复验及Git提交记录，便于追溯。')
+fill(paragraphs[11],'需求与设计方面，明确F04—F06的功能边界及登录、审核、认领依赖，用UML与追溯表连接需求、实现和测试；问题处理中，复现并修复旧详情、旧查询结果误用，补充加载、重试及过时请求隔离；验证方面，新增5项接口测试和8项浏览器检查，覆盖字段边界、越权、分页和失败恢复，本轮30项回归通过；协作与维护方面，保留失败到通过的记录、图源和真实Git提交，区分AI辅助与团队既有成果，便于联调、复核和后续维护。')
 changed+=['body/paragraph[8]','body/paragraph[11]']
 
 # Only filled slots may differ. No original paragraph, row, cell or property is removed.
@@ -79,6 +86,7 @@ assert sha256(args.template.read_bytes()).hexdigest()==source_hash
 evidence={'template':args.template.name,'template_sha256':source_hash,'output':args.output.name,
           'changed_package_parts':changed_parts,'filled_slots':changed,
           'structure':'Original 3 tables, 12 body paragraphs, all labels, properties and section geometry preserved',
+          'additional_ai_usage_source':'User confirmed DeepSeek assisted code modification and Doubao was used in early requirements analysis; uses summarized without invented individual test or contribution history',
           'statistics_scope':'1261 physical lines in four items files; 411 added lines in seven module/verification code files; 12 directly related API tests, of which 11 include quality assertions; 3 code commits through 0326277, excluding later document commits; 1 improvement iteration'}
 args.evidence.parent.mkdir(parents=True,exist_ok=True)
 args.evidence.write_text(json.dumps(evidence,ensure_ascii=False,indent=2),encoding='utf-8')

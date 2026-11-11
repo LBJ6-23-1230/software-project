@@ -24,5 +24,6 @@
     "body/paragraph[11]"
   ],
   "structure": "Original 3 tables, 12 body paragraphs, all labels, properties and section geometry preserved",
+  "additional_ai_usage_source": "User confirmed DeepSeek assisted code modification and Doubao was used in early requirements analysis; uses summarized without invented individual test or contribution history",
   "statistics_scope": "1261 physical lines in four items files; 411 added lines in seven module/verification code files; 12 directly related API tests, of which 11 include quality assertions; 3 code commits through 0326277, excluding later document commits; 1 improvement iteration"
 }

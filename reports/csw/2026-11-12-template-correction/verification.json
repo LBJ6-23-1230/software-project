@@ -1,11 +1,18 @@
 {
-  "checkedAt": "2026-11-11T23:39:55.686117+00:00",
+  "checkedAt": "2026-11-11T23:44:19.178384+00:00",
   "pages": 1,
   "template_preserved": true,
   "source_sha256": "593ebdd4d2460d6430b82eae5332a9574f60539f8ccb8bce9d803d55109a43ed",
-  "output_sha256": "795a7dc6a5ef1660b31456cb1e18a98da1b67a47a3e474383917bdc356e080b8",
+  "output_sha256": "c333108550ba1c3d939f0d62478c4dfe35812fdae46057ba05712350c63fa90a",
   "local_links_checked": 50,
   "broken_links": [],
-  "visual_review": "single page viewed, no clipping, overlap or missing glyphs",
-  "rendering": "Packaged renderer unavailable: no soffice.exe. Used native Word PDF export and bundled pypdfium2."
+  "visual_review": "Updated single page viewed after adding AI tools and expanded highlights; no overflow, overlap or missing glyphs; original table row/column counts retained",
+  "rendering": "Packaged renderer unavailable: no soffice.exe. Used native Word PDF export and bundled pypdfium2.",
+  "ai_tools": [
+    "Codex",
+    "DeepSeek",
+    "豆包"
+  ],
+  "ai_usage_source": "User confirmation for DeepSeek code modification and Doubao early requirements analysis",
+  "highlights_characters": 198
 }
