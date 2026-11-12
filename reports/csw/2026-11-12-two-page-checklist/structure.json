@@ -1,0 +1,30 @@
+{
+  "template": "个人工作清单.docx",
+  "template_sha256": "593ebdd4d2460d6430b82eae5332a9574f60539f8ccb8bce9d803d55109a43ed",
+  "output": "个人工作清单_陈思威_原模板两页详实版.docx",
+  "changed_package_parts": [
+    "word/document.xml"
+  ],
+  "filled_slots": [
+    "table[0]/row[0]/cell[1]",
+    "table[0]/row[0]/cell[3]",
+    "table[0]/row[1]/cell[1]",
+    "table[0]/row[2]/cell[1]",
+    "table[1]/row[0]/cell[1]",
+    "table[1]/row[0]/cell[3]",
+    "table[1]/row[1]/cell[1]",
+    "table[1]/row[1]/cell[3]",
+    "table[1]/row[2]/cell[1]",
+    "table[1]/row[2]/cell[3]",
+    "table[2]/row[1]/cell[0]",
+    "table[2]/row[1]/cell[1]",
+    "table[2]/row[1]/cell[2]",
+    "table[2]/row[1]/cell[3]",
+    "body/paragraph[8]",
+    "body/paragraph[11]"
+  ],
+  "structure": "Original 3 tables, 12 body paragraphs, all labels, fonts, paragraph properties and section geometry preserved; content uses natural template pagination",
+  "variant": "two-page detailed",
+  "additional_ai_usage_source": "User confirmed DeepSeek assisted code modification and Doubao was used in early requirements analysis; uses summarized without invented individual test or contribution history",
+  "statistics_scope": "1261 physical lines in four items files; 411 added lines in seven module/verification code files; 12 directly related API tests, of which 11 include quality assertions; 3 code commits through 0326277, excluding later document commits; 1 improvement iteration"
+}

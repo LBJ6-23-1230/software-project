@@ -1,0 +1,51 @@
+{
+  "verified_at": "2026-11-12T00:11:15.134394+00:00",
+  "document": "docs/csw/deliverables/个人工作清单_陈思威_原模板两页详实版.docx",
+  "document_sha256": "6a3208c739b1f1ebb885788127ada04573938c2c8a1b0a186dfb73645465ee2d",
+  "template_sha256": "593ebdd4d2460d6430b82eae5332a9574f60539f8ccb8bce9d803d55109a43ed",
+  "changed_package_parts": [
+    "word/document.xml"
+  ],
+  "preserved_properties": [
+    "pPr",
+    "rPr",
+    "tblPr",
+    "tblGrid",
+    "trPr",
+    "tcPr",
+    "sectPr"
+  ],
+  "table_count": 3,
+  "table_row_counts": [
+    3,
+    3,
+    2
+  ],
+  "body_paragraph_count": 12,
+  "covenant_numbered_items": 6,
+  "personal_highlight_numbered_items": 7,
+  "pages": 2,
+  "page_extracted_character_counts": [
+    787,
+    1301
+  ],
+  "render_engine": "Microsoft Word COM PDF export; pypdfium2 PNG rendering",
+  "visual_review": {
+    "reviewed_pages": [
+      1,
+      2
+    ],
+    "observed": "Original template font, tables and headings retained; no blank page, overlap, clipping or overflow observed",
+    "page_images": [
+      {
+        "file": "output/two-page-checklist/final-page-1.png",
+        "sha256": "05486e58ad3a80bf89c227de83cca42884ff8d9e2154b30ff6fe17eb46f7d637"
+      },
+      {
+        "file": "output/two-page-checklist/final-page-2.png",
+        "sha256": "ef6b7c17b5f89ea27e84ade1606aeb8f59c12e2bb0fe296537165b1890dcedfa"
+      }
+    ]
+  },
+  "scope": "Document content and delivery notes only. Existing test evidence cited, no new software test run claimed."
+}

@@ -11,6 +11,7 @@ ap=argparse.ArgumentParser()
 ap.add_argument('--template',type=Path,default=Path.home()/'Downloads/个人工作清单.docx')
 ap.add_argument('--output',type=Path,required=True)
 ap.add_argument('--evidence',type=Path,required=True)
+ap.add_argument('--two-pages',action='store_true',help='Expanded covenant and highlights, using the original template pagination')
 args=ap.parse_args()
 W='http://schemas.openxmlformats.org/wordprocessingml/2006/main'
 NS={'w':W}
@@ -56,8 +57,29 @@ for col,text in enumerate(['Codex\nDeepSeek\n豆包','开发与文档\n代码修
                            '修复补测与资料整理\n辅助分析与修改代码\n梳理需求与功能范围',
                            '本轮持续使用\n按需使用\n前期使用']):
     cell(2,1,col,text)
-fill(paragraphs[8],'第3、5、7、8、9、10条已有基本措施：发布前告知、撤回二次确认、基础无障碍、交付检查、访客浏览和模块化组织，共6条。第4、6、13条部分落实；第11、12、14、15条过程证据待补。')
-fill(paragraphs[11],'需求与设计方面，明确F04—F06的功能边界及登录、审核、认领依赖，用UML与追溯表连接需求、实现和测试；问题处理中，复现并修复旧详情、旧查询结果误用，补充加载、重试及过时请求隔离；验证方面，新增5项接口测试和8项浏览器检查，覆盖字段边界、越权、分页和失败恢复，本轮30项回归通过；协作与维护方面，保留失败到通过的记录、图源和真实Git提交，区分AI辅助与团队既有成果，便于联调、复核和后续维护。')
+if args.two_pages:
+    covenant=[
+        '（1）第3条 用途告知。发布前说明信息用途、公开字段及撤回保留含义，提醒遮挡敏感信息；不将文字提示等同于自动脱敏。',
+        '（2）第5条 二次确认。撤回前弹窗说明影响，确认后执行；服务端再次检查本人权限和认领状态，保留记录而非直接删除。',
+        '（3）第7条 基础适配。保留字段标签、错误反馈与弹窗焦点约束，修正本模块错误文字对比度；真实读屏和老年用户试用仍待验。',
+        '（4）第8、10条 交付整理。执行接口回归、类型检查和构建，按模块组织页面、接口与测试，保留统一契约和交接说明。',
+        '（5）第9条 免注册体验。访客可搜索、筛选并查看公开详情；发布、维护和认领继续执行登录及权限校验。',
+        '（6）落实边界。以上覆盖6条基本措施。第4、6、13条部分落实；第11、12、14、15条需补真实过程证据，不以功能存在替代行为证明。',
+    ]
+    highlights=[
+        '1. 需求分析与质量目标对应。将个人职责明确为F04信息发布、F05检索浏览、F06本人维护三个可验收功能，分别整理正常流程、错误输入、权限和状态限制。将“可发布、可搜索”细化为字段边界、审核前可见性、分页完整性及维护权限等可验证要求，同时明确登录由xzh提供、认领由stt负责、审核由gbl负责，避免职责重叠和状态重复维护。',
+        '2. 用业务模型支撑软件设计。围绕用户、物品和认领记录梳理关联，用用例、领域概念、组件依赖、序列、状态和活动图解释模块行为，并保留7张可编辑图源。区分寻物/招领类型、物品生命周期和审核状态，说明“仍有效”不等于“已审核公开”。OOA用于分析业务对象，OOD对应现有TypeScript接口、React函数组件及服务端路由，未为展示概念而改写原有架构。',
+        '3. 针对真实缺陷改进异常处理。复现了列表快照仍在、但详情接口已失效时继续显示旧状态和认领表单的问题，也发现查询失败后新筛选条件配上旧结果。修复时先清除旧详情或列表，明确区分加载、成功、空结果和失败，提供保持当前条件的重试入口；切换相关物品和返回原物品同样重新读取，避免用户按过期信息操作。',
+        '4. 处理异步请求与状态一致性。对查询、详情及推荐请求加入取消和存活检查，切换选择时同步清理旧数据、推荐与认领证明，阻止晚到结果覆盖新选择。浏览器检查使用600毫秒延迟验证切换后返回原物品的情形，并在重试时返回新标题和已归还状态，确认页面采用新响应、旧认领入口消失。前端反馈与服务端最终权限校验相互配合，未改变认领或审核状态机。',
+        '5. 补充有针对性的测试证据。本轮新增5项接口测试和8项浏览器检查。接口覆盖标题、地点、描述的上下边界，日期与图片负例，6组组合筛选、固定样本3页完整性，以及他人编辑/撤回、身份注入和编辑后重审；浏览器覆盖发布告知、详情404、请求中断、同条件重试、慢响应及390px布局。全项目30项回归、类型检查和生产构建通过，测试数量按工具与模块口径分别记录。',
+        '6. 形成从失败到复验的改进闭环。保留浏览器基线0/8、中间6/8、最终8/8的真实结果。中间复验发现错误提示文字对比度不足后，使用模块局部样式改进，再重新检查；业务冒烟读取加载态过早时，保留原地点断言并增加正确等待，未放宽业务标准。原有无障碍和业务流程也完成复验，自动扫描不确定项、真实读屏及真实弱网设备测试继续列为待办。',
+        '7. 重视协作、维护和工作留痕。将需求编号、设计说明、实现文件、测试用例、阶段报告和真实Git提交对应起来，保留问题定位、方案取舍、失败截图和复验输出，便于他人复核与后续联调。AI协助分析、代码修改和材料整理由实际使用情况说明；既有团队成果与本轮增量分别留证。验收脚本和维护清单同步整理，后续涉及共享接口、数据库或状态规则的变化先说明影响并协调。',
+    ]
+    fill(paragraphs[8],'\n'.join(covenant))
+    fill(paragraphs[11],'\n\n'.join(highlights))
+else:
+    fill(paragraphs[8],'第3、5、7、8、9、10条已有基本措施：发布前告知、撤回二次确认、基础无障碍、交付检查、访客浏览和模块化组织，共6条。第4、6、13条部分落实；第11、12、14、15条过程证据待补。')
+    fill(paragraphs[11],'需求与设计方面，明确F04—F06的功能边界及登录、审核、认领依赖，用UML与追溯表连接需求、实现和测试；问题处理中，复现并修复旧详情、旧查询结果误用，补充加载、重试及过时请求隔离；验证方面，新增5项接口测试和8项浏览器检查，覆盖字段边界、越权、分页和失败恢复，本轮30项回归通过；协作与维护方面，保留失败到通过的记录、图源和真实Git提交，区分AI辅助与团队既有成果，便于联调、复核和后续维护。')
 changed+=['body/paragraph[8]','body/paragraph[11]']
 
 # Only filled slots may differ. No original paragraph, row, cell or property is removed.
@@ -85,7 +107,8 @@ with ZipFile(args.output) as z:
 assert sha256(args.template.read_bytes()).hexdigest()==source_hash
 evidence={'template':args.template.name,'template_sha256':source_hash,'output':args.output.name,
           'changed_package_parts':changed_parts,'filled_slots':changed,
-          'structure':'Original 3 tables, 12 body paragraphs, all labels, properties and section geometry preserved',
+          'structure':'Original 3 tables, 12 body paragraphs, all labels, fonts, paragraph properties and section geometry preserved; content uses natural template pagination',
+          'variant':'two-page detailed' if args.two_pages else 'one-page concise',
           'additional_ai_usage_source':'User confirmed DeepSeek assisted code modification and Doubao was used in early requirements analysis; uses summarized without invented individual test or contribution history',
           'statistics_scope':'1261 physical lines in four items files; 411 added lines in seven module/verification code files; 12 directly related API tests, of which 11 include quality assertions; 3 code commits through 0326277, excluding later document commits; 1 improvement iteration'}
 args.evidence.parent.mkdir(parents=True,exist_ok=True)
