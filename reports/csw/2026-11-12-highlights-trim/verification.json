@@ -1,0 +1,25 @@
+{
+  "verified_at": "2026-11-12T00:19:30.932470+00:00",
+  "document": "docs/csw/deliverables/个人工作清单_陈思威_原模板两页精炼版.docx",
+  "document_sha256": "94d228aa2cb4c6c31bcc844b99779b2f9e9e3f721c6e6736f0abd0d398ff668b",
+  "baseline_document": "docs/csw/deliverables/个人工作清单_陈思威_原模板两页详实版.docx",
+  "changed_package_parts": [
+    "word/document.xml"
+  ],
+  "only_changed_content": "body/paragraph[11] personal work highlights",
+  "other_document_xml_and_package_parts_unchanged": true,
+  "highlight_count": 7,
+  "highlight_text_characters_before": 1157,
+  "highlight_text_characters_after": 810,
+  "reduction_percent": 30.0,
+  "pages": 2,
+  "render_engine": "Microsoft Word COM PDF export; pypdfium2 PNG rendering",
+  "visual_review": {
+    "pages_reviewed": [
+      1,
+      2
+    ],
+    "result": "No blank page, overlap, clipping or overflow observed"
+  },
+  "software_tests": "Not rerun for this document-only edit; historical results retained without new claims"
+}
