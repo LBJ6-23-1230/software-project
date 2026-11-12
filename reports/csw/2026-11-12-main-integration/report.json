@@ -1,0 +1,39 @@
+{
+  "generatedAt": "2026-11-12T00:30:41.329Z",
+  "node": "v24.16.0",
+  "previousMain": "8bbd1a69063fe93e9b20f2588d229f41448c6cba",
+  "sourceBranch": "codex/csw-covenant-engineering",
+  "sourceCommit": "2582721272223da1eb48ad0946c1fd26ee2a865c",
+  "merge": {
+    "target": "main",
+    "method": "fast-forward",
+    "conflicts": 0,
+    "existingUntrackedFilesPreserved": true
+  },
+  "tests": {
+    "command": "npm test",
+    "exitCode": 0,
+    "total": 30,
+    "passed": 30,
+    "failed": 0,
+    "log": "tests.txt",
+    "sha256": "aa24ccd0f3c97eeaeac0c29ed7da03d7bd7a92bcd5d82ad3c10b721fcd46d571"
+  },
+  "build": {
+    "command": "npm run build",
+    "exitCode": 0,
+    "typecheck": true,
+    "transformedModules": 1591,
+    "log": "build.txt",
+    "sha256": "9aaec247f6ae782762b96d5029e054ff78180dc2467e84a1857b4ea74d1aeca7"
+  },
+  "preview": {
+    "url": "http://127.0.0.1:4318/",
+    "pageStatus": 200,
+    "apiStatus": 200,
+    "script": "index-Hdsd-6tW.js",
+    "host": "127.0.0.1",
+    "visualCheck": "Visible in-app browser homepage reviewed; navigation, search, filters and list rendered"
+  },
+  "scope": "Fresh tests/build and homepage check on integrated main. Historical browser/a11y/smoke reports retained at original dates; not rerun in this integration."
+}
